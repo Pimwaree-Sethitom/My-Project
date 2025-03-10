@@ -1,1 +1,41 @@
-<p>admin works!</p>
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<app-admin-bar></app-admin-bar>        
+
+<div class="container">
+    <div class="container my-3">
+        <input type="text" class="form-control w-25" placeholder="search" [(ngModel)]="searchText" (input)="SearchResearchers()" placeholder="Search by name" />
+    </div>
+    {{searchText}}
+    <table class="table">
+        <thead>
+            <tr>
+              <th>ที่</th>
+              <th>ชื่อ-นามสกุล</th>
+              <th>สาขา</th>
+              <th> </th>
+              <th>สิทธิ์การใช้งาน</th>
+              <th></th>
+              <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of filteredResearchers">
+                <td>{{data.researcher_id}}</td>
+                <td>{{data.name}}</td>
+                <td>{{data.name_department_eng}}</td>
+                <td>{{data.name_department_thai}}</td>
+                <td>{{data.role_name}}</td>
+                <td><button class="btn btn-danger">Delete</button></td>
+                <td><button class="btn btn-danger">Edit</button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

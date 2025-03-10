@@ -7,4 +7,6 @@ export const routes: Routes = [
   { path: 'research', loadComponent: () => import('./research/research.component').then(m => m.ResearchComponent) },
   { path: 'executive', loadComponent: () => import('./executive/executive.component').then(m => m.ExecutiveComponent) },
   { path: 'general', loadComponent: () => import('./general/general.component').then(m => m.GeneralComponent) },
+  { path: 'link_dashboard', loadComponent: () => import('./dashboard/dashboard.component').then(m => m.DashboardComponent) },
+  {path: 'link_add-user' , loadComponent: () => import('./add-user/add-user.component').then(m => m.AddUserComponent)},
 ];
