@@ -1,0 +1,28 @@
+/* การตั้งค่ารูปแบบเพิ่มเติม */
+.modal-content {
+    border-radius: 10px; /* มุมมน */
+    background-color: #f8f9fa; /* เปลี่ยนพื้นหลังของ modal */
+}
+
+.modal-header {
+    background-color: #007bff; /* เปลี่ยนพื้นหลังของหัว Modal */
+    color: white; /* สีตัวอักษรในหัว Modal */
+    border-top-left-radius: 10px; /* มุมมนที่มุมซ้ายบน */
+    border-top-right-radius: 10px; /* มุมมนที่มุมขวาบน */
+}
+
+.modal-footer {
+    background-color: #f1f1f1; /* เปลี่ยนพื้นหลังของ footer */
+    border-bottom-left-radius: 10px; /* มุมมนที่มุมซ้ายล่าง */
+    border-bottom-right-radius: 10px; /* มุมมนที่มุมขวาล่าง */
+}
+
+button.btn-primary {
+    background-color: #007bff; /* ปรับสีปุ่ม */
+    border-color: #0056b3; /* ปรับสีของขอบปุ่ม */
+}
+
+button.btn-secondary {
+    background-color: #6c757d; /* ปรับสีปุ่ม */
+    border-color: #5a6268; /* ปรับสีของขอบปุ่ม */
+}

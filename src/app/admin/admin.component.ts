@@ -4,6 +4,7 @@ import { ApiService, Researcher } from '../api.service';
 import { FormsModule } from '@angular/forms'; // เพิ่มการ import FormsModule
 import { RouterModule } from '@angular/router';
 import { AdminBarComponent } from '../admin-bar/admin-bar.component';
+import { AddUserComponent  } from '../add-user/add-user.component';
 
 @Component({
   selector: 'app-admin',
@@ -16,6 +17,7 @@ import { AdminBarComponent } from '../admin-bar/admin-bar.component';
 export class AdminComponent implements OnInit {
   researchers: Researcher[] = [];
   searchText: string = ''; // สร้างตัวแปรสำหรับเก็บข้อความที่ค้นหา
+  searchField: keyof Researcher = 'name';
   filteredResearchers: Researcher[] = []; // สร้างตัวแปรเก็บผลลัพธ์ที่ค้นหา
 
   private apiService = inject(ApiService); // ✅ ใช้ inject() แทน constructor
@@ -32,8 +34,11 @@ export class AdminComponent implements OnInit {
   }
 
   SearchResearchers() {
+    // ค้นหาตามฟิลด์ที่เลือกใน dropdown
     this.filteredResearchers = this.researchers.filter((researcher) => {
-      return researcher.name.toLowerCase().includes(this.searchText.toLowerCase()); // ค้นหาจากชื่อ
+      // ตรวจสอบและแปลงค่าเป็น string ก่อนใช้ toLowerCase()
+      const fieldValue = String(researcher[this.searchField]); // แปลงค่าทุกประเภทให้เป็น string
+      return fieldValue.toLowerCase().includes(this.searchText.toLowerCase());
     });
   }
 }
