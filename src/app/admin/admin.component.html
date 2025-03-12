@@ -37,8 +37,8 @@
                 <td>{{data.name_department_eng}}</td>
                 <td>{{data.name_department_thai}}</td>
                 <td>{{data.role_name}}</td>
-                <td><button class="btn btn-danger">Delete</button></td>
-                <td><button class="btn btn-danger">Edit</button></td>
+                <td><button class="btn btn-danger" (click)="deleteUser(data.researcher_id)">Delete</button></td>
+                <td><button class="btn btn-danger" (click)="editUser(data.researcher_id)">Edit</button></td>
             </tr>
         </tbody>
     </table>

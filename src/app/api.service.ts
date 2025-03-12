@@ -15,6 +15,14 @@ export class ApiService {
   insertUser(userData: any) {
     return this.http.post<outputInsertUser>('http://localhost/rms-api/userdata_insert.php', userData);
   }
+
+  updateUser(userData: any) {
+    return this.http.put<outputInsertUser>('http://localhost/rms-api/userdata_update.php', userData);
+  }
+  deleteUser(researcher_id:any){
+    return this.http.post<outputDeleteUser>('http://localhost/rms-api/userdata_delete.php',researcher_id)
+   }
+  
 }
 
 export interface Researcher {
@@ -27,4 +35,8 @@ export interface Researcher {
 
 export interface outputInsertUser {
   alert: string;
+}
+
+export interface outputDeleteUser{
+  alert:string
 }
