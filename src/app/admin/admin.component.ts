@@ -1,10 +1,9 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApiService, Researcher } from '../api.service';
-import { FormsModule } from '@angular/forms'; // เพิ่มการ import FormsModule
+import { FormsModule } from '@angular/forms'; 
 import { RouterModule } from '@angular/router';
 import { AdminBarComponent } from '../admin-bar/admin-bar.component';
-import { AddUserComponent  } from '../add-user/add-user.component';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -13,17 +12,17 @@ import Swal from 'sweetalert2';
   imports: [CommonModule, FormsModule, RouterModule, AdminBarComponent],
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.css'],
-  providers: [ApiService] // ✅ เพิ่ม providers สำหรับ standalone component
+  providers: [ApiService] 
 })
 export class AdminComponent implements OnInit {
   researchers: Researcher[] = [];
-  searchText: string = ''; // สร้างตัวแปรสำหรับเก็บข้อความที่ค้นหา
+  searchText: string = ''; 
   searchField: keyof Researcher = 'name';
-  filteredResearchers: Researcher[] = []; // สร้างตัวแปรเก็บผลลัพธ์ที่ค้นหา
+  filteredResearchers: Researcher[] = []; 
 
-  private apiService = inject(ApiService); // ✅ ใช้ inject() แทน constructor
+  private apiService = inject(ApiService); 
 
-  ngOnInit(): void { // ✅ เพิ่มเมธอด ngOnInit
+  ngOnInit(): void { 
     this.SelectResearchers();
   }
 

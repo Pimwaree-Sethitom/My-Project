@@ -9,13 +9,13 @@
 <div class="container mt-5">
 
     <div class="d-flex my-3 align-items-center">
-        <select class="form-select w-25" [(ngModel)]="searchField">
+      <input type="text" class="form-control w-50 ms-2" placeholder="Search" [(ngModel)]="searchText" (input)="SearchResearchers()" />
+        <select class="form-select w-25 ms-2" [(ngModel)]="searchField">
           <option value="name">ชื่อ-นามสกุล</option>
           <option value="name_department_eng">Department (English)</option>
           <option value="name_department_thai">Department (Thai)</option>
           <option value="role_name">สิทธิ์การใช้งาน</option>
-        </select>
-        <input type="text" class="form-control w-50 ms-2" placeholder="Search" [(ngModel)]="searchText" (input)="SearchResearchers()" />
+        </select>        
       </div>
       
     <table class="table mt-5">

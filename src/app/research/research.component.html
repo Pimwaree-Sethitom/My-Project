@@ -1,1 +1,20 @@
-<p>research works!</p>
+<app-research-bar></app-research-bar>
+<div class="container mt-5">
+
+    <div class="d-flex my-3 align-items-center">
+      <input type="text" class="form-control w-50 ms-2" placeholder="Search" [(ngModel)]="searchText" (input)="SearchPaper()" />
+        <select class="form-select w-25" [(ngModel)]="searchField">
+          <option value="title_thai">ชื่อเรื่องภาษาไทย</option>
+          <option value="title_english">ชื่อเรื่องภาษาอังกฤษ</option>
+          <option value="name">ผู้แต่ง</option>
+          <option value="type_name">ประเภทงานวิจัย</option>
+          <option value="thai_calendar_year">ปีพ.ศ.</option>
+        </select>
+      </div>
+      
+</div>
+
+  
+  
+  
+  
