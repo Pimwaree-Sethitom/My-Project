@@ -18,7 +18,7 @@ import Swal from 'sweetalert2';
   styleUrl: './research.component.css',
   providers: [ResearchService]
 })
-export class ResearchComponent {
+export class ResearchComponent implements OnInit{
         paperdetail: PaperDetail[] = [];
         searchText: string = ''; 
         searchField: keyof PaperDetail = 'title_thai';
@@ -26,7 +26,11 @@ export class ResearchComponent {
 
         private researchService = inject(ResearchService);
 
-        SelectResearchers() { 
+        ngOnInit(): void { 
+          this.SelectPaper();
+        }
+
+        SelectPaper() { 
             this.researchService.SelectPaperData().subscribe((data: PaperDetail[]) => {
               this.paperdetail = data;
               this.filteredPaperdetail = data; 
@@ -34,12 +38,24 @@ export class ResearchComponent {
           }
 
           SearchPaper() {
+            const searchTextNormalized = this.searchText
+              .normalize("NFD")
+              .replace(/[\u0300-\u036f]/g, "")
+              .toLowerCase();
+          
             this.filteredPaperdetail = this.paperdetail.filter((paperdetail) => {
-              const fieldValue = String(paperdetail[this.searchField]);
-              return fieldValue.toLowerCase().includes(this.searchText.toLowerCase());
+              const fieldValue = String(paperdetail[this.searchField])
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .toLowerCase();
+          
+              // แยกคำโดยใช้เว้นวรรคและสัญลักษณ์ที่ใช้แบ่งคำ
+              const words = fieldValue.split(/[\s\-\/]+/);
+          
+              // ตรวจสอบว่ามีคำที่ขึ้นต้นด้วย searchText หรือไม่
+              return words.some(word => word.startsWith(searchTextNormalized));
             });
-          }
-
+          }                   
           
           
 }

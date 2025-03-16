@@ -11,6 +11,14 @@ export class ResearchService {
     SelectPaperData() {
       return this.http.get<PaperDetail[]>('http://localhost/rms-api/paper_select.php');
     }
+
+    insertPaperData(paperData: any) {
+        return this.http.post<outputInsertPaper>('http://localhost/rms-api/paper_insert.php', paperData);
+      }
+
+    SelectUserData() {
+        return this.http.get<Researcher[]>('http://localhost/rms-api/userdata_select.php');
+      }
 }
 
 export interface PaperDetail {
@@ -40,6 +48,18 @@ export interface PaperDetail {
   proportion: number;
   number_of_workloads: number;
   fiscal_year: string;
-  thai_calendar_year: string;
+  thai_calender_year: string;
   academic_year: string;
+}
+
+export interface outputInsertPaper {
+  alert: string;
+}
+
+export interface Researcher {
+  researcher_id: number;
+  name: string;
+  name_department_eng: string;
+  name_department_thai: string;
+  role_name: string;
 }

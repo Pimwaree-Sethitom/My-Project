@@ -8,9 +8,30 @@
           <option value="title_english">ชื่อเรื่องภาษาอังกฤษ</option>
           <option value="name">ผู้แต่ง</option>
           <option value="type_name">ประเภทงานวิจัย</option>
-          <option value="thai_calendar_year">ปีพ.ศ.</option>
+          <option value="thai_calender_year">ปีพ.ศ.</option>
         </select>
       </div>
+
+      <table class="table mt-5">
+        <thead>
+            <tr>
+              <th scope="col">ชื่อเรื่องภาษาไทย</th>
+              <th scope="col">ชื่อเรื่องภาษาอังกฤษ</th>
+              <th scope="col">ผู้แต่ง</th>
+              <th scope="col">ประเภทงานวิจัย</th>
+              <th scope="col">ปีพ.ศ.</th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            <tr *ngFor="let data of filteredPaperdetail">
+                <td scope="col">{{data.title_thai}}</td>
+                <td>{{data.title_english}}</td>
+                <td>{{data.name}}</td>
+                <td>{{data.type_name}}</td>
+                <td>{{data.thai_calender_year}}</td>
+            </tr>
+        </tbody>
+    </table>
       
 </div>
 
