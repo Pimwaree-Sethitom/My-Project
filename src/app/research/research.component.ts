@@ -8,6 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+
 import Swal from 'sweetalert2';
 
 @Component({
@@ -57,5 +58,74 @@ export class ResearchComponent implements OnInit{
             });
           }                   
           
+          ShowPaperDate(paper: PaperDetail) {
+            console.log(paper); // ดูว่า paper ถูกส่งมาหรือไม่
           
+            Swal.fire({
+              title: "📜 รายละเอียดงานวิจัย",
+              html: `
+                <div style="text-align: left; font-family: Arial, sans-serif; line-height: 1.6;">
+                  <div style="margin-bottom: 10px;">
+                    <b>📌 ชื่อเรื่องไทย :</b> ${paper.title_thai || 'ไม่มีข้อมูล'}<br>
+                    <b>📌 ชื่อเรื่องอังกฤษ :</b> ${paper.title_english || 'ไม่มีข้อมูล'}<br>
+                  </div>
+                  <div style="margin-bottom: 10px;">
+                    <b>👤 ผู้แต่ง :</b> ${paper.name || 'ไม่ระบุ'}<br>
+                    <b>📝 บทบาทของผู้แต่ง :</b> ${paper.author_role || 'ไม่ระบุ'}<br>
+                  </div>
+                  <div style="margin-bottom: 10px;">
+                    <b>📚 ประเภทงานวิจัย :</b> ${paper.type_name || 'ไม่ระบุ'}<br>
+                    <b>🏫 ระดับงานวิจัย :</b> ${paper.level || 'ไม่ระบุ'}<br>
+                  </div>
+                  <div style="margin-bottom: 10px;">
+                    <b>📖 ชื่อวารสาร/การประชุม :</b> ${paper.journal_or_conference_name || 'ไม่ระบุ'}<br>
+                    <b>📅 ปีที่เผยแพร่ :</b> ${paper.publication_year || 'ไม่ระบุ'}<br>
+                    <b>🔢 เลขที่ฉบับ :</b> ${paper.issue_number || 'ไม่ระบุ'}<br>
+                  </div>
+                  <div style="margin-bottom: 10px;">
+                    <b>📅 วันที่เริ่มต้น:</b> ${paper.start_date || 'ไม่ระบุ'}<br>
+                    <b>📅 วันที่สิ้นสุด:</b> ${paper.end_date || 'ไม่ระบุ'}<br>
+                  </div>
+                  <div style="margin-bottom: 10px;">   
+                    <b>📑 ISSN/ISBN:</b> ${paper.ISSN_or_ISBN || 'ไม่ระบุ'}<br>
+                    <b>📄 ช่วงหน้าที่เผยแพร่:</b> ${paper.page_range || 'ไม่ระบุ'}<br>
+                  </div>
+                  <div style="margin-bottom: 10px;"> 
+                    <b>🏅 Quartile Rank:</b> ${paper.quartile_rank || 'ไม่ระบุ'}<br>
+                  </div>
+                  <div style="margin-bottom: 10px;">
+                    <b>🎓 คุณภาพทางวิชาการ:</b> ${paper.academic_quality || 'ไม่ระบุ'}<br>
+                    <b>💬 หมายเหตุ:</b> ${paper.Remark || 'ไม่มีข้อมูล'}<br>
+                  </div>
+                  <div style="margin-bottom: 10px;">
+                    <b>🔗 ลิงก์:</b> <a href="${paper.link || '#'}" target="_blank">${paper.link || 'ไม่มีลิงก์'}</a><br>
+                  </div>
+                  <div style="margin-bottom: 10px;">
+                    <b>🔍 หัวข้อภาระงาน:</b> ${paper.workload_topic || 'ไม่ระบุ'}<br>
+                    <b>🧑‍💻 จำนวนภาระงาน:</b> ${paper.workload_count || 'ไม่ระบุ'}<br>
+                  </div>
+                  <div style="margin-bottom: 10px;">
+                    <b>📊 สัดส่วนงาน:</b> ${paper.proportion || 'ไม่ระบุ'}<br>
+                    <b>📅 จำนวนภาระงานทั้งหมด:</b> ${paper.number_of_workloads || 'ไม่ระบุ'}<br>
+                  </div>
+                  <div style="margin-bottom: 10px;">
+                    <b>💰 ปีงบประมาณ:</b> ${paper.fiscal_year || 'ไม่ระบุ'}<br>
+                    <b>📅 ปี พ.ศ.:</b> ${paper.thai_calender_year || 'ไม่ระบุ'}<br>
+                    <b>📚 ปีการศึกษา:</b> ${paper.academic_year || 'ไม่ระบุ'}<br>
+                  </div>
+                </div>
+              `,
+              showCloseButton: true,
+              confirmButtonText: "ปิด",
+              customClass: {
+                popup: 'custom-swal-popup'
+              },
+              width: '60%'
+            });
+        }
+        
+          
+                 
 }
+
+

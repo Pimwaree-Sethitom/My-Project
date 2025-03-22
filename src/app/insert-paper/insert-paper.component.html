@@ -1,130 +1,174 @@
 <app-research-bar></app-research-bar> 
-<div class="container w-50 shadow mt-5 p-4">
-    <form [formGroup]="paperForm " (ngSubmit)="onSubmit()">
-        <div class="mb-4">
-            <label for=" title_thai" class="form-label fw-bold text-dark">ชื่อเรื่องภาษาไทย</label>
-            <input type="text" class="form-control shadow-sm" id=" title_thai" formControlName=" title_thai" placeholder="กรุณากรอกชื่อเรื่องเป็นภาษาไทย">
-          </div>
+<div class="container w-80 shadow mt-5 p-4">
+  <nav class="navbar bg-dark">
+    <div class="container-fluid">
+      <span class="navbar-brand mb-0 h1 text-white">เพิ่มข้อมูลงานวิจัย</span>
+    </div>
+  </nav>  
 
-          <div class="mb-4">
-            <label for="title_english" class="form-label fw-bold text-dark">ชื่อเรื่องภาษาอังกฤษ</label>
-            <input type="text" class="form-control shadow-sm" id="title_english" formControlName="title_english" placeholder="กรุณากรอกชื่อเรื่องเป็นภาษาอังกฤษ">
-          </div>
-        
-          <div class="mb-4">
-            <label for="type_id" class="form-label fw-bold text-dark">ประเภทงานวิจัย</label>
-            <select class="form-select shadow-sm" id="type_id" formControlName="type_id">
-              <option value="1">วารสารระดับชาติ</option>
-              <option value="2">วารสารระดับนานาชาติ</option>
-              <option value="5">วารสารระดับภูมิภาค (ACI)</option>
-              <option value="3">การประชุมวิชาการระดับชาติ</option>
-              <option value="4">การประชุมวิชาการระดับนานาชาติ</option>
-            </select>
-          </div>
-         
-          <div class="mb-4">
-            <label for="journal_or_conference_name" class="form-label fw-bold text-dark">ชื่อวารสาร/การประชุมวิชาการ</label>
-            <input type="text" class="form-control shadow-sm" id="journal_or_conference_name" formControlName="journal_or_conference_name" placeholder="กรุณากรอกชื่อชื่อวารสาร/การประชุมวิชาการ">
-          </div>
+  <form [formGroup]="paperForm" (ngSubmit)="onSubmit()">
 
-          <div class="mb-4">
-            <label for="publication_year" class="form-label fw-bold text-dark">ปีที่</label>
-            <input type="text" class="form-control shadow-sm" id="publication_year" formControlName="publication_year">
-          </div>
+    <div class="row mb-3">
+      <label for="title_thai" class="col-sm-2 col-form-label fw-bold">ชื่อเรื่องภาษาไทย</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control shadow-sm" id="title_thai" formControlName="title_thai">
+      </div>
+    </div>
 
-          <div class="mb-4">
-            <label for="issue_number" class="form-label fw-bold text-dark">ฉบับที่</label>
-            <input type="text" class="form-control shadow-sm" id="issue_number" formControlName="issue_number">
-          </div>
+    <div class="row mb-3">
+      <label for="title_english" class="col-sm-2 col-form-label fw-bold">ชื่อเรื่องภาษาอังกฤษ</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control shadow-sm" id="title_english" formControlName="title_english">
+      </div>
+    </div>
 
-          <div class="mb-4">
-            <label for="start_date" class="form-label fw-bold text-dark">วันเผยแพร่</label>
-            <input type="text" class="form-control shadow-sm" id="start_date" formControlName="start_date" >
-          </div>
+    <div class="row mb-3">
+      <div class="col-sm-6">
+        <label for="researcher_id" class="form-label fw-bold">ชื่อผู้แต่ง</label>
+        <input type="text" class="form-control shadow-sm" id="researcher_id" formControlName="researcher_id" [(ngModel)]="searchText" (input)="SearchResearchers()">
 
-          <div class="mb-4">
-            <label for="end_date" class="form-label fw-bold text-dark">วันเผยแพร่ -สิ้นสุด กรณี การประชุมวิชาการ</label>
-            <input type="text" class="form-control shadow-sm" id="end_date" formControlName="end_date" >
-          </div>
+        <ul *ngIf="searchText && filteredResearchers.length > 0" class="list-group mt-2">
+          <li *ngFor="let researcher of filteredResearchers" (click)="selectResearcher(researcher)" class="list-group-item">
+            {{ researcher.name }} 
+          </li>
+        </ul>
+      </div>
 
-          <div class="mb-4">
-            <label for="ISSN_or_ISBN" class="form-label fw-bold text-dark">ISSN/ISBN</label>
-            <input type="text" class="form-control shadow-sm" id="ISSN_or_ISBN" formControlName="ISSN_or_ISBN">
-          </div>
+      <div class="col-sm-6">
+        <label for="author_role" class="form-label fw-bold">ลำดับบทบาท</label>
+        <select class="form-select shadow-sm" id="author_role" formControlName="author_role">
+          <option value="First">First</option>
+          <option value="Corr">Corr</option>
+          <option value="Co">Co</option>
+        </select>
+      </div>
+    </div>
+    
 
-          <div class="mb-4">
-            <label for="page_range" class="form-label fw-bold text-dark">Page</label>
-            <input type="text" class="form-control shadow-sm" id="page_range" formControlName="page_range">
-          </div>
+    <div class="row mb-3">
+      <div class="col-sm-4">
+        <label for="workload_year_id" class="form-label fw-bold">หัวข้อภาระงาน</label>
+        <select class="form-select shadow-sm" id="workload_year_id" formControlName="workload_year_id">
+          <option value="1">2.1.4</option>
+          <option value="2">2.1.5</option>
+          <option value="3">2.1.6</option>
+          <option value="5">2.1.7</option>
+          <option value="4">2.1.8</option>
+        </select>
+      </div>
+      <div class="col-sm-4">
+        <label for="proportion" class="form-label fw-bold">สัดส่วน</label>
+        <input type="text" class="form-control shadow-sm" id="proportion" formControlName="proportion">
+      </div>
+      <div class="col-sm-4">
+        <label for="number_of_workloads" class="form-label fw-bold">จำนวนภาระงาน</label>
+        <input type="text" class="form-control shadow-sm" id="number_of_workloads" formControlName="number_of_workloads">
+      </div>
+    </div>
 
-          <div class="mb-4">
-            <label for="quartile_id" class="form-label fw-bold text-dark">หัวข้อภาระงาน</label>
-            <select class="form-select shadow-sm" id="quartile_id" formControlName="quartile_id">
-              <option value="1">2.1.4</option>
-              <option value="2">2.1.5</option>
-              <option value="3">2.1.6</option>
-              <option value="5">2.1.7</option>
-              <option value="4">2.1.8</option>
-            </select>
-          </div>
+    <div class="row mb-3">
+      <label for="journal_or_conference_name" class="col-sm-2 col-form-label fw-bold">ชื่อวารสาร / การประชุม</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control shadow-sm" id="journal_or_conference_name" formControlName="journal_or_conference_name">
+      </div>
+    </div>
 
-          <div class="mb-4">
-            <label for="academic_quality" class="form-label fw-bold text-dark">คุณภาพผลงาน-วิชาการ</label>
-            <input type="text" class="form-control shadow-sm" id="academic_quality" formControlName="academic_quality" >
-          </div>
+    <div class="row mb-3">
+      <div class="col-sm-6">
+        <label for="type_id" class="form-label fw-bold">ประเภทงานวิจัย</label>
+        <select class="form-select shadow-sm" id="type_id" formControlName="type_id">
+          <option value="1">วารสารระดับชาติ</option>
+          <option value="2">วารสารระดับนานาชาติ</option>
+          <option value="5">วารสารระดับภูมิภาค (ACI)</option>
+          <option value="3">การประชุมวิชาการระดับชาติ</option>
+          <option value="4">การประชุมวิชาการระดับนานาชาติ</option>
+        </select>
+      </div>
+      <div class="col-sm-3">
+        <label for="publication_year" class="form-label fw-bold">ปีที่</label>
+        <input type="text" class="form-control shadow-sm" id="publication_year" formControlName="publication_year">
+      </div>
+      <div class="col-sm-3">
+        <label for="issue_number" class="form-label fw-bold">ฉบับที่</label>
+        <input type="text" class="form-control shadow-sm" id="issue_number" formControlName="issue_number">
+      </div>
+    </div>
 
-          <div class="mb-4">
-            <label for="Remark" class="form-label fw-bold text-dark">Remark</label>
-            <input type="text" class="form-control shadow-sm" id="Remark" formControlName="Remark">
-          </div>
+    <div class="row mb-3">
+      <div class="col-sm-6">
+        <label for="start_date" class="form-label fw-bold">วันเผยแพร่</label>
+        <input type="date" class="form-control shadow-sm" id="start_date" formControlName="start_date">
+      </div>
+      <div class="col-sm-6">
+        <label for="end_date" class="form-label fw-bold">วันสิ้นสุด กรณี การประชุมวิชาการ</label>
+        <input type="date" class="form-control shadow-sm" id="end_date" formControlName="end_date">
+      </div>
+    </div>
 
-          <div class="mb-4">
-            <label for="detail" class="form-label fw-bold text-dark">detail</label>
-            <input type="text" class="form-control shadow-sm" id="detail" formControlName="detail">
-          </div>
+    <div class="row mb-3">
+      <div class="col-sm-4">
+        <label for="ISSN_or_ISBN" class="form-label fw-bold">ISSN/ISBN</label>
+        <input type="text" class="form-control shadow-sm" id="ISSN_or_ISBN" formControlName="ISSN_or_ISBN">
+      </div>
+      <div class="col-sm-4">
+        <label for="page_range" class="form-label fw-bold">Page</label>
+        <input type="text" class="form-control shadow-sm" id="page_range" formControlName="page_range">
+      </div>
+      <div class="col-sm-4">
+        <label for="academic_quality" class="form-label fw-bold">คุณภาพผลงาน</label>
+        <input type="text" class="form-control shadow-sm" id="academic_quality" formControlName="academic_quality">
+      </div>
+    </div>
 
-          <div class="mb-4">
-            <label for="link" class="form-label fw-bold text-dark">link</label>
-            <input type="text" class="form-control shadow-sm" id="link" formControlName="link" >
-          </div>
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label for="quartile_id" class="form-label">Rank</label>
+        <select class="form-select" id="quartile_id" formControlName="quartile_id">
+          <option value="1">ไม่มีฐานข้อมูล</option>
+          <option value="2">ฐานข้อมูล Scopus แต่ไม่จัดอันดับควอไทล์</option>
+          <option value="3">ฐานข้อมูล Scopus Q1</option>
+          <option value="4">ฐานข้อมูล Scopus Q2</option>
+          <option value="5">ฐานข้อมูล Scopus Q3</option>
+          <option value="6">ฐานข้อมูล Scopus Q4</option>
+          <option value="7">ฐานข้อมูล TCI กลุ่ม 1</option>
+          <option value="8">ฐานข้อมูล TCI กลุ่ม 2</option>
+        </select>
+      </div>
+      <div class="col-md-6">
+        <label for="link" class="form-label">Link</label>
+        <input type="text" class="form-control" id="link" formControlName="link">
+      </div>
+    </div>
 
-          <div class="mb-4">
-            <label for="author_role" class="form-label fw-bold text-dark">ลำดับบทบาท</label>
-            <input type="text" class="form-control shadow-sm" id="author_role" formControlName="author_role" >
-          </div>
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label for="Remark" class="form-label">หมายเหตุ</label>
+        <input type="text" class="form-control" id="Remark" formControlName="Remark">
+      </div>
+      <div class="col-md-6">
+        <label for="detail" class="form-label">รายละเอียด</label>
+        <input type="text" class="form-control" id="detail" formControlName="detail">
+      </div>
+    </div>
 
-          <div class="mb-4">
-            <label for="workload_year_id" class="form-label fw-bold text-dark">หัวข้อภาระงาน</label>
-            <select class="form-select shadow-sm" id="workload_year_id" formControlName="workload_year_id">
-              <option value="1">2.1.4</option>
-              <option value="2">2.1.5</option>
-              <option value="3">2.1.6</option>
-              <option value="5">2.1.7</option>
-              <option value="4">2.1.8</option>
-            </select>
-          </div>
+    <div class="row mb-3">
+      <div class="col-sm-4">
+        <label for="thai_calendar_year" class="form-label fw-bold">ปี พ.ศ.</label>
+        <input type="text" class="form-control shadow-sm" id="thai_calendar_year" formControlName="thai_calendar_year">
+      </div>
+      <div class="col-sm-4">
+        <label for="fiscal_year" class="form-label fw-bold">ปีงบประมาณ</label>
+        <input type="text" class="form-control shadow-sm" id="fiscal_year" formControlName="fiscal_year">
+      </div>
+      <div class="col-sm-4">
+        <label for="academic_year" class="form-label fw-bold">ปีการศึกษา</label>
+        <input type="text" class="form-control shadow-sm" id="academic_year" formControlName="academic_year">
+      </div>
+    </div>
 
-          <div class="mb-4">
-            <label for="proportion" class="form-label fw-bold text-dark">สัดส่วน</label>
-            <input type="text" class="form-control shadow-sm" id="proportion" formControlName="proportion">
-          </div>
+    <div class="text-end">
+      <button type="submit" class="btn btn-primary shadow-sm px-4">บันทึก</button>
+    </div>
 
-          <div class="mb-4">
-            <label for="number_of_workloads" class="form-label fw-bold text-dark">จำนวนภาระงาน</label>
-            <input type="text" class="form-control shadow-sm" id="number_of_workloads" formControlName="number_of_workloads">
-          </div>
-
-          <div class="mb-4">
-            <label for="fiscal_year" class="form-label fw-bold text-dark">ปีงบประมาณ</label>
-            <input type="text" class="form-control" id="fiscal_year" formControlName="fiscal_year">
-          </div>
-          <div class="mb-4">
-            <label for="thai_calendar_year" class="form-label fw-bold text-dark">ปีพ.ศ.</label>
-            <input type="text" class="form-control" id="thai_calendar_year" formControlName="thai_calendar_year">
-          </div>
-          <div class="mb-4">
-            <label for="academic_year" class="form-label fw-bold text-dark">ปีการศึกษา</label>
-            <input type="text" class="form-control" id="academic_year" formControlName="academic_year">
-          </div>
-    </form>
+  </form>
 </div>

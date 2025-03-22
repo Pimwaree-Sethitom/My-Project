@@ -3,7 +3,7 @@
 
     <div class="d-flex my-3 align-items-center">
       <input type="text" class="form-control w-50 ms-2" placeholder="Search" [(ngModel)]="searchText" (input)="SearchPaper()" />
-        <select class="form-select w-25" [(ngModel)]="searchField">
+        <select class="form-select w-25 ms-2" [(ngModel)]="searchField">
           <option value="title_thai">ชื่อเรื่องภาษาไทย</option>
           <option value="title_english">ชื่อเรื่องภาษาอังกฤษ</option>
           <option value="name">ผู้แต่ง</option>
@@ -12,23 +12,37 @@
         </select>
       </div>
 
+      <!-- <div class="container w-50 shadow mt-5 p-4" *ngFor="let data of filteredPaperdetail">
+        <h5 class="card-title">
+          <span *ngIf="data.title_thai">{{ data.title_thai }}</span><br>
+          <span *ngIf="data.title_english">{{ data.title_english }}</span>
+        </h5>
+        <div class="d-flex justify-content-end my-2">
+          <button class="btn btn-success" type="submit">Save</button>
+        </div>  
+         
+      </div>   -->
+      
       <table class="table mt-5">
         <thead>
             <tr>
+              <th scope="col">ที่</th>
               <th scope="col">ชื่อเรื่องภาษาไทย</th>
               <th scope="col">ชื่อเรื่องภาษาอังกฤษ</th>
               <th scope="col">ผู้แต่ง</th>
-              <th scope="col">ประเภทงานวิจัย</th>
               <th scope="col">ปีพ.ศ.</th>
             </tr>
         </thead>
         <tbody class="table-group-divider">
             <tr *ngFor="let data of filteredPaperdetail">
-                <td scope="col">{{data.title_thai}}</td>
+                <td scope="col">{{data.paper_researcher_id}}</td>
+                <td>{{data.title_thai}}</td>
                 <td>{{data.title_english}}</td>
                 <td>{{data.name}}</td>
-                <td>{{data.type_name}}</td>
                 <td>{{data.thai_calender_year}}</td>
+                <td><button class="btn btn-primary" (click)="ShowPaperDate(data)">Detail</button></td>
+                <td><button class="btn btn-danger" >Delete</button></td>
+                <td><button class="btn btn-danger" >Edit</button></td>
             </tr>
         </tbody>
     </table>

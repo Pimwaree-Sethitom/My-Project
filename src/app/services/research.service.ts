@@ -22,6 +22,7 @@ export class ResearchService {
 }
 
 export interface PaperDetail {
+  paper_researcher_id : number;
   title_thai: string;
   title_english: string;
   name: string;

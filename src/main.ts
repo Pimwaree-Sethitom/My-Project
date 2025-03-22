@@ -8,6 +8,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -17,6 +20,9 @@ bootstrapApplication(AppComponent, {
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    NgxPaginationModule,
+    NgbModule,
+    NgbDropdownModule,
   ]
 }).catch(err => console.error(err));

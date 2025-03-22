@@ -65,10 +65,10 @@ export class AdminComponent implements OnInit {
           const role_name = (document.getElementById('role_name') as HTMLInputElement).value;
   
           // ตรวจสอบว่าทุกฟิลด์มีข้อมูลครบถ้วน
-          if (!name || !name_department_eng || !name_department_thai || !role_name) {
-            Swal.showValidationMessage('Please fill in all fields');
-            return false;
-          }
+          // if (!name || !name_department_eng || !name_department_thai || !role_name) {
+          //   Swal.showValidationMessage('Please fill in all fields');
+          //   return false;
+          // }
   
           // ส่งข้อมูลที่กรอกไปยัง API
           return { name, name_department_eng, name_department_thai, role_name };

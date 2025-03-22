@@ -15,11 +15,12 @@ import Swal from 'sweetalert2';
   styleUrl: './insert-paper.component.css',
   providers: [ResearchService]
 })
-export class InsertPaperComponent {
+export class InsertPaperComponent implements OnInit{
   researchers: Researcher[] = [];
   paperForm : FormGroup;
-  searchText: string = ''; 
-  filteredResearchers: Researcher[] = []; 
+  searchText: string = '';   
+  filteredResearchers: any[] = []; 
+  selectedResearcher: any;  
 
     constructor(private fb: FormBuilder, private researchService: ResearchService) {
         this.paperForm = this.fb.group({
@@ -49,6 +50,10 @@ export class InsertPaperComponent {
         });
       }
 
+      ngOnInit(): void {
+        this.SelectResearchers();
+      }
+
       
         onSubmit() {
           if (this.paperForm.valid) {
@@ -73,17 +78,27 @@ export class InsertPaperComponent {
             
           }
         }
-        
-          SelectResearchers() { 
-            this.researchService.SelectUserData().subscribe((data: Researcher[]) => {
+
+          SelectResearchers() {
+            this.researchService.SelectUserData().subscribe((data: any[]) => {
               this.researchers = data;
-              this.filteredResearchers = data; 
+              this.filteredResearchers = data;  
             });
           }
-
+        
           SearchResearchers() {
-            this.filteredResearchers = this.researchers.filter((researcher) => {
-              return researcher.name.toLowerCase().includes(this.searchText.toLowerCase());
-            });
+            if (this.searchText) {
+              this.filteredResearchers = this.researchers.filter((researcher) =>
+                researcher.name.toLowerCase().includes(this.searchText.toLowerCase())
+                  ).slice(0, 5);  
+                 } else {
+                this.filteredResearchers = this.researchers.slice(0, 5);  
+              }
+            }
+   
+          selectResearcher(researcher: any) {
+            this.selectedResearcher = researcher;
+            this.searchText = researcher.name;  
+            this.filteredResearchers = [];  
           }
 }
