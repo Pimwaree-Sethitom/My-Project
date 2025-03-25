@@ -7,21 +7,9 @@
           <option value="title_thai">ชื่อเรื่องภาษาไทย</option>
           <option value="title_english">ชื่อเรื่องภาษาอังกฤษ</option>
           <option value="name">ผู้แต่ง</option>
-          <option value="type_name">ประเภทงานวิจัย</option>
           <option value="thai_calender_year">ปีพ.ศ.</option>
         </select>
       </div>
-
-      <!-- <div class="container w-50 shadow mt-5 p-4" *ngFor="let data of filteredPaperdetail">
-        <h5 class="card-title">
-          <span *ngIf="data.title_thai">{{ data.title_thai }}</span><br>
-          <span *ngIf="data.title_english">{{ data.title_english }}</span>
-        </h5>
-        <div class="d-flex justify-content-end my-2">
-          <button class="btn btn-success" type="submit">Save</button>
-        </div>  
-         
-      </div>   -->
       
       <table class="table mt-5">
         <thead>
@@ -41,7 +29,7 @@
                 <td>{{data.name}}</td>
                 <td>{{data.thai_calender_year}}</td>
                 <td><button class="btn btn-primary" (click)="ShowPaperDate(data)">Detail</button></td>
-                <td><button class="btn btn-danger" >Delete</button></td>
+                <td><button class="btn btn-danger" (click)="DeletePaper(data.paper_researcher_id)" >Delete</button></td>
                 <td><button class="btn btn-danger" >Edit</button></td>
             </tr>
         </tbody>

@@ -14,7 +14,15 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-research',
   standalone: true, 
-  imports: [CommonModule, ResearchBarComponent, RouterModule, FormsModule,MatFormFieldModule,MatInputModule,MatIconModule,MatButtonModule], // เพิ่ม CommonModule ถ้าคุณใช้ ngIf หรือ ngFor
+  imports: [ CommonModule, 
+             ResearchBarComponent, 
+             RouterModule, 
+             FormsModule,
+             MatFormFieldModule,
+             MatInputModule,
+             MatIconModule,
+             MatButtonModule
+          ], 
   templateUrl: './research.component.html',
   styleUrl: './research.component.css',
   providers: [ResearchService]
@@ -121,6 +129,26 @@ export class ResearchComponent implements OnInit{
                 popup: 'custom-swal-popup'
               },
               width: '60%'
+            });
+        }
+
+          DeletePaper(paper_researcher_id: any) {
+            const body = { paper_researcher_id: paper_researcher_id };
+            this.researchService.DeletePaper(body).subscribe(result => {
+                if (result.alert == 'Delete success') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Delete success',
+                        text: 'The user has been deleted successfully.'
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Something went wrong! Please try again.'
+                    });
+                }
+                this.SelectPaper();
             });
         }
         

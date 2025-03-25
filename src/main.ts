@@ -11,6 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -24,5 +25,6 @@ bootstrapApplication(AppComponent, {
     NgxPaginationModule,
     NgbModule,
     NgbDropdownModule,
+    AutoCompleteModule,
   ]
 }).catch(err => console.error(err));

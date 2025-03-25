@@ -29,26 +29,35 @@ export class AddUserComponent {
   }
 
   onSubmit() {
-    if (this.userForm.valid) {
-      this.apiService.insertUser(this.userForm.value).subscribe({
-        next: (response) => {
-          console.log('User inserted successfully', response);
-          Swal.fire({
-            icon: 'success',
-            title: 'User inserted successfully!',
-            text: 'The user has been added successfully.',
-          });
-        },
-        error: (error) => {
-          console.error('Error inserting user', error);
-          Swal.fire({
-            icon: 'error',
-            title: 'Error!',
-            text: 'There was an error inserting the user.',
-          });
-        }
+ 
+    if (this.userForm.invalid) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'กรุณากรอกข้อมูลให้ครบถ้วน!',
+        text: 'กรุณากรอกข้อมูลที่จำเป็นทั้งหมด',
       });
+      return;  
     }
+ 
+    this.apiService.insertUser(this.userForm.value).subscribe({
+      next: (response) => {
+        console.log('User inserted successfully', response);
+        Swal.fire({
+          icon: 'success',
+          title: 'User inserted successfully!',
+          text: 'The user has been added successfully.',
+        });
+      },
+      error: (error) => {
+        console.error('Error inserting user', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error!',
+          text: 'There was an error inserting the user.',
+        });
+      }
+    });
   }
+  
 
 }

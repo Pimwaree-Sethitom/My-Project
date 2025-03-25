@@ -19,6 +19,14 @@ export class ResearchService {
     SelectUserData() {
         return this.http.get<Researcher[]>('http://localhost/rms-api/userdata_select.php');
       }
+
+      SelectWorkload() {
+        return this.http.get<Workload[]>('http://localhost/rms-api/workload_select.php');
+      }
+
+    DeletePaper(paper_researcher_id:any){
+        return this.http.post<outputDeletePaper>('http://localhost/rms-api/paper_delete.php',paper_researcher_id)
+       }
 }
 
 export interface PaperDetail {
@@ -63,4 +71,15 @@ export interface Researcher {
   name_department_eng: string;
   name_department_thai: string;
   role_name: string;
+}
+
+export interface  Workload{
+  workload_year_id: number;
+  workload_topic: string;
+  workload_count: number;
+  workload_year: string;
+}
+
+export interface outputDeletePaper{
+  alert:string
 }

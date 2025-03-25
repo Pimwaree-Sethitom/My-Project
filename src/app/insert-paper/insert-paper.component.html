@@ -24,15 +24,15 @@
 
     <div class="row mb-3">
       <div class="col-sm-6">
-        <label for="researcher_id" class="form-label fw-bold">ชื่อผู้แต่ง</label>
-        <input type="text" class="form-control shadow-sm" id="researcher_id" formControlName="researcher_id" [(ngModel)]="searchText" (input)="SearchResearchers()">
-
+        <label for="researcher_name" class="form-label fw-bold">ชื่อผู้แต่ง</label>
+        <input type="text" class="form-control shadow-sm" id="researcher_name" formControlName="researcher_name" [(ngModel)]="searchText" (input)="SearchResearchers()" />
+      
         <ul *ngIf="searchText && filteredResearchers.length > 0" class="list-group mt-2">
           <li *ngFor="let researcher of filteredResearchers" (click)="selectResearcher(researcher)" class="list-group-item">
             {{ researcher.name }} 
           </li>
         </ul>
-      </div>
+      </div>      
 
       <div class="col-sm-6">
         <label for="author_role" class="form-label fw-bold">ลำดับบทบาท</label>
@@ -43,28 +43,33 @@
         </select>
       </div>
     </div>
-    
 
     <div class="row mb-3">
-      <div class="col-sm-4">
+      <div class="col">
         <label for="workload_year_id" class="form-label fw-bold">หัวข้อภาระงาน</label>
-        <select class="form-select shadow-sm" id="workload_year_id" formControlName="workload_year_id">
-          <option value="1">2.1.4</option>
-          <option value="2">2.1.5</option>
-          <option value="3">2.1.6</option>
-          <option value="5">2.1.7</option>
-          <option value="4">2.1.8</option>
+        <select class="form-select shadow-sm" id="workload_year_id" formControlName="workload_year_id" (change)="onWorkloadSelect($event)">
+          <option *ngFor="let data of filteredWorkload" [value]="data.workload_year_id">
+            {{ data.workload_topic }}
+          </option>
         </select>
       </div>
-      <div class="col-sm-4">
-        <label for="proportion" class="form-label fw-bold">สัดส่วน</label>
-        <input type="text" class="form-control shadow-sm" id="proportion" formControlName="proportion">
+    
+      <div class="col">
+        <label for="workload_count" class="form-label fw-bold">จำนวนนับภาระงาน</label>
+        <input type="text" class="form-control shadow-sm" id="workload_count" formControlName="workload_count" [value]="workloadCount" readonly>
       </div>
-      <div class="col-sm-4">
+    
+      <div class="col">
+        <label for="proportion" class="form-label fw-bold">สัดส่วน</label>
+        <input type="text" class="form-control shadow-sm" id="proportion" formControlName="proportion" (input)="onProportionChange()">
+      </div>
+    
+      <div class="col">
         <label for="number_of_workloads" class="form-label fw-bold">จำนวนภาระงาน</label>
-        <input type="text" class="form-control shadow-sm" id="number_of_workloads" formControlName="number_of_workloads">
+        <input type="text" class="form-control shadow-sm" id="number_of_workloads" formControlName="number_of_workloads" [value]="paperForm.value.number_of_workloads" readonly>
       </div>
     </div>
+    
 
     <div class="row mb-3">
       <label for="journal_or_conference_name" class="col-sm-2 col-form-label fw-bold">ชื่อวารสาร / การประชุม</label>
@@ -153,8 +158,8 @@
 
     <div class="row mb-3">
       <div class="col-sm-4">
-        <label for="thai_calendar_year" class="form-label fw-bold">ปี พ.ศ.</label>
-        <input type="text" class="form-control shadow-sm" id="thai_calendar_year" formControlName="thai_calendar_year">
+        <label for="thai_calender_year" class="form-label fw-bold">ปี พ.ศ.</label>
+        <input type="text" class="form-control shadow-sm" id="thai_calender_year" formControlName="thai_calender_year">
       </div>
       <div class="col-sm-4">
         <label for="fiscal_year" class="form-label fw-bold">ปีงบประมาณ</label>

@@ -63,14 +63,7 @@ export class AdminComponent implements OnInit {
           const name_department_eng = (document.getElementById('name_department_eng') as HTMLInputElement).value;
           const name_department_thai = (document.getElementById('name_department_thai') as HTMLInputElement).value;
           const role_name = (document.getElementById('role_name') as HTMLInputElement).value;
-  
-          // ตรวจสอบว่าทุกฟิลด์มีข้อมูลครบถ้วน
-          // if (!name || !name_department_eng || !name_department_thai || !role_name) {
-          //   Swal.showValidationMessage('Please fill in all fields');
-          //   return false;
-          // }
-  
-          // ส่งข้อมูลที่กรอกไปยัง API
+          
           return { name, name_department_eng, name_department_thai, role_name };
         }
       }).then(result => {
@@ -91,7 +84,9 @@ export class AdminComponent implements OnInit {
               if (response.alert === 'Update success') {
                 Swal.fire('Updated!', 'The user details have been updated.', 'success');
                 this.SelectResearchers(); // รีเฟรชข้อมูลหลังอัปเดต
-              } else {
+              } else if (response.alert === 'No changes were made in Researcher data or role'){
+                Swal.fire('Error!', 'You did not fill in any information. Please fill in all information.', 'error');
+              }else{
                 Swal.fire('Error!', 'Something went wrong. Please try again later.', 'error');
               }
             },
