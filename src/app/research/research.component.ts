@@ -2,12 +2,11 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ResearchBarComponent } from '../research-bar/research-bar.component';
 import { RouterModule } from '@angular/router';
-import { ResearchService , PaperDetail } from '../services/research.service';
+import { ResearchService , PaperDetail ,Workload} from '../services/research.service';
 import { FormsModule } from '@angular/forms'; 
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+import { Modal } from 'bootstrap';
 
 import Swal from 'sweetalert2';
 
@@ -18,25 +17,57 @@ import Swal from 'sweetalert2';
              ResearchBarComponent, 
              RouterModule, 
              FormsModule,
-             MatFormFieldModule,
-             MatInputModule,
-             MatIconModule,
-             MatButtonModule
+             ReactiveFormsModule,
           ], 
   templateUrl: './research.component.html',
   styleUrl: './research.component.css',
   providers: [ResearchService]
 })
 export class ResearchComponent implements OnInit{
+        EditPaperForm: FormGroup;
         paperdetail: PaperDetail[] = [];
+        workload: Workload[] = [];
         searchText: string = ''; 
         searchField: keyof PaperDetail = 'title_thai';
         filteredPaperdetail: PaperDetail[] = []; 
+        filteredWorkload: any[] = [];
+        selectedPaper: PaperDetail | null = null;
+        workloadCount: string = ''; 
+        
+        // private researchService = inject(ResearchService);
 
-        private researchService = inject(ResearchService);
+        constructor(private fb: FormBuilder, private researchService: ResearchService) {
+          this.EditPaperForm = this.fb.group({
+            title_thai: ['', []],
+            title_english: ['', []],
+            name: ['', Validators.required],
+            author_role: ['', Validators.required],
+            workload_year_id: ['', Validators.required],
+            // workload_count: ['', Validators.required],
+            proportion: ['', []],
+            number_of_workloads: ['', []],
+            journal_or_conference_name: ['', Validators.required],
+            type_id: ['', Validators.required],
+            publication_year: ['', []],
+            issue_number: ['', []],
+            start_date: ['', Validators.required],
+            end_date: ['', []],
+            ISSN_or_ISBN: ['', []],
+            page_range: ['', []],
+            academic_quality: ['', Validators.required],
+            quartile_id: ['', Validators.required],
+            link: ['', []],
+            Remark: ['', []],
+            detail: ['', []],
+            thai_calender_year: ['', Validators.required],
+            fiscal_year: ['', Validators.required],
+            academic_year: ['', Validators.required],
+          });
+        }
 
         ngOnInit(): void { 
           this.SelectPaper();
+          this.SelectWorkload();
         }
 
         SelectPaper() { 
@@ -44,9 +75,9 @@ export class ResearchComponent implements OnInit{
               this.paperdetail = data;
               this.filteredPaperdetail = data; 
             });
-          }
+        }
 
-          SearchPaper() {
+        SearchPaper() {
             const searchTextNormalized = this.searchText
               .normalize("NFD")
               .replace(/[\u0300-\u036f]/g, "")
@@ -64,75 +95,9 @@ export class ResearchComponent implements OnInit{
               // ตรวจสอบว่ามีคำที่ขึ้นต้นด้วย searchText หรือไม่
               return words.some(word => word.startsWith(searchTextNormalized));
             });
-          }                   
-          
-          ShowPaperDate(paper: PaperDetail) {
-            console.log(paper); // ดูว่า paper ถูกส่งมาหรือไม่
-          
-            Swal.fire({
-              title: "📜 รายละเอียดงานวิจัย",
-              html: `
-                <div style="text-align: left; font-family: Arial, sans-serif; line-height: 1.6;">
-                  <div style="margin-bottom: 10px;">
-                    <b>📌 ชื่อเรื่องไทย :</b> ${paper.title_thai || 'ไม่มีข้อมูล'}<br>
-                    <b>📌 ชื่อเรื่องอังกฤษ :</b> ${paper.title_english || 'ไม่มีข้อมูล'}<br>
-                  </div>
-                  <div style="margin-bottom: 10px;">
-                    <b>👤 ผู้แต่ง :</b> ${paper.name || 'ไม่ระบุ'}<br>
-                    <b>📝 บทบาทของผู้แต่ง :</b> ${paper.author_role || 'ไม่ระบุ'}<br>
-                  </div>
-                  <div style="margin-bottom: 10px;">
-                    <b>📚 ประเภทงานวิจัย :</b> ${paper.type_name || 'ไม่ระบุ'}<br>
-                    <b>🏫 ระดับงานวิจัย :</b> ${paper.level || 'ไม่ระบุ'}<br>
-                  </div>
-                  <div style="margin-bottom: 10px;">
-                    <b>📖 ชื่อวารสาร/การประชุม :</b> ${paper.journal_or_conference_name || 'ไม่ระบุ'}<br>
-                    <b>📅 ปีที่เผยแพร่ :</b> ${paper.publication_year || 'ไม่ระบุ'}<br>
-                    <b>🔢 เลขที่ฉบับ :</b> ${paper.issue_number || 'ไม่ระบุ'}<br>
-                  </div>
-                  <div style="margin-bottom: 10px;">
-                    <b>📅 วันที่เริ่มต้น:</b> ${paper.start_date || 'ไม่ระบุ'}<br>
-                    <b>📅 วันที่สิ้นสุด:</b> ${paper.end_date || 'ไม่ระบุ'}<br>
-                  </div>
-                  <div style="margin-bottom: 10px;">   
-                    <b>📑 ISSN/ISBN:</b> ${paper.ISSN_or_ISBN || 'ไม่ระบุ'}<br>
-                    <b>📄 ช่วงหน้าที่เผยแพร่:</b> ${paper.page_range || 'ไม่ระบุ'}<br>
-                  </div>
-                  <div style="margin-bottom: 10px;"> 
-                    <b>🏅 Quartile Rank:</b> ${paper.quartile_rank || 'ไม่ระบุ'}<br>
-                  </div>
-                  <div style="margin-bottom: 10px;">
-                    <b>🎓 คุณภาพทางวิชาการ:</b> ${paper.academic_quality || 'ไม่ระบุ'}<br>
-                    <b>💬 หมายเหตุ:</b> ${paper.Remark || 'ไม่มีข้อมูล'}<br>
-                  </div>
-                  <div style="margin-bottom: 10px;">
-                    <b>🔗 ลิงก์:</b> <a href="${paper.link || '#'}" target="_blank">${paper.link || 'ไม่มีลิงก์'}</a><br>
-                  </div>
-                  <div style="margin-bottom: 10px;">
-                    <b>🔍 หัวข้อภาระงาน:</b> ${paper.workload_topic || 'ไม่ระบุ'}<br>
-                    <b>🧑‍💻 จำนวนภาระงาน:</b> ${paper.workload_count || 'ไม่ระบุ'}<br>
-                  </div>
-                  <div style="margin-bottom: 10px;">
-                    <b>📊 สัดส่วนงาน:</b> ${paper.proportion || 'ไม่ระบุ'}<br>
-                    <b>📅 จำนวนภาระงานทั้งหมด:</b> ${paper.number_of_workloads || 'ไม่ระบุ'}<br>
-                  </div>
-                  <div style="margin-bottom: 10px;">
-                    <b>💰 ปีงบประมาณ:</b> ${paper.fiscal_year || 'ไม่ระบุ'}<br>
-                    <b>📅 ปี พ.ศ.:</b> ${paper.thai_calender_year || 'ไม่ระบุ'}<br>
-                    <b>📚 ปีการศึกษา:</b> ${paper.academic_year || 'ไม่ระบุ'}<br>
-                  </div>
-                </div>
-              `,
-              showCloseButton: true,
-              confirmButtonText: "ปิด",
-              customClass: {
-                popup: 'custom-swal-popup'
-              },
-              width: '60%'
-            });
-        }
+        }                   
 
-          DeletePaper(paper_researcher_id: any) {
+        DeletePaper(paper_researcher_id: any) {
             const body = { paper_researcher_id: paper_researcher_id };
             this.researchService.DeletePaper(body).subscribe(result => {
                 if (result.alert == 'Delete success') {
@@ -151,9 +116,89 @@ export class ResearchComponent implements OnInit{
                 this.SelectPaper();
             });
         }
-        
+
+        editPaper(paper_researcher_id: number): void {
+          this.selectedPaper = this.paperdetail.find(paper => paper.paper_researcher_id === paper_researcher_id) || null;
           
-                 
+          if (this.selectedPaper) {
+            // ตั้งค่าฟอร์มจาก selectedPaper
+            this.EditPaperForm.patchValue({
+              title_thai: this.selectedPaper.title_thai,
+              title_english: this.selectedPaper.title_english,
+              name: this.selectedPaper.name,
+              author_role: this.selectedPaper.author_role,
+              workload_year_id: this.selectedPaper.workload_year_id,
+              proportion: this.selectedPaper.proportion,
+              number_of_workloads: this.selectedPaper.number_of_workloads,
+              journal_or_conference_name: this.selectedPaper.journal_or_conference_name,
+              type_id: this.selectedPaper.type_id,
+              publication_year: this.selectedPaper.publication_year,
+              issue_number: this.selectedPaper.issue_number,
+              start_date: this.selectedPaper.start_date,
+              end_date: this.selectedPaper.end_date,
+              ISSN_or_ISBN: this.selectedPaper.ISSN_or_ISBN,
+              page_range: this.selectedPaper.page_range,
+              academic_quality: this.selectedPaper.academic_quality,
+              quartile_id: this.selectedPaper.quartile_id,
+              link: this.selectedPaper.link,
+              Remark: this.selectedPaper.Remark,
+              detail: this.selectedPaper.detail,
+              thai_calender_year: this.selectedPaper.thai_calender_year,
+              fiscal_year: this.selectedPaper.fiscal_year,
+              academic_year: this.selectedPaper.academic_year,
+            });
+        
+            const modal = new Modal(document.getElementById('editPaperModal')!);
+            modal.show();
+          }
+        }
+        
+        
+        updatePaper(): void {
+          if (!this.selectedPaper) return;
+        
+          const updatedData = this.EditPaperForm.value;
+        
+          this.researchService.UpdatePaper(updatedData).subscribe({
+            next: (response) => {
+              Swal.fire({
+                icon: 'success',
+                title: 'Updated Successfully',
+                text: 'งานวิจัยได้รับการอัปเดตเรียบร้อยแล้ว'
+              });
+              this.SelectPaper(); // โหลดข้อมูลใหม่หลังอัปเดต
+              const modal = Modal.getInstance(document.getElementById('editPaperModal')!)!;
+              modal.hide(); // ปิด Modal หลังอัปเดต
+            },
+            error: (error) => {
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'เกิดข้อผิดพลาดในการอัปเดต กรุณาลองใหม่อีกครั้ง'
+              });
+            }
+          });
+        }
+        
+        
+        SelectWorkload() {
+          this.researchService.SelectWorkload().subscribe((data: Workload[]) => {
+            this.workload = data;
+            this.filteredWorkload = data;  
+          });
+        }
+
+        onWorkloadSelect(event: any): void {
+          const selectedWorkloadId = event.target.value;  // รับค่า workload_year_id ที่ผู้ใช้เลือก
+          const selectedWorkload = this.filteredWorkload.find(workload => workload.workload_topic === selectedWorkloadId);  // ค้นหาข้อมูลที่ตรง
+      
+          if (selectedWorkload) {
+            this.workloadCount = selectedWorkload.workload_count || '';  // อัปเดตค่าจำนวนนับภาระงาน
+          }
+        } 
+  
+            
+        
 }
 
 

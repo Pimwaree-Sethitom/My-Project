@@ -27,6 +27,10 @@ export class ResearchService {
     DeletePaper(paper_researcher_id:any){
         return this.http.post<outputDeletePaper>('http://localhost/rms-api/paper_delete.php',paper_researcher_id)
        }
+
+    UpdatePaper(paperData: any) {
+        return this.http.put<outputInsertPaper>('http://localhost/rms-api/paper_update.php', paperData);
+      }
 }
 
 export interface PaperDetail {
@@ -46,12 +50,14 @@ export interface PaperDetail {
   end_date: string;
   ISSN_or_ISBN: string;
   page_range: string;
+  quartile_id: number;
   quartile_rank: string;
   academic_quality: string;
   Remark: string;
   detail: string;
   link: string;
   author_role: string;
+  workload_year_id: number;
   workload_topic: string;
   workload_count: number;
   proportion: number;

@@ -28,13 +28,164 @@
                 <td>{{data.title_english}}</td>
                 <td>{{data.name}}</td>
                 <td>{{data.thai_calender_year}}</td>
-                <td><button class="btn btn-primary" (click)="ShowPaperDate(data)">Detail</button></td>
                 <td><button class="btn btn-danger" (click)="DeletePaper(data.paper_researcher_id)" >Delete</button></td>
-                <td><button class="btn btn-danger" >Edit</button></td>
-            </tr>
+                <td><button class="btn btn-danger" (click)="editPaper(data.paper_researcher_id)">Edit</button></td>
+              </tr>
         </tbody>
     </table>
-      
+
+    <!-- Edit Paper Modal -->
+    <div class="modal fade" id="editPaperModal" tabindex="-1" aria-labelledby="editPaperModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="editPaperModalLabel">แก้ไขงานวิจัย</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" >
+            <!-- Form for editing the paper details -->
+            <form *ngIf="selectedPaper">
+              <div class="row mb-3">
+                <label for="title_thai" class="col-sm-2 col-form-label fw-bold">ชื่อเรื่องภาษาไทย</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control shadow-sm" id="title_thai" [(ngModel)]="selectedPaper.title_thai" name="title_thai">
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="title_english" class="col-sm-2 col-form-label fw-bold">ชื่อเรื่องภาษาอังกฤษ</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control shadow-sm" id="title_english" [(ngModel)]="selectedPaper.title_english" name="title_english">
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col-sm-6">
+                  <label for="name" class="form-label fw-bold">ชื่อผู้แต่ง</label>
+                  <input type="text" class="form-control shadow-sm" id="name" [(ngModel)]="selectedPaper.name" name="name">
+                </div>      
+          
+                <div class="col-sm-6">
+                  <label for="author_role" class="form-label fw-bold">ลำดับบทบาท</label>
+                  <select class="form-select shadow-sm" id="author_role" [(ngModel)]="selectedPaper.author_role" name="author_role">
+                    <option value="First">First</option>
+                    <option value="Corr">Corr</option>
+                    <option value="Co">Co</option>
+                  </select>
+                </div>
+              </div>
+
+
+              <div class="row mb-3">
+                <div class="col">
+                  <label for="workload_topic" class="form-label fw-bold">หัวข้อภาระงาน</label>
+                  <select class="form-select shadow-sm" id="workload_topic" [(ngModel)]="selectedPaper.workload_topic" name="workload_topic" (change)="onWorkloadSelect($event)">
+                    <option *ngFor="let data of filteredWorkload" [value]="data.workload_topic">{{ data.workload_topic }}</option>
+                  </select>
+                </div>
+              
+                <div class="col">
+                  <label for="workload_count" class="form-label fw-bold">จำนวนนับภาระงาน</label>
+                  <input type="text" class="form-control shadow-sm" id="workload_count" [(ngModel)]="selectedPaper.workload_count" name="workload_count" readonly>
+                </div>
+              
+                <div class="col">
+                  <label for="proportion" class="form-label fw-bold">สัดส่วน</label>
+                  <input type="number" class="form-control shadow-sm" id="proportion" [(ngModel)]="selectedPaper.proportion" name="proportion" >
+                </div>
+              
+                <div class="col">
+                  <label for="number_of_workloads" class="form-label fw-bold">จำนวนภาระงาน</label>
+                  <input type="text" class="form-control shadow-sm" id="number_of_workloads" [(ngModel)]="selectedPaper.number_of_workloads" name="number_of_workloads" readonly>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="journal_or_conference_name" class="col-sm-2 col-form-label fw-bold">ชื่อวารสาร / การประชุม</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control shadow-sm" id="journal_or_conference_name" [(ngModel)]="selectedPaper.journal_or_conference_name" name="journal_or_conference_name">
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col-sm-6">
+                  <label for="type_id" class="form-label fw-bold">ประเภทงานวิจัย</label>
+                  <select class="form-select shadow-sm" id="type_id" [(ngModel)]="selectedPaper.type_id" name="type_id">
+                    <option value="1">วารสารระดับชาติ</option>
+                    <option value="2">วารสารระดับนานาชาติ</option>
+                    <option value="5">วารสารระดับภูมิภาค (ACI)</option>
+                    <option value="3">การประชุมวิชาการระดับชาติ</option>
+                    <option value="4">การประชุมวิชาการระดับนานาชาติ</option>
+                  </select>
+                </div>
+
+                <div class="col-sm-3">
+                  <label for="publication_year" class="form-label fw-bold">ปีที่</label>
+                  <input type="text" class="form-control shadow-sm" id="publication_year" [(ngModel)]="selectedPaper.publication_year" name="publication_year">
+                </div>
+                <div class="col-sm-3">
+                  <label for="issue_number" class="form-label fw-bold">ฉบับที่</label>
+                  <input type="text" class="form-control shadow-sm" id="issue_number" [(ngModel)]="selectedPaper.issue_number" name="issue_number">
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col-sm-6">
+                  <label for="start_date" class="form-label fw-bold">วันเผยแพร่</label>
+                  <input type="text" class="form-control shadow-sm" id="start_date" [(ngModel)]="selectedPaper.start_date" name="start_date">
+                </div>
+                <div class="col-sm-6">
+                  <label for="end_date" class="form-label fw-bold">วันสิ้นสุด กรณี การประชุมวิชาการ</label>
+                  <input type="text" class="form-control shadow-sm" id="end_date" [(ngModel)]="selectedPaper.end_date" name="end_date">
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <label for="quartile_rank" class="form-label">Rank</label>
+                  <select class="form-select" id="quartile_rank" [(ngModel)]="selectedPaper.quartile_rank" name="quartile_rank">
+                    <option value="ไม่มีฐานข้อมูล">ไม่มีฐานข้อมูล</option>
+                    <option value="ฐานข้อมูล Scopus แต่ไม่จัดอันดับควอไทล์">ฐานข้อมูล Scopus แต่ไม่จัดอันดับควอไทล์</option>
+                    <option value="ฐานข้อมูล Scopus Q1">ฐานข้อมูล Scopus Q1</option>
+                    <option value="ฐานข้อมูล Scopus Q2">ฐานข้อมูล Scopus Q2</option>
+                    <option value="ฐานข้อมูล Scopus Q3">ฐานข้อมูล Scopus Q3</option>
+                    <option value="ฐานข้อมูล Scopus Q4">ฐานข้อมูล Scopus Q4</option>
+                    <option value="ฐานข้อมูล TCI กลุ่ม 1">ฐานข้อมูล TCI กลุ่ม 1</option>
+                    <option value="ฐานข้อมูล TCI กลุ่ม 2">ฐานข้อมูล TCI กลุ่ม 2</option>
+                  </select>
+                </div>
+                <div class="col-md-6">
+                  <label for="link" class="form-label">Link</label>
+                  <input type="text" class="form-control" id="link" [(ngModel)]="selectedPaper.link" name="link">
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <label for="Remark" class="form-label">หมายเหตุ</label>
+                  <input type="text" class="form-control" id="Remark" [(ngModel)]="selectedPaper.Remark" name="Remark">
+                </div>
+                <div class="col-md-6">
+                  <label for="detail" class="form-label">รายละเอียด</label>
+                  <input type="text" class="form-control" id="detail" [(ngModel)]="selectedPaper.detail" name="detail">
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col-sm-4">
+                  <label for="thai_calender_year" class="form-label fw-bold">ปี พ.ศ.</label>
+                  <input type="text" class="form-control shadow-sm" id="thai_calender_year" [(ngModel)]="selectedPaper.thai_calender_year" name="thai_calender_year">
+                </div>
+                <div class="col-sm-4">
+                  <label for="fiscal_year" class="form-label fw-bold">ปีงบประมาณ</label>
+                  <input type="text" class="form-control shadow-sm" id="fiscal_year" [(ngModel)]="selectedPaper.fiscal_year" name="fiscal_year">
+                </div>
+                <div class="col-sm-4">
+                  <label for="academic_year" class="form-label fw-bold">ปีการศึกษา</label>
+                  <input type="text" class="form-control shadow-sm" id="academic_year" [(ngModel)]="selectedPaper.academic_year" name="academic_year">
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
+            <button type="button" class="btn btn-primary" (click)="updatePaper()">อัปเดต</button>
+          </div>
+        </div>
+      </div>
+    </div>   
 </div>
 
   

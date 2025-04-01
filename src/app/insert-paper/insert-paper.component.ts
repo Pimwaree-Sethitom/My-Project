@@ -55,47 +55,47 @@ export class InsertPaperComponent implements OnInit{
         });
       }
 
-      ngOnInit(): void {
-        this.SelectResearchers();
-        this.SelectWorkload();
-      }
-    
-      onSubmit() {
-        if (this.paperForm.invalid) {
-          Swal.fire({
-            icon: 'warning',
-            title: 'กรุณากรอกข้อมูลให้ครบถ้วน!',
-            text: 'กรุณากรอกข้อมูลที่จำเป็นทั้งหมด',
-          });
-          return;  
-        }
-
-        this.researchService.insertPaperData(this.paperForm.value).subscribe({
-          next: (response) => {
-            if (response.alert && response.alert === "Researcher name not found.") {
-              Swal.fire({
-                icon: 'error',
-                title: 'ไม่พบชื่อผู้วิจัย!',
-                text: 'โปรดตรวจสอบชื่อผู้วิจัยอีกครั้ง',
-              });
-              return;
-            }
-            Swal.fire({
-              icon: 'success',
-              title: 'เพิ่มข้อมูลสำเร็จ!',
-              text: 'The paper data has been added successfully.',
-            });
-          },
-          error: (error) => {
-            Swal.fire({
-              icon: 'error',
-              title: 'เกิดข้อผิดพลาด!',
-              text: 'ไม่สามารถบันทึกข้อมูลได้ กรุณาลองใหม่',
-            });
+          ngOnInit(): void {
+            this.SelectResearchers();
+            this.SelectWorkload();
           }
-        });
         
-      }      
+          onSubmit() {
+            if (this.paperForm.invalid) {
+              Swal.fire({
+                icon: 'warning',
+                title: 'กรุณากรอกข้อมูลให้ครบถ้วน!',
+                text: 'กรุณากรอกข้อมูลที่จำเป็นทั้งหมด',
+              });
+              return;  
+            }
+
+            this.researchService.insertPaperData(this.paperForm.value).subscribe({
+              next: (response) => {
+                if (response.alert && response.alert === "Researcher name not found.") {
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'ไม่พบชื่อผู้วิจัย!',
+                    text: 'โปรดตรวจสอบชื่อผู้วิจัยอีกครั้ง',
+                  });
+                  return;
+                }
+                Swal.fire({
+                  icon: 'success',
+                  title: 'เพิ่มข้อมูลสำเร็จ!',
+                  text: 'The paper data has been added successfully.',
+                });
+              },
+              error: (error) => {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'เกิดข้อผิดพลาด!',
+                  text: 'ไม่สามารถบันทึกข้อมูลได้ กรุณาลองใหม่',
+                });
+              }
+            });
+            
+          }      
 
           SelectResearchers() {
             this.researchService.SelectUserData().subscribe((data: any[]) => {
