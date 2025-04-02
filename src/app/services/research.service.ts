@@ -46,8 +46,8 @@ export interface PaperDetail {
   journal_or_conference_name: string;
   publication_year: string;
   issue_number: string;
-  start_date: string;
-  end_date: string;
+  start_date: Date;
+  end_date: Date;
   ISSN_or_ISBN: string;
   page_range: string;
   quartile_id: number;

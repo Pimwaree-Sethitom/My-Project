@@ -43,7 +43,7 @@ export class ResearchComponent implements OnInit{
             name: ['', Validators.required],
             author_role: ['', Validators.required],
             workload_year_id: ['', Validators.required],
-            // workload_count: ['', Validators.required],
+            workload_count: ['', Validators.required],
             proportion: ['', []],
             number_of_workloads: ['', []],
             journal_or_conference_name: ['', Validators.required],
@@ -121,30 +121,30 @@ export class ResearchComponent implements OnInit{
           this.selectedPaper = this.paperdetail.find(paper => paper.paper_researcher_id === paper_researcher_id) || null;
           
           if (this.selectedPaper) {
-            // ตั้งค่าฟอร์มจาก selectedPaper
             this.EditPaperForm.patchValue({
-              title_thai: this.selectedPaper.title_thai,
-              title_english: this.selectedPaper.title_english,
-              name: this.selectedPaper.name,
-              author_role: this.selectedPaper.author_role,
-              workload_year_id: this.selectedPaper.workload_year_id,
-              proportion: this.selectedPaper.proportion,
-              number_of_workloads: this.selectedPaper.number_of_workloads,
-              journal_or_conference_name: this.selectedPaper.journal_or_conference_name,
-              type_id: this.selectedPaper.type_id,
-              publication_year: this.selectedPaper.publication_year,
-              issue_number: this.selectedPaper.issue_number,
-              start_date: this.selectedPaper.start_date,
-              end_date: this.selectedPaper.end_date,
-              ISSN_or_ISBN: this.selectedPaper.ISSN_or_ISBN,
-              page_range: this.selectedPaper.page_range,
+              title_thai: this.selectedPaper.title_thai ,
+              title_english: this.selectedPaper.title_english ,
+              name: this.selectedPaper.name ,
+              author_role: this.selectedPaper.author_role ,
+              workload_year_id: this.selectedPaper.workload_year_id ,
+              workload_count: this.selectedPaper.workload_count ,
+              proportion: this.selectedPaper.proportion ,
+              number_of_workloads: this.selectedPaper.number_of_workloads ,
+              journal_or_conference_name: this.selectedPaper.journal_or_conference_name ,
+              type_id: this.selectedPaper.type_id ,
+              publication_year: this.selectedPaper.publication_year ,
+              issue_number: this.selectedPaper.issue_number ,
+              start_date: this.selectedPaper.start_date ,
+              end_date: this.selectedPaper.end_date ,
+              ISSN_or_ISBN: this.selectedPaper.ISSN_or_ISBN ,
+              page_range: this.selectedPaper.page_range ,
               academic_quality: this.selectedPaper.academic_quality,
-              quartile_id: this.selectedPaper.quartile_id,
-              link: this.selectedPaper.link,
-              Remark: this.selectedPaper.Remark,
-              detail: this.selectedPaper.detail,
+              quartile_id: this.selectedPaper.quartile_id ,
+              link: this.selectedPaper.link ,
+              Remark: this.selectedPaper.Remark ,
+              detail: this.selectedPaper.detail ,
               thai_calender_year: this.selectedPaper.thai_calender_year,
-              fiscal_year: this.selectedPaper.fiscal_year,
+              fiscal_year: this.selectedPaper.fiscal_year ,
               academic_year: this.selectedPaper.academic_year,
             });
         
@@ -187,15 +187,6 @@ export class ResearchComponent implements OnInit{
             this.filteredWorkload = data;  
           });
         }
-
-        onWorkloadSelect(event: any): void {
-          const selectedWorkloadId = event.target.value;  // รับค่า workload_year_id ที่ผู้ใช้เลือก
-          const selectedWorkload = this.filteredWorkload.find(workload => workload.workload_topic === selectedWorkloadId);  // ค้นหาข้อมูลที่ตรง
-      
-          if (selectedWorkload) {
-            this.workloadCount = selectedWorkload.workload_count || '';  // อัปเดตค่าจำนวนนับภาระงาน
-          }
-        } 
   
             
         
