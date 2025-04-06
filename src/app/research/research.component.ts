@@ -151,11 +151,23 @@ export class ResearchComponent implements OnInit{
             const body = { paper_researcher_id: paper_researcher_id };
             this.researchService.DeletePaper(body).subscribe(result => {
                 if (result.alert == 'Delete success') {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Delete success',
-                        text: 'The user has been deleted successfully.'
-                    });
+                  Swal.fire({
+                    title: "Are you sure?",
+                    text: "You won't be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, delete it!"
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                      Swal.fire({
+                        title: "Deleted!",
+                        text: "Your file has been deleted.",
+                        icon: "success"
+                      });
+                    }
+                  });
                 } else {
                     Swal.fire({
                         icon: 'error',

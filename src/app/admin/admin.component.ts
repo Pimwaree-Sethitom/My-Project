@@ -4,12 +4,15 @@ import { ApiService, Researcher } from '../api.service';
 import { FormsModule } from '@angular/forms'; 
 import { RouterModule } from '@angular/router';
 import { AdminBarComponent } from '../admin-bar/admin-bar.component';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+import { Modal } from 'bootstrap';
 import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-admin',
   standalone: true, 
-  imports: [CommonModule, FormsModule, RouterModule, AdminBarComponent],
+  imports: [CommonModule, FormsModule, RouterModule, AdminBarComponent ,ReactiveFormsModule],
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.css'],
   providers: [ApiService] 
@@ -19,9 +22,75 @@ export class AdminComponent implements OnInit {
   searchText: string = ''; 
   searchField: keyof Researcher = 'name';
   filteredResearchers: Researcher[] = []; 
+  userForm: FormGroup;
+  selectedResearch: Researcher | null = null;
 
-  private apiService = inject(ApiService); 
+  constructor(private fb: FormBuilder, private apiService: ApiService) {
+    this.userForm = this.fb.group({
+      researcher_id: ['',[]],
+      name: ['', Validators.required],
+      name_department_eng: ['', []],
+      name_department_thai: ['', Validators.required],
+      role_id: ['', Validators.required],
+      remark: ['',[]]
+    });
+  }
 
+  Closemodal(){
+    this.userForm.reset(); 
+  }
+
+  onSubmit(): void {
+    this.userForm.markAllAsTouched();
+
+    if (this.userForm.invalid) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'กรุณากรอกข้อมูลให้ครบถ้วน!',
+            text: 'กรุณากรอกข้อมูลที่จำเป็นทั้งหมด',
+        });
+        return;
+    }
+
+    this.apiService.insertUser(this.userForm.value).subscribe({
+        next: (response) => {
+            // ตรวจสอบว่า API ส่งกลับว่า "ข้อมูลซ้ำ" หรือไม่
+            if (response.alert === 'ข้อมูลนี้มีอยู่แล้วในระบบ.') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ข้อมูลซ้ำ!',
+                    text: 'ข้อมูลผู้ใช้งานนี้มีอยู่แล้วในระบบ',
+                });
+                return; // หยุดการทำงานต่อ
+            }
+
+            // ถ้าข้อมูลไม่ซ้ำ ทำการรีเซ็ตฟอร์มและแสดงข้อความสำเร็จ
+            this.userForm.reset();
+            Swal.fire({
+                icon: 'success',
+                title: 'เพิ่มผู้ใช้งานสำเร็จ!',
+                text: 'ระบบได้เพิ่มข้อมูลผู้ใช้งานเรียบร้อยแล้ว',
+            }).then(() => {
+                this.SelectResearchers();
+            });
+        },
+        error: (error) => {
+            console.error('Error inserting user', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'เกิดข้อผิดพลาด!',
+                text: 'ไม่สามารถเพิ่มข้อมูลผู้ใช้งานได้ กรุณาลองใหม่อีกครั้ง',
+            });
+        }
+    });
+}
+
+  
+  isInvalid(controlName: string): boolean {
+    const control = this.userForm.get(controlName);
+    return !!(control && control.invalid && (control.dirty || control.touched));
+  }
+  
   ngOnInit(): void { 
     this.SelectResearchers();
   }
@@ -42,85 +111,112 @@ export class AdminComponent implements OnInit {
     });
   }
 
-  editUser(researcherId: number) {
-    // หาข้อมูลของผู้ใช้ที่ต้องการแก้ไข
-    const researcher = this.researchers.find(r => r.researcher_id === researcherId);
+  editUser(researcher_id: number): void {
+    this.selectedResearch = this.researchers.find(r => r.researcher_id === researcher_id) || null;
   
-    if (researcher) {
-      // ใช้ SweetAlert2 แสดงฟอร์มให้กรอกข้อมูลใหม่
-      Swal.fire({
-        title: 'Update Form',
-        html: `
-          <input type="text" id="name" class="swal2-input" value="${researcher.name}" placeholder="Enter Name">
-          <input type="text" id="name_department_eng" class="swal2-input" value="${researcher.name_department_eng}" placeholder="Enter English Department Name">
-          <input type="text" id="name_department_thai" class="swal2-input" value="${researcher.name_department_thai}" placeholder="Enter Thai Department Name">
-          <input type="text" id="role_name" class="swal2-input" value="${researcher.role_name}" placeholder="Enter Role Name">
-        `,
-        confirmButtonText: 'UPDATE',
-        focusConfirm: false,
-        preConfirm: () => {
-          const name = (document.getElementById('name') as HTMLInputElement).value;
-          const name_department_eng = (document.getElementById('name_department_eng') as HTMLInputElement).value;
-          const name_department_thai = (document.getElementById('name_department_thai') as HTMLInputElement).value;
-          const role_name = (document.getElementById('role_name') as HTMLInputElement).value;
-          
-          return { name, name_department_eng, name_department_thai, role_name };
-        }
-      }).then(result => {
-        if (result.isConfirmed) {
-          const { name, name_department_eng, name_department_thai, role_name } = result.value;
-  
-          const updatedUserData = {
-            researcher_id: researcher.researcher_id,
-            name: name,
-            name_department_eng: name_department_eng,
-            name_department_thai: name_department_thai,
-            role_name: role_name
-          };
-  
-          // เรียกใช้ API สำหรับการอัปเดต
-          this.apiService.updateUser(updatedUserData).subscribe({
-            next: (response) => {
-              if (response.alert === 'Update success') {
-                Swal.fire('Updated!', 'The user details have been updated.', 'success');
-                this.SelectResearchers(); // รีเฟรชข้อมูลหลังอัปเดต
-              } else if (response.alert === 'No changes were made in Researcher data or role'){
-                Swal.fire('Error!', 'You did not fill in any information. Please fill in all information.', 'error');
-              }else{
-                Swal.fire('Error!', 'Something went wrong. Please try again later.', 'error');
-              }
-            },
-            error: (error) => {
-              Swal.fire('Error!', 'There was an issue connecting to the server.', 'error');
-            },
-            complete: () => {
-              // การทำงานหลังจากเสร็จสิ้น
-            }
-          });
-        }
+    if (this.selectedResearch) {
+      // กรอกข้อมูลเดิมที่เลือกลงในฟอร์ม
+      this.userForm.patchValue({
+        researcher_id: this.selectedResearch.researcher_id,
+        name: this.selectedResearch.name,
+        name_department_eng: this.selectedResearch.name_department_eng,
+        name_department_thai: this.selectedResearch.name_department_thai,
+        role_id: this.selectedResearch.role_id,
+        remark: this.selectedResearch.remark,
       });
+      
+      // แสดง modal
+      const modal = new Modal(document.getElementById('editPaperModal')!);
+      modal.show();
     }
   }
   
-  deleteUser(researcher_id: any) {
-    const body = { researcher_id: researcher_id };
-    this.apiService.deleteUser(body).subscribe(result => {
-        if (result.alert == 'Delete success') {
-            Swal.fire({
-                icon: 'success',
-                title: 'Delete success',
-                text: 'The user has been deleted successfully.'
-            });
-        } else {
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Something went wrong! Please try again.'
-            });
-        }
+  updateUser(): void {
+    if (!this.selectedResearch) return;
+  
+    const updatedData = this.userForm.value;
+  
+    // ตรวจสอบว่าข้อมูลที่กรอกมีการเปลี่ยนแปลงจากข้อมูลเดิมหรือไม่
+    const hasChanges = this.hasChanges(updatedData);
+  
+    if (!hasChanges) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'ไม่มีการเปลี่ยนแปลง!',
+        text: 'ข้อมูลที่คุณกรอกไม่แตกต่างจากข้อมูลเดิม'
+      });
+      return; // หยุดการทำงานหากไม่มีการเปลี่ยนแปลง
+    }
+  
+    this.apiService.updateUser(updatedData).subscribe({
+      next: (response) => {
+        Swal.fire({
+          icon: 'success',
+          title: 'เสร็จสิ้น!',
+          text: 'ข้อมูลผู้ใช้ได้รับการอัปเดตเรียบร้อยแล้ว'
+        });
         this.SelectResearchers();
+        const modal = Modal.getInstance(document.getElementById('editPaperModal')!)!;
+        modal.hide(); 
+      },
+      error: (error) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'ไม่สามารถอัปเดตข้อมูลได้!',
+          text: 'เกิดข้อผิดพลาดในการอัปเดต กรุณาลองใหม่อีกครั้ง'
+        });
+      }
     });
-}
+  }
+  
+ 
+  hasChanges(updatedData: any): boolean {
+    if (!this.selectedResearch) {
+      return false;
+    }
+  
+    return updatedData.name !== this.selectedResearch.name || 
+           updatedData.name_department_eng !== this.selectedResearch.name_department_eng ||
+           updatedData.name_department_thai !== this.selectedResearch.name_department_thai ||
+           updatedData.remark !== this.selectedResearch.remark ||
+           updatedData.role_id !== this.selectedResearch.role_id;
+  }  
+  
+          deleteUser(researcher_id: any) {
+            const body = { researcher_id: researcher_id };
+        
+            // แสดงยืนยันการลบก่อน
+            Swal.fire({
+                title: "คุณแน่ใจนะ?",
+                text: "หากลบแล้วคุณจะไม่สามารถย้อนกลับได้ !",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "ลบ",
+                cancelButtonText: "ยกเลิก",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // ถ้าผู้ใช้ยืนยันให้ลบ
+                    this.apiService.deleteUser(body).subscribe(result => {
+                        if (result.alert == 'Delete success') {
+                            Swal.fire({
+                                title: "ลบแล้ว!",
+                                text: "ข้อมูลถูกลบเสร็จสิ้นแล้ว",
+                                icon: "success"
+                            });
+                            this.SelectResearchers();  // โหลดข้อมูลใหม่หลังจากลบ
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'ไม่สามารถลบได้!',
+                                text: 'มีบางอย่างผิดพลาด! โปรดลองอีกครั้ง'
+                            });
+                        }
+                    });
+                }
+            });
+        }        
 
   
 }

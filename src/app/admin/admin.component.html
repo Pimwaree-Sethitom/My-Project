@@ -17,14 +17,139 @@
           <option value="role_name">สิทธิ์การใช้งาน</option>
         </select>
         
-        
-        
+         <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary ms-3" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="Closemodal()">
+          เพิ่มข้อมูลผู้ใช้งาน
+        </button>
+
+        <!-- Modal -->
+          <div class="modal fade" id="exampleModal" #exampleModal tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">เพิ่มข้อมูลผู้ใช้งาน</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+                  <!-- ชื่อ-นามสกุล -->
+                  <div class="row mb-4">
+                    <label for="name" class="col-sm-2 col-form-label fw-bold">ชื่อ-นามสกุล</label>
+                    <div class="col-sm-10">
+                      <input
+                        type="text"
+                        class="form-control shadow-sm"
+                        id="name"
+                        formControlName="name"
+                        placeholder="กรุณากรอกชื่อ-นามสกุล"
+                        [ngClass]="{'is-invalid': isInvalid('name')}"
+                      />
+                      <div class="invalid-feedback">
+                        กรุณากรอกชื่อ-นามสกุล
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- สาขาภาษาไทย -->
+                  <div class="row mb-4">
+                    <div class="col-sm-6">
+                      <label for="name_department_thai" class="form-label fw-bold">ชื่อสาขาวิชาภาษาไทย</label>
+                      <select
+                        class="form-select shadow-sm"
+                        id="name_department_thai"
+                        formControlName="name_department_thai"
+                        [ngClass]="{'is-invalid': isInvalid('name_department_thai')}"
+                      >
+                      <option value="สาขาวิชาคอมพิวเตอร์ธุรกิจ">สาขาวิชาคอมพิวเตอร์ธุรกิจ</option>
+                      <option value="สาขาวิชาวิศวกรรมคอมพิวเตอร์">สาขาวิชาวิศวกรรมคอมพิวเตอร์</option>
+                      <option value="สาขาวิชาวิทยาการคอมพิวเตอร์">สาขาวิชาวิทยาการคอมพิวเตอร์</option>
+                      <option value="สาขาวิชาเทคโนโลยีสารสนเทศ">สาชาวิชาเทคโนโลยีสารสนเทศ</option>
+                      <option value="สาขาวิชาวิทยาการข้อมูล">สาขาวิทยาการข้อมูลและการประยุกต์</option>
+                      <option value="สาขาวิชาวิศวกรรมซอฟต์แวร์">สาขาวิชาวิศวกรรมซอฟต์แวร์</option>
+                      <option value="สาขาวิชาภูมิสารสนเทศศาสตร์">สาขาวิชาภูมิสารสนเทศศาสตร์</option>
+                      <option value="สาขาวิชาคอมพิวเตอร์กราฟิก">สาขาวิชาคอมพิวเตอร์กราฟิกและมัลติมีเดีย</option>
+                      <option value="สำนักงานคณะฯ">สำนักงานคณะฯ</option>
+                      </select>
+                      <div class="invalid-feedback">
+                        กรุณาเลือกชื่อสาขาวิชาภาษาไทย
+                      </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                      <label for="name_department_eng" class="form-label fw-bold">ตัวย่อชื่อสาขาภาษาอังกฤษ</label>
+                      <select
+                        class="form-select shadow-sm"
+                        id="name_department_eng"
+                        formControlName="name_department_eng"
+                        [ngClass]="{'is-invalid': isInvalid('name_department_eng')}"
+                      >
+                      <option value="BC/DB">BC/DB</option>
+                      <option value="CPE">CPE</option>
+                      <option value="CS">CS</option>
+                      <option value="IT">IT</option>
+                      <option value="DSA">DSA</option>
+                      <option value="SE">SE</option>
+                      <option value="GIS">GIS</option>
+                      <option value="CG">CG</option>
+                      <option value="">อื่นๆ</option>
+                      </select>
+                      <div class="invalid-feedback">
+                        กรุณาเลือกตัวย่อชื่อสาขา (ถ้ามี)
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- สิทธิ์การใช้งาน + หมายเหตุ -->
+                  <div class="row mb-4">
+                    <div class="col-sm-6">
+                      <label for="role_id" class="form-label fw-bold">กำหนดสิทธิ์การใช้งาน</label>
+                      <select
+                        class="form-select shadow-sm"
+                        id="role_id"
+                        formControlName="role_id"
+                        [ngClass]="{'is-invalid': isInvalid('role_id')}"
+                      >
+                      <option value="1">ผู้ดูแลระบบ</option>
+                      <option value="2">ผู้บริหาร</option>
+                      <option value="3">เจ้าหน้าที่ดูแลงานวิจัย</option>
+                      <option value="4">บุคลากรทั่วไป</option>
+                      <option value="5">ไม่มีสิทธิ์การใช้งาน</option>
+                      </select>
+                      <div class="invalid-feedback">
+                        กรุณาเลือกสิทธิ์การใช้งาน
+                      </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                      <label for="remark" class="form-label fw-bold">หมายเหตุ</label>
+                      <select
+                        class="form-select shadow-sm"
+                        id="remark"
+                        formControlName="remark"
+                      >
+                      <option value="ประธานหลักสูตรปริญญาตรี">ประธานหลักสูตรปริญญาตรี</option>
+                      <option value="ประธานหลักสูตรปริญญาโท">ประธานหลักสูตรปริญญาโท</option>
+                      <option value="ประธานหลักสูตรปริญญาเอก">ประธานหลักสูตรปริญญาเอก</option>
+                      <option value="">ไม่มีข้อมูล</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="Closemodal()">ยกเลิก</button>
+                    <button type="submit" class="btn btn-primary" >บันทึก</button>
+                  </div>
+             </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
       
     <table class="table mt-5">
         <thead>
             <tr>
-              <th scope="col">ลำดับที่</th>
+              <th scope="col">ที่</th>
               <th scope="col">ชื่อ-นามสกุล</th>
               <th scope="col">สาขา</th>
               <th scope="col"> </th>
@@ -38,15 +163,137 @@
             <tr *ngFor="let data of filteredResearchers">
                 <td scope="col">{{data.researcher_id}}</td>
                 <td>{{data.name}}</td>
-                <td>{{data.name_department_eng}}</td>
+                <td>{{data.name_department_eng || '-'}}</td>
                 <td>{{data.name_department_thai}}</td>
                 <td>{{data.role_name}}</td>
-                <td>{{data.remark}}</td>
-                <td><button class="btn btn-danger" (click)="deleteUser(data.researcher_id)">Delete</button></td>
-                <td><button class="btn btn-danger" (click)="editUser(data.researcher_id)">Edit</button></td>
+                <td>{{data.remark || '-'}}</td>
+                <td><button class="btn btn-danger" (click)="deleteUser(data.researcher_id)">ลบ</button></td>
+                <td><button class="btn btn-danger" (click)="editUser(data.researcher_id)">แก้ไข</button></td>
             </tr>
         </tbody>
     </table>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="editPaperModal" tabindex="-1" aria-labelledby="editPaperModal" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">แก้ไขข้อมูลผู้ใช้</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="userForm" (ngSubmit)="updateUser()">
+          <!-- ชื่อ-นามสกุล -->
+          <div class="row mb-4">
+            <label for="name" class="col-sm-2 col-form-label fw-bold">ชื่อ-นามสกุล</label>
+            <div class="col-sm-10">
+              <input
+                type="text"
+                class="form-control shadow-sm"
+                id="name"
+                formControlName="name"
+                placeholder="กรุณากรอกชื่อ-นามสกุล"
+                [ngClass]="{'is-invalid': isInvalid('name')}"
+              />
+              <div class="invalid-feedback">
+                กรุณากรอกชื่อ-นามสกุล
+              </div>
+            </div>
+          </div>
+
+          <!-- สาขาภาษาไทย -->
+          <div class="row mb-4">
+            <div class="col-sm-6">
+              <label for="name_department_thai" class="form-label fw-bold">ชื่อสาขาวิชาภาษาไทย</label>
+              <select
+                class="form-select shadow-sm"
+                id="name_department_thai"
+                formControlName="name_department_thai"
+                [ngClass]="{'is-invalid': isInvalid('name_department_thai')}"
+              >
+              <option value="สาขาวิชาคอมพิวเตอร์ธุรกิจ">สาขาวิชาคอมพิวเตอร์ธุรกิจ</option>
+              <option value="สาขาวิชาวิศวกรรมคอมพิวเตอร์">สาขาวิชาวิศวกรรมคอมพิวเตอร์</option>
+              <option value="สาขาวิชาวิทยาการคอมพิวเตอร์">สาขาวิชาวิทยาการคอมพิวเตอร์</option>
+              <option value="สาขาวิชาเทคโนโลยีสารสนเทศ">สาชาวิชาเทคโนโลยีสารสนเทศ</option>
+              <option value="สาขาวิชาวิทยาการข้อมูล">สาขาวิทยาการข้อมูลและการประยุกต์</option>
+              <option value="สาขาวิชาวิศวกรรมซอฟต์แวร์">สาขาวิชาวิศวกรรมซอฟต์แวร์</option>
+              <option value="สาขาวิชาภูมิสารสนเทศศาสตร์">สาขาวิชาภูมิสารสนเทศศาสตร์</option>
+              <option value="สาขาวิชาคอมพิวเตอร์กราฟิก">สาขาวิชาคอมพิวเตอร์กราฟิกและมัลติมีเดีย</option>
+              <option value="สำนักงานคณะฯ">สำนักงานคณะฯ</option>
+              </select>
+              <div class="invalid-feedback">
+                กรุณาเลือกชื่อสาขาวิชาภาษาไทย
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+              <label for="name_department_eng" class="form-label fw-bold">ตัวย่อชื่อสาขาภาษาอังกฤษ</label>
+              <select
+                class="form-select shadow-sm"
+                id="name_department_eng"
+                formControlName="name_department_eng"
+                [ngClass]="{'is-invalid': isInvalid('name_department_eng')}"
+              >
+              <option value="BC/DB">BC/DB</option>
+              <option value="CPE">CPE</option>
+              <option value="CS">CS</option>
+              <option value="IT">IT</option>
+              <option value="DSA">DSA</option>
+              <option value="SE">SE</option>
+              <option value="GIS">GIS</option>
+              <option value="CG">CG</option>
+              <option value="">อื่นๆ</option>
+              </select>
+              <div class="invalid-feedback">
+                กรุณาเลือกตัวย่อชื่อสาขา (ถ้ามี)
+              </div>
+            </div>
+          </div>
+
+          <!-- สิทธิ์การใช้งาน + หมายเหตุ -->
+          <div class="row mb-4">
+            <div class="col-sm-6">
+              <label for="role_id" class="form-label fw-bold">กำหนดสิทธิ์การใช้งาน</label>
+              <select
+                class="form-select shadow-sm"
+                id="role_id"
+                formControlName="role_id"
+                [ngClass]="{'is-invalid': isInvalid('role_id')}"
+              >
+              <option value="1">ผู้ดูแลระบบ</option>
+              <option value="2">ผู้บริหาร</option>
+              <option value="3">เจ้าหน้าที่ดูแลงานวิจัย</option>
+              <option value="4">บุคลากรทั่วไป</option>
+              <option value="5">ไม่มีสิทธิ์การใช้งาน</option>
+              </select>
+              <div class="invalid-feedback">
+                กรุณาเลือกสิทธิ์การใช้งาน
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+              <label for="remark" class="form-label fw-bold">หมายเหตุ</label>
+              <select
+                class="form-select shadow-sm"
+                id="remark"
+                formControlName="remark"
+              >
+              <option value="ประธานหลักสูตรปริญญาตรี">ประธานหลักสูตรปริญญาตรี</option>
+              <option value="ประธานหลักสูตรปริญญาโท">ประธานหลักสูตรปริญญาโท</option>
+              <option value="ประธานหลักสูตรปริญญาเอก">ประธานหลักสูตรปริญญาเอก</option>
+              <option value="">ไม่มีข้อมูล</option>
+              </select>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >ยกเลิก</button>
+            <button type="submit" class="btn btn-primary" >บันทึก</button>
+          </div>
+     </form>
+      </div>
+    </div>
+  </div>
 </div>
 
 </body>
