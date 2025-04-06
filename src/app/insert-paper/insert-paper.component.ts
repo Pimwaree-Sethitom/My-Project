@@ -33,7 +33,6 @@ export class InsertPaperComponent implements OnInit{
           researcher_name: ['', Validators.required],
           author_role: ['', Validators.required],
           workload_year_id: ['', Validators.required],
-          // workload_count: ['', Validators.required],
           proportion: ['', []],
           number_of_workloads: ['', []],
           journal_or_conference_name: ['', Validators.required],

@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ResearchBarComponent } from '../research-bar/research-bar.component';
 import { RouterModule } from '@angular/router';
-import { ResearchService , PaperDetail ,Workload} from '../services/research.service';
+import { ResearchService , PaperDetail ,Workload,Researcher} from '../services/research.service';
 import { FormsModule } from '@angular/forms'; 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -26,18 +26,23 @@ import Swal from 'sweetalert2';
 export class ResearchComponent implements OnInit{
         EditPaperForm: FormGroup;
         paperdetail: PaperDetail[] = [];
+        researchers: Researcher[] = [];
         workload: Workload[] = [];
         searchText: string = ''; 
         searchField: keyof PaperDetail = 'title_thai';
+        filteredResearchers: any[] = [];
         filteredPaperdetail: PaperDetail[] = []; 
         filteredWorkload: any[] = [];
         selectedPaper: PaperDetail | null = null;
-        workloadCount: string = ''; 
+        workloadCount: string = '';
+        selectedResearcher: any;
+        searchResearchers: string = '';  
         
         // private researchService = inject(ResearchService);
 
         constructor(private fb: FormBuilder, private researchService: ResearchService) {
           this.EditPaperForm = this.fb.group({
+            paper_researcher_id: ['', []],
             title_thai: ['', []],
             title_english: ['', []],
             name: ['', Validators.required],
@@ -66,8 +71,53 @@ export class ResearchComponent implements OnInit{
         }
 
         ngOnInit(): void { 
+          this.EditPaperForm.get('workload_year_id')?.valueChanges.subscribe(selectedId => {
+            // หาค่า workload_count จาก filteredWorkload ตามที่เลือก
+            const selectedWorkload = this.filteredWorkload.find(workload => workload.workload_year_id === selectedId);
+            
+            if (selectedWorkload) {
+              this.EditPaperForm.patchValue({
+                workload_count: selectedWorkload.workload_count
+              });
+        
+              // คำนวณค่า number_of_workloads ใหม่
+              this.updateNumberOfWorkloads();
+            }
+          });
+        
+          this.EditPaperForm.get('proportion')?.valueChanges.subscribe(() => {
+            this.updateNumberOfWorkloads();
+          });
+        
+          this.EditPaperForm.get('workload_count')?.valueChanges.subscribe(() => {
+            this.updateNumberOfWorkloads();
+          });
           this.SelectPaper();
           this.SelectWorkload();
+          this.SelectResearchers();
+        }
+
+        SelectResearchers() {
+          this.researchService.SelectUserData().subscribe((data: any[]) => {
+            this.researchers = data;
+            this.filteredResearchers = data;  
+          });
+        }
+      
+        SearchResearchers() {
+          if (this.searchResearchers) {
+            this.filteredResearchers = this.researchers.filter((researcher) =>
+              researcher.name.toLowerCase().includes(this.searchResearchers.toLowerCase())
+                ).slice(0, 5);  
+               } else {
+              this.filteredResearchers = this.researchers.slice(0, 5);  
+            }
+          }
+ 
+        selectResearcher(researcher: any) {
+          this.selectedResearcher = researcher;
+          this.searchResearchers = researcher.name;  
+          this.filteredResearchers = [];  
         }
 
         SelectPaper() { 
@@ -122,6 +172,7 @@ export class ResearchComponent implements OnInit{
           
           if (this.selectedPaper) {
             this.EditPaperForm.patchValue({
+              paper_researcher_id: this.selectedPaper.paper_researcher_id,
               title_thai: this.selectedPaper.title_thai ,
               title_english: this.selectedPaper.title_english ,
               name: this.selectedPaper.name ,
@@ -188,6 +239,14 @@ export class ResearchComponent implements OnInit{
           });
         }
   
+        updateNumberOfWorkloads(): void {
+          const workload_count = this.EditPaperForm.get('workload_count')?.value || 0;
+          const proportion = this.EditPaperForm.get('proportion')?.value || 0;
+        
+          const number_of_workloads = (workload_count * proportion) / 100;
+        
+          this.EditPaperForm.patchValue({ number_of_workloads: number_of_workloads.toFixed(2) });
+        }
             
         
 }

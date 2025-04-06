@@ -31,6 +31,7 @@ export interface Researcher {
   name_department_eng: string;
   name_department_thai: string;
   role_name: string;
+  remark: string;
 }
 
 export interface outputInsertUser {

@@ -63,7 +63,12 @@
               <div class="row mb-3">
                 <div class="col-sm-6">
                   <label for="name" class="form-label fw-bold">ชื่อผู้แต่ง</label>
-                  <input type="text" class="form-control shadow-sm" id="name" formControlName="name">
+                  <input type="text" class="form-control shadow-sm" id="name" formControlName="name" [(ngModel)]="searchResearchers" (input)="SearchResearchers()">
+                  <ul *ngIf="searchResearchers && filteredResearchers.length > 0" class="list-group mt-2">
+                    <li *ngFor="let researcher of filteredResearchers" (click)="selectResearcher(researcher)" class="list-group-item">
+                      {{ researcher.name }} 
+                    </li>
+                  </ul>
                 </div>      
           
                 <div class="col-sm-6">
@@ -98,7 +103,7 @@
               
                 <div class="col">
                   <label for="number_of_workloads" class="form-label fw-bold">จำนวนภาระงาน</label>
-                  <input type="text" class="form-control shadow-sm" id="number_of_workloads" formControlName="number_of_workloads" >
+                  <input type="text" class="form-control shadow-sm" id="number_of_workloads" formControlName="number_of_workloads" readonly>
                 </div>
               </div>
               

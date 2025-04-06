@@ -15,7 +15,10 @@
           <option value="name_department_eng">Department (English)</option>
           <option value="name_department_thai">Department (Thai)</option>
           <option value="role_name">สิทธิ์การใช้งาน</option>
-        </select>        
+        </select>
+        
+        
+        
       </div>
       
     <table class="table mt-5">
@@ -26,6 +29,7 @@
               <th scope="col">สาขา</th>
               <th scope="col"> </th>
               <th scope="col">สิทธิ์การใช้งาน</th>
+              <th scope="col">หมายเหตุ</th>
               <th scope="col"></th>
               <th scope="col"></th>
             </tr>
@@ -37,6 +41,7 @@
                 <td>{{data.name_department_eng}}</td>
                 <td>{{data.name_department_thai}}</td>
                 <td>{{data.role_name}}</td>
+                <td>{{data.remark}}</td>
                 <td><button class="btn btn-danger" (click)="deleteUser(data.researcher_id)">Delete</button></td>
                 <td><button class="btn btn-danger" (click)="editUser(data.researcher_id)">Edit</button></td>
             </tr>
