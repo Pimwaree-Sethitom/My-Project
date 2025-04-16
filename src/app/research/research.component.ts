@@ -24,7 +24,7 @@ import Swal from 'sweetalert2';
   providers: [ResearchService]
 })
 export class ResearchComponent implements OnInit{
-        EditPaperForm: FormGroup;
+        PaperForm: FormGroup;
         paperdetail: PaperDetail[] = [];
         researchers: Researcher[] = [];
         workload: Workload[] = [];
@@ -37,11 +37,10 @@ export class ResearchComponent implements OnInit{
         workloadCount: string = '';
         selectedResearcher: any;
         searchResearchers: string = '';  
-        
-        // private researchService = inject(ResearchService);
+        selectedAuthorName: string = '';
 
         constructor(private fb: FormBuilder, private researchService: ResearchService) {
-          this.EditPaperForm = this.fb.group({
+          this.PaperForm = this.fb.group({
             paper_researcher_id: ['', []],
             title_thai: ['', []],
             title_english: ['', []],
@@ -49,8 +48,8 @@ export class ResearchComponent implements OnInit{
             author_role: ['', Validators.required],
             workload_year_id: ['', Validators.required],
             workload_count: ['', Validators.required],
-            proportion: ['', []],
-            number_of_workloads: ['', []],
+            proportion: ['', Validators.required],
+            number_of_workloads: ['', Validators.required],
             journal_or_conference_name: ['', Validators.required],
             type_id: ['', Validators.required],
             publication_year: ['', []],
@@ -71,12 +70,12 @@ export class ResearchComponent implements OnInit{
         }
 
         ngOnInit(): void { 
-          this.EditPaperForm.get('workload_year_id')?.valueChanges.subscribe(selectedId => {
+          this.PaperForm.get('workload_year_id')?.valueChanges.subscribe(selectedId => {
             // หาค่า workload_count จาก filteredWorkload ตามที่เลือก
             const selectedWorkload = this.filteredWorkload.find(workload => workload.workload_year_id === selectedId);
             
             if (selectedWorkload) {
-              this.EditPaperForm.patchValue({
+              this.PaperForm.patchValue({
                 workload_count: selectedWorkload.workload_count
               });
         
@@ -85,11 +84,11 @@ export class ResearchComponent implements OnInit{
             }
           });
         
-          this.EditPaperForm.get('proportion')?.valueChanges.subscribe(() => {
+          this.PaperForm.get('proportion')?.valueChanges.subscribe(() => {
             this.updateNumberOfWorkloads();
           });
         
-          this.EditPaperForm.get('workload_count')?.valueChanges.subscribe(() => {
+          this.PaperForm.get('workload_count')?.valueChanges.subscribe(() => {
             this.updateNumberOfWorkloads();
           });
           this.SelectPaper();
@@ -105,19 +104,23 @@ export class ResearchComponent implements OnInit{
         }
       
         SearchResearchers() {
-          if (this.searchResearchers) {
-            this.filteredResearchers = this.researchers.filter((researcher) =>
-              researcher.name.toLowerCase().includes(this.searchResearchers.toLowerCase())
-                ).slice(0, 5);  
-               } else {
-              this.filteredResearchers = this.researchers.slice(0, 5);  
-            }
+          const query = this.searchResearchers?.trim().toLowerCase();
+        
+          // ถ้ายังไม่ได้พิมพ์ หรือพิมพ์น้อยกว่า 2 ตัวอักษร ไม่ต้องแสดงผล
+          if (!query || query.length < 2) {
+            this.filteredResearchers = [];
+            return;
           }
- 
+        
+          this.filteredResearchers = this.researchers.filter((researcher) =>
+            researcher.name.toLowerCase().includes(query)
+          ).slice(0, 5);
+        }
+        
         selectResearcher(researcher: any) {
           this.selectedResearcher = researcher;
           this.searchResearchers = researcher.name;  
-          this.filteredResearchers = [];  
+          this.filteredResearchers = [];
         }
 
         SelectPaper() { 
@@ -128,62 +131,58 @@ export class ResearchComponent implements OnInit{
         }
 
         SearchPaper() {
-            const searchTextNormalized = this.searchText
+          const searchTextNormalized = this.searchText
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .toLowerCase();
+        
+          this.filteredPaperdetail = this.paperdetail.filter((paperdetail) => {
+            const fieldValue = String(paperdetail[this.searchField])
               .normalize("NFD")
               .replace(/[\u0300-\u036f]/g, "")
               .toLowerCase();
-          
-            this.filteredPaperdetail = this.paperdetail.filter((paperdetail) => {
-              const fieldValue = String(paperdetail[this.searchField])
-                .normalize("NFD")
-                .replace(/[\u0300-\u036f]/g, "")
-                .toLowerCase();
-          
-              // แยกคำโดยใช้เว้นวรรคและสัญลักษณ์ที่ใช้แบ่งคำ
-              const words = fieldValue.split(/[\s\-\/]+/);
-          
-              // ตรวจสอบว่ามีคำที่ขึ้นต้นด้วย searchText หรือไม่
-              return words.some(word => word.startsWith(searchTextNormalized));
-            });
-        }                   
+            return fieldValue.includes(searchTextNormalized);
+          });
+        }                        
 
         DeletePaper(paper_researcher_id: any) {
-            const body = { paper_researcher_id: paper_researcher_id };
-            this.researchService.DeletePaper(body).subscribe(result => {
-                if (result.alert == 'Delete success') {
+          Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+          }).then((result) => {
+            if (result.isConfirmed) {
+              const body = { paper_researcher_id: paper_researcher_id };
+              this.researchService.DeletePaper(body).subscribe((response) => {
+                if (response.alert == 'Delete success') {
                   Swal.fire({
-                    title: "Are you sure?",
-                    text: "You won't be able to revert this!",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Yes, delete it!"
-                  }).then((result) => {
-                    if (result.isConfirmed) {
-                      Swal.fire({
-                        title: "Deleted!",
-                        text: "Your file has been deleted.",
-                        icon: "success"
-                      });
-                    }
+                    title: "Deleted!",
+                    text: "Your file has been deleted.",
+                    icon: "success"
                   });
                 } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'Something went wrong! Please try again.'
-                    });
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Something went wrong! Please try again.'
+                  });
                 }
                 this.SelectPaper();
-            });
+              });
+            }
+          });
         }
+        
 
         editPaper(paper_researcher_id: number): void {
           this.selectedPaper = this.paperdetail.find(paper => paper.paper_researcher_id === paper_researcher_id) || null;
           
           if (this.selectedPaper) {
-            this.EditPaperForm.patchValue({
+            this.PaperForm.patchValue({
               paper_researcher_id: this.selectedPaper.paper_researcher_id,
               title_thai: this.selectedPaper.title_thai ,
               title_english: this.selectedPaper.title_english ,
@@ -210,17 +209,31 @@ export class ResearchComponent implements OnInit{
               fiscal_year: this.selectedPaper.fiscal_year ,
               academic_year: this.selectedPaper.academic_year,
             });
+
+            this.searchResearchers = '';  
+            this.filteredResearchers = []; 
+            this.selectedAuthorName = this.selectedPaper.name; 
         
             const modal = new Modal(document.getElementById('editPaperModal')!);
             modal.show();
           }
         }
-        
-        
+               
         updatePaper(): void {
           if (!this.selectedPaper) return;
         
-          const updatedData = this.EditPaperForm.value;
+          const updatedData = this.PaperForm.value;
+
+          const hasChanges = this.hasChanges(updatedData);
+
+          if (!hasChanges) {
+            Swal.fire({
+              icon: 'warning',
+              title: 'ไม่มีการเปลี่ยนแปลง!',
+              text: 'ข้อมูลที่คุณกรอกไม่แตกต่างจากข้อมูลเดิม'
+            });
+            return; 
+          }
         
           this.researchService.UpdatePaper(updatedData).subscribe({
             next: (response) => {
@@ -229,9 +242,9 @@ export class ResearchComponent implements OnInit{
                 title: 'Updated Successfully',
                 text: 'งานวิจัยได้รับการอัปเดตเรียบร้อยแล้ว'
               });
-              this.SelectPaper(); // โหลดข้อมูลใหม่หลังอัปเดต
+              this.SelectPaper(); 
               const modal = Modal.getInstance(document.getElementById('editPaperModal')!)!;
-              modal.hide(); // ปิด Modal หลังอัปเดต
+              modal.hide(); 
             },
             error: (error) => {
               Swal.fire({
@@ -252,15 +265,90 @@ export class ResearchComponent implements OnInit{
         }
   
         updateNumberOfWorkloads(): void {
-          const workload_count = this.EditPaperForm.get('workload_count')?.value || 0;
-          const proportion = this.EditPaperForm.get('proportion')?.value || 0;
+          const workload_count = this.PaperForm.get('workload_count')?.value || 0;
+          const proportion = this.PaperForm.get('proportion')?.value || 0;
         
           const number_of_workloads = (workload_count * proportion) / 100;
         
-          this.EditPaperForm.patchValue({ number_of_workloads: number_of_workloads.toFixed(2) });
+          this.PaperForm.patchValue({ number_of_workloads: number_of_workloads.toFixed(2) });
         }
-            
+         
         
+        hasChanges(updatedData: any): boolean {
+          if (!this.selectedPaper) return false;
+        
+          return updatedData.title_thai !== this.selectedPaper.title_thai ||
+                 updatedData.title_english !== this.selectedPaper.title_english ||
+                 updatedData.name !== this.selectedPaper.name ||
+                 updatedData.author_role !== this.selectedPaper.author_role ||
+                 updatedData.workload_year_id !== this.selectedPaper.workload_year_id ||
+                 updatedData.workload_count !== this.selectedPaper.workload_count ||
+                 updatedData.proportion !== this.selectedPaper.proportion ||
+                 updatedData.number_of_workloads !== this.selectedPaper.number_of_workloads ||
+                 updatedData.journal_or_conference_name !== this.selectedPaper.journal_or_conference_name ||
+                 updatedData.type_id !== this.selectedPaper.type_id ||
+                 updatedData.publication_year !== this.selectedPaper.publication_year ||
+                 updatedData.issue_number !== this.selectedPaper.issue_number ||
+                 updatedData.start_date !== this.selectedPaper.start_date ||
+                 updatedData.end_date !== this.selectedPaper.end_date ||
+                 updatedData.ISSN_or_ISBN !== this.selectedPaper.ISSN_or_ISBN ||
+                 updatedData.page_range !== this.selectedPaper.page_range ||
+                 updatedData.academic_quality !== this.selectedPaper.academic_quality ||
+                 updatedData.quartile_id !== this.selectedPaper.quartile_id ||
+                 updatedData.link !== this.selectedPaper.link ||
+                 updatedData.Remark !== this.selectedPaper.Remark ||
+                 updatedData.detail !== this.selectedPaper.detail ||
+                 updatedData.thai_calender_year !== this.selectedPaper.thai_calender_year ||
+                 updatedData.fiscal_year !== this.selectedPaper.fiscal_year ||
+                 updatedData.academic_year !== this.selectedPaper.academic_year;
+        }
+
+        isInvalid(controlName: string): boolean {
+          const control = this.PaperForm.get(controlName);
+          return !!(control && control.invalid && (control.dirty || control.touched));
+        }
+        
+        onSubmit() {
+                    this.PaperForm.markAllAsTouched();
+                    if (this.PaperForm.invalid) {
+                      Swal.fire({
+                        icon: 'warning',
+                        title: 'กรุณากรอกข้อมูลให้ครบถ้วน!',
+                        text: 'กรุณากรอกข้อมูลที่จำเป็นทั้งหมด',
+                      });
+                      return;  
+                    }
+        
+                    this.researchService.insertPaperData(this.PaperForm.value).subscribe({
+                      next: (response) => {
+                        if (response.alert && response.alert === "Researcher name not found.") {
+                          Swal.fire({
+                            icon: 'error',
+                            title: 'ไม่พบชื่อผู้วิจัย!',
+                            text: 'โปรดตรวจสอบชื่อผู้วิจัยอีกครั้ง',
+                          });
+                          return;
+                        }
+                        Swal.fire({
+                          icon: 'success',
+                          title: 'เพิ่มข้อมูลสำเร็จ!',
+                          text: 'The paper data has been added successfully.',
+                        });
+                      },
+                      error: (error) => {
+                        Swal.fire({
+                          icon: 'error',
+                          title: 'เกิดข้อผิดพลาด!',
+                          text: 'ไม่สามารถบันทึกข้อมูลได้ กรุณาลองใหม่',
+                        });
+                      }
+                    });
+                    
+                  } 
+
+                  Closemodal(){
+                    this.PaperForm.reset(); 
+                  }
 }
 
 

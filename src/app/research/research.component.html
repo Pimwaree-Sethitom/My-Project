@@ -9,6 +9,390 @@
           <option value="name">ผู้แต่ง</option>
           <option value="thai_calender_year">ปีพ.ศ.</option>
         </select>
+
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary ms-3" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="Closemodal()">
+          เพิ่มข้อมูลงานวิจัย
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-xl modal-dialog-scrollable">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">เพิ่มข้อมูลงานวิจัย</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <form [formGroup]="PaperForm" (ngSubmit)="onSubmit()">
+                  <div class="row mb-3">
+                    <label for="title_thai" class="col-sm-2 col-form-label fw-bold">ชื่อเรื่องภาษาไทย</label>
+                    <div class="col-sm-10">
+                      <input 
+                        type="text" 
+                        class="form-control shadow-sm" 
+                        id="title_thai" 
+                        formControlName="title_thai"
+                        [ngClass]="{'is-invalid': isInvalid('title_thai')}"
+                        />
+                        <div class="invalid-feedback">
+                          กรุณากรอกชื่อเรื่องภาษาไทย
+                        </div>                        
+                    </div>
+                  </div>
+                  
+                  <div class="row mb-3">
+                    <label for="title_english" class="col-sm-2 col-form-label fw-bold">ชื่อเรื่องภาษาอังกฤษ</label>
+                    <div class="col-sm-10">
+                      <input 
+                        type="text" 
+                        class="form-control shadow-sm" 
+                        id="title_english" 
+                        formControlName="title_english"
+                        [ngClass]="{'is-invalid': isInvalid('title_english')}"
+                        />
+                        <div class="invalid-feedback">
+                          กรุณากรอกชื่อเรื่องภาษาอังกฤษ
+                        </div> 
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">                 
+                    <div class="col-sm-6">
+                      <label for="name" class="form-label fw-bold">ชื่อผู้แต่ง</label>
+                      <input 
+                        type="text" 
+                        class="form-control shadow-sm" 
+                        id="name" formControlName="name" 
+                        [(ngModel)]="searchResearchers" 
+                        (input)="SearchResearchers()"
+                        [ngClass]="{'is-invalid': isInvalid('name')}"
+                        />                    
+                      <ul *ngIf="searchResearchers && filteredResearchers.length > 0" class="list-group mt-2">
+                        <li *ngFor="let researcher of filteredResearchers" (click)="selectResearcher(researcher)" 
+                            class="list-group-item">
+                          {{ researcher.name }}
+                        </li>
+                      </ul>
+                      <div class="invalid-feedback">
+                        กรุณาเลือกชื่อผู้แต่ง
+                      </div> 
+                    </div>     
+
+                    <div class="col-sm-6">
+                      <label for="author_role" class="form-label fw-bold">ลำดับบทบาท</label>
+                      <select 
+                        class="form-select shadow-sm" 
+                        id="author_role" 
+                        formControlName="author_role"
+                        [ngClass]="{'is-invalid': isInvalid('author_role')}"
+                        >
+                        <option value="First">First</option>
+                        <option value="Corr">Corr</option>
+                        <option value="Co">Co</option>
+                      </select>
+                      <div class="invalid-feedback">
+                        กรุณาเลือกบทบาทของผู้แต่ง
+                      </div> 
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <div class="col">
+                      <label for="workload_year_id" class="form-label fw-bold">หัวข้อภาระงาน</label>
+                      <select 
+                        class="form-select shadow-sm" 
+                        id="workload_year_id" 
+                        formControlName="workload_year_id"
+                        [ngClass]="{'is-invalid': isInvalid('workload_year_id')}"
+                        >
+                        <option *ngFor="let data of filteredWorkload" [value]="data.workload_year_id">
+                          {{ data.workload_topic }}
+                        </option>
+                      </select>
+                      <div class="invalid-feedback">
+                        กรุณาเลือกหัวข้อภาระงาน
+                      </div> 
+                    </div>
+                  
+                    <div class="col">
+                      <label for="workload_count" class="form-label fw-bold">จำนวนนับภาระงาน</label>
+                      <input 
+                        type="number" 
+                        class="form-control shadow-sm" 
+                        id="workload_count" 
+                        formControlName="workload_count" 
+                        [ngClass]="{'is-invalid': isInvalid('workload_count')}"
+                        readonly
+                        />
+                        <div class="invalid-feedback">
+                          กรุณากำหนดหัวข้อภาระงาน
+                        </div>
+                    </div>
+                  
+                    <div class="col">
+                      <label for="proportion" class="form-label fw-bold">สัดส่วน</label>
+                      <input 
+                        type="text" 
+                        class="form-control shadow-sm" 
+                        id="proportion" 
+                        formControlName="proportion" 
+                        [ngClass]="{'is-invalid': isInvalid('proportion')}"
+                        />
+                        <div class="invalid-feedback">
+                          กรุณากรอกสัดส่วน
+                        </div>
+                    </div>
+                  
+                    <div class="col">
+                      <label for="number_of_workloads" class="form-label fw-bold">จำนวนภาระงาน</label>
+                      <input 
+                        type="text" 
+                        class="form-control shadow-sm" 
+                        id="number_of_workloads" 
+                        formControlName="number_of_workloads" 
+                        [ngClass]="{'is-invalid': isInvalid('number_of_workloads')}"
+                        readonly
+                        />
+                        <div class="invalid-feedback">
+                          กรุณากำหนดหัวข้อภาระงานและกรอกสัดส่วน
+                        </div>
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="journal_or_conference_name" class="col-sm-2 col-form-label fw-bold">ชื่อวารสาร/การประชุมวิชาการ</label>
+                    <div class="col-sm-10">
+                      <input 
+                        type="text" 
+                        class="form-control shadow-sm" 
+                        id="journal_or_conference_name" 
+                        formControlName="journal_or_conference_name"
+                        [ngClass]="{'is-invalid': isInvalid('journal_or_conference_name')}"
+                        />
+                        <div class="invalid-feedback">
+                          กรุณากรอกชื่อวารสารหรือการประชุมวิชาการ
+                        </div>
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <div class="col-sm-6">
+                      <label for="type_id" class="form-label fw-bold">ประเภทงานวิจัย</label>
+                      <select 
+                        class="form-select shadow-sm" 
+                        id="type_id" 
+                        formControlName="type_id"
+                        [ngClass]="{'is-invalid': isInvalid('type_id')}"
+                        >
+                        <option value="1">วารสารระดับชาติ</option>
+                        <option value="2">วารสารระดับนานาชาติ</option>
+                        <option value="5">วารสารระดับภูมิภาค (ACI)</option>
+                        <option value="3">การประชุมวิชาการระดับชาติ</option>
+                        <option value="4">การประชุมวิชาการระดับนานาชาติ</option>
+                      </select>
+                      <div class="invalid-feedback">
+                        กรุณาเลือกประเภทงานวิจัย
+                      </div>
+                    </div>
+                    <div class="col-sm-3">
+                      <label for="publication_year" class="form-label fw-bold">ปีที่</label>
+                      <input 
+                        type="text" 
+                        class="form-control shadow-sm" 
+                        id="publication_year" 
+                        formControlName="publication_year"
+                        [ngClass]="{'is-invalid': isInvalid('publication_year')}"
+                        />
+                        <div class="invalid-feedback">
+                          กรุณากรอกข้อมูลปีที่
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                      <label for="issue_number" class="form-label fw-bold">ฉบับที่</label>
+                      <input 
+                        type="text" 
+                        class="form-control shadow-sm" 
+                        id="issue_number" 
+                        formControlName="issue_number"
+                        [ngClass]="{'is-invalid': isInvalid('issue_number')}"
+                        />
+                        <div class="invalid-feedback">
+                          กรุณากรอกข้อมูลฉบับที่
+                        </div>
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <div class="col-sm-6">
+                      <label for="start_date" class="form-label fw-bold">วันเผยแพร่</label>
+                      <input 
+                        type="date" 
+                        class="form-control shadow-sm" 
+                        id="start_date" 
+                        formControlName="start_date"
+                        [ngClass]="{'is-invalid': isInvalid('start_date')}"
+                        />
+                        <div class="invalid-feedback">
+                          กรุณาเลือกวันที่เผยแพร่
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <label for="end_date" class="form-label fw-bold">วันสิ้นสุด กรณี การประชุมวิชาการ</label>
+                      <input 
+                        type="date" 
+                        class="form-control shadow-sm" 
+                        id="end_date" 
+                        formControlName="end_date"
+                        [ngClass]="{'is-invalid': isInvalid('end_date')}"
+                        />
+                        <div class="invalid-feedback">
+                          กรุณาเลือกวันที่สิ้นสุด
+                        </div>
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <div class="col-sm-4">
+                      <label for="ISSN_or_ISBN" class="form-label fw-bold">ISSN/ISBN</label>
+                      <input 
+                        type="text" 
+                        class="form-control shadow-sm" 
+                        id="ISSN_or_ISBN" 
+                        formControlName="ISSN_or_ISBN"
+                        [ngClass]="{'is-invalid': isInvalid('ISSN_or_ISBN')}"
+                        >
+                        <div class="invalid-feedback">
+                          กรุณากรอกหมายเลข ISSN หรือ ISBN 
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                      <label for="page_range" class="form-label fw-bold">Page</label>
+                      <input 
+                        type="text" 
+                        class="form-control shadow-sm" 
+                        id="page_range" 
+                        formControlName="page_range"
+                        [ngClass]="{'is-invalid': isInvalid('page_range')}"
+                        >
+                        <div class="invalid-feedback">
+                          กรุณากรอกหมายเลขหน้า
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                      <label for="academic_quality" class="form-label fw-bold">คุณภาพผลงาน</label>
+                      <input 
+                        type="text" 
+                        class="form-control shadow-sm" 
+                        id="academic_quality" 
+                        formControlName="academic_quality"
+                        [ngClass]="{'is-invalid': isInvalid('academic_quality')}"
+                        >
+                        <div class="invalid-feedback">
+                          กรุณากรอกคุณภาพผลงาน
+                        </div>
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <div class="col-md-6">
+                      <label for="quartile_id" class="form-label">Rank</label>
+                      <select 
+                        class="form-select" 
+                        id="quartile_id" 
+                        formControlName="quartile_id"
+                        [ngClass]="{'is-invalid': isInvalid('quartile_id')}"
+                        >
+                        <option value="1">ไม่มีฐานข้อมูล</option>
+                        <option value="2">ฐานข้อมูล Scopus แต่ไม่จัดอันดับควอไทล์</option>
+                        <option value="3">ฐานข้อมูล Scopus Q1</option>
+                        <option value="4">ฐานข้อมูล Scopus Q2</option>
+                        <option value="5">ฐานข้อมูล Scopus Q3</option>
+                        <option value="6">ฐานข้อมูล Scopus Q4</option>
+                        <option value="7">ฐานข้อมูล TCI กลุ่ม 1</option>
+                        <option value="8">ฐานข้อมูล TCI กลุ่ม 2</option>
+                      </select>
+                      <div class="invalid-feedback">
+                        กรุณาเลือก Rank
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <label for="link" class="form-label">Link</label>
+                      <input 
+                        type="text" 
+                        class="form-control" 
+                        id="link" 
+                        formControlName="link"
+                        [ngClass]="{'is-invalid': isInvalid('link')}"
+                        >
+                        <div class="invalid-feedback">
+                          กรุณากรอกลิ้งค์
+                        </div>
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <div class="col-md-6">
+                      <label for="Remark" class="form-label">หมายเหตุ</label>
+                      <input type="text" class="form-control" id="Remark" formControlName="Remark">
+                    </div>
+                    <div class="col-md-6">
+                      <label for="detail" class="form-label">รายละเอียด</label>
+                      <input type="text" class="form-control" id="detail" formControlName="detail">
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <div class="col-sm-4">
+                      <label for="thai_calender_year" class="form-label fw-bold">ปี พ.ศ.</label>
+                      <input 
+                        type="text" 
+                        class="form-control shadow-sm" 
+                        id="thai_calender_year" 
+                        formControlName="thai_calender_year"
+                        [ngClass]="{'is-invalid': isInvalid('thai_calender_year')}"
+                        >
+                        <div class="invalid-feedback">
+                          กรุณากรอกปี พ.ศ.
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                      <label for="fiscal_year" class="form-label fw-bold">ปีงบประมาณ</label>
+                      <input 
+                        type="text" 
+                        class="form-control shadow-sm" 
+                        id="fiscal_year" 
+                        formControlName="fiscal_year"
+                        [ngClass]="{'is-invalid': isInvalid('fiscal_year')}"
+                        >
+                        <div class="invalid-feedback">
+                          กรุณากรอกปีงบประมาณ
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                      <label for="academic_year" class="form-label fw-bold">ปีการศึกษา</label>
+                      <input 
+                        type="text" 
+                        class="form-control shadow-sm" 
+                        id="academic_year" 
+                        formControlName="academic_year"
+                        [ngClass]="{'is-invalid': isInvalid('academic_year')}"
+                        >
+                        <div class="invalid-feedback">
+                          กรุณากรอกปีการศึกษา
+                        </div>
+                    </div>
+                  </div>
+
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+                    <button type="submit" class="btn btn-primary" >บันทึก</button>
+                  </div>
+                </form>
+              </div>   
+            </div>
+          </div>
+        </div>
       </div>
       
       <table class="table mt-5">
@@ -44,7 +428,7 @@
           </div>
           <div class="modal-body" >
             <!-- Form for editing the paper details -->
-            <form [formGroup]="EditPaperForm" >
+            <form [formGroup]="PaperForm" >
 
               <div class="row mb-3">
                 <label for="title_thai" class="col-sm-2 col-form-label fw-bold">ชื่อเรื่องภาษาไทย</label>
@@ -61,16 +445,22 @@
               </div>
           
               <div class="row mb-3">
+                <!-- ชื่อผู้แต่ง -->
                 <div class="col-sm-6">
                   <label for="name" class="form-label fw-bold">ชื่อผู้แต่ง</label>
-                  <input type="text" class="form-control shadow-sm" id="name" formControlName="name" [(ngModel)]="searchResearchers" (input)="SearchResearchers()">
+                  <input type="text" class="form-control shadow-sm" id="name" formControlName="name" 
+                         [(ngModel)]="searchResearchers" (input)="SearchResearchers()">
+                  
+                  <!-- แสดงรายการที่ค้นหาผู้แต่ง -->
                   <ul *ngIf="searchResearchers && filteredResearchers.length > 0" class="list-group mt-2">
-                    <li *ngFor="let researcher of filteredResearchers" (click)="selectResearcher(researcher)" class="list-group-item">
-                      {{ researcher.name }} 
+                    <li *ngFor="let researcher of filteredResearchers" (click)="selectResearcher(researcher)" 
+                        class="list-group-item">
+                      {{ researcher.name }}
                     </li>
                   </ul>
-                </div>      
-          
+                </div>
+              
+                <!-- ลำดับบทบาท -->
                 <div class="col-sm-6">
                   <label for="author_role" class="form-label fw-bold">ลำดับบทบาท</label>
                   <select class="form-select shadow-sm" id="author_role" formControlName="author_role">
@@ -79,7 +469,7 @@
                     <option value="Co">Co</option>
                   </select>
                 </div>
-              </div>
+              </div> 
           
               <div class="row mb-3">
                 <div class="col">

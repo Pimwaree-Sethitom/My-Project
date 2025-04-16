@@ -150,6 +150,17 @@ export class AdminComponent implements OnInit {
   
     this.apiService.updateUser(updatedData).subscribe({
       next: (response) => {
+        // ตรวจสอบว่า API ส่งกลับว่า "ข้อมูลซ้ำ" หรือไม่
+        if (response.alert === 'ข้อมูลนี้มีอยู่แล้วในระบบ.') {
+          Swal.fire({
+              icon: 'error',
+              title: 'ข้อมูลซ้ำ!',
+              text: 'ข้อมูลผู้ใช้งานนี้มีอยู่แล้วในระบบ',
+          });
+          return; // หยุดการทำงานต่อ
+      }
+      // ถ้าข้อมูลไม่ซ้ำ ทำการรีเซ็ตฟอร์มและแสดงข้อความสำเร็จ
+      this.userForm.reset();
         Swal.fire({
           icon: 'success',
           title: 'เสร็จสิ้น!',
@@ -170,17 +181,17 @@ export class AdminComponent implements OnInit {
   }
   
  
-  hasChanges(updatedData: any): boolean {
-    if (!this.selectedResearch) {
-      return false;
-    }
-  
-    return updatedData.name !== this.selectedResearch.name || 
-           updatedData.name_department_eng !== this.selectedResearch.name_department_eng ||
-           updatedData.name_department_thai !== this.selectedResearch.name_department_thai ||
-           updatedData.remark !== this.selectedResearch.remark ||
-           updatedData.role_id !== this.selectedResearch.role_id;
-  }  
+        hasChanges(updatedData: any): boolean {
+          if (!this.selectedResearch) {
+            return false;
+          }
+        
+          return updatedData.name !== this.selectedResearch.name || 
+                updatedData.name_department_eng !== this.selectedResearch.name_department_eng ||
+                updatedData.name_department_thai !== this.selectedResearch.name_department_thai ||
+                updatedData.remark !== this.selectedResearch.remark ||
+                updatedData.role_id !== this.selectedResearch.role_id;
+        }  
   
           deleteUser(researcher_id: any) {
             const body = { researcher_id: researcher_id };
