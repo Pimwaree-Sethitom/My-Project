@@ -12,6 +12,9 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { AutoCompleteModule } from 'primeng/autocomplete';
+import { TableModule } from 'primeng/table';
+import { NgSelectModule } from '@ng-select/ng-select';   
+
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -26,5 +29,7 @@ bootstrapApplication(AppComponent, {
     NgbModule,
     NgbDropdownModule,
     AutoCompleteModule,
+    TableModule,
+    NgSelectModule
   ]
 }).catch(err => console.error(err));

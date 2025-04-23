@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Modal } from 'bootstrap';
-
+import {NgSelectModule, NgOption} from '@ng-select/ng-select';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -18,6 +18,7 @@ import Swal from 'sweetalert2';
              RouterModule, 
              FormsModule,
              ReactiveFormsModule,
+             NgSelectModule, 
           ], 
   templateUrl: './research.component.html',
   styleUrl: './research.component.css',
@@ -344,11 +345,11 @@ export class ResearchComponent implements OnInit{
                       }
                     });
                     
-                  } 
+        } 
 
-                  Closemodal(){
+        Closemodal(){
                     this.PaperForm.reset(); 
-                  }
+        }
 }
 
 
