@@ -24,6 +24,10 @@ export class ResearchService {
         return this.http.get<Workload[]>('http://localhost/rms-api/workload_select.php');
       }
 
+    InsertWorkload() {
+      
+    }
+
     DeletePaper(paper_researcher_id:any){
         return this.http.post<outputDeletePaper>('http://localhost/rms-api/paper_delete.php',paper_researcher_id)
        }
@@ -84,6 +88,10 @@ export interface  Workload{
   workload_topic: string;
   workload_count: number;
   workload_year: string;
+}
+
+export interface outputInsertWorkload{
+  alert: string;
 }
 
 export interface outputDeletePaper{

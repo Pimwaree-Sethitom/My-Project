@@ -54,6 +54,14 @@
                         <div class="invalid-feedback">
                           กรุณากรอกชื่อเรื่องภาษาอังกฤษ
                         </div> 
+
+                        <div 
+                        class="text-danger mt-1" 
+                        *ngIf="PaperForm.errors?.['atLeastOneRequired'] && 
+                          (PaperForm.get('title_thai')?.touched || PaperForm.get('title_english')?.touched)">
+                        กรุณากรอกชื่อเรื่องภาษาไทยหรืออังกฤษ อย่างน้อย 1 ช่อง
+                      </div>
+
                     </div>
                   </div>
 

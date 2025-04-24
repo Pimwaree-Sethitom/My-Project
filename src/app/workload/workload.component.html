@@ -1,0 +1,73 @@
+<div class="container mt-5">
+    <table class="table mt-5">
+      <thead>
+        <tr>
+          <th scope="col">ที่</th>
+          <th scope="col">หัวข้อภาระงาน</th>
+          <th scope="col">จำนวนนับภาระงาน</th>
+          <th scope="col">ปีภาระงาน</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody class="table-group-divider">
+        <tr *ngFor="let data of filteredWorkload">
+          <td scope="col">{{ data.workload_year_id }}</td>
+          <td>{{ data.workload_topic || 'ไม่มีข้อมูล' }}</td>
+          <td>{{ data.workload_count || 'ไม่มีข้อมูล' }}</td>
+          <td>{{ data.workload_year || 'ไม่มีข้อมูล' }}</td>
+          <td><button class="btn btn-danger">ลบ</button></td>
+          <td><button class="btn btn-warning">แก้ไข</button></td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <!-- ปุ่มอยู่มุมขวาล่าง -->
+    <div class="d-flex justify-content-end mt-3 mb-5">
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        เพิ่มข้อมูลภาระงาน
+      </button>
+    </div>
+  
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog ">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">เพิ่มข้อมูลภาระงาน</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form [formGroup]="workloadForm" (ngSubmit)="onSubmit()">
+                <div class="form-group row align-items-center mb-3">
+                  <label for="workload_topic" class="col-4 col-form-label fw-bold">หัวข้อภาระงาน</label>
+                  <div class="col-8">
+                    <input type="text" class="form-control form-control-sm shadow-sm" id="workload_topic" formControlName="workload_topic">
+                  </div>
+                </div>
+              
+                <div class="form-group row align-items-center mb-3">
+                  <label for="workload_count" class="col-4 col-form-label fw-bold">จำนวนนับภาระงาน</label>
+                  <div class="col-8">
+                    <input type="text" class="form-control form-control-sm shadow-sm" id="workload_count" formControlName="workload_count">
+                  </div>
+                </div>
+
+                <div class="form-group row align-items-center mb-3">
+                    <label for="workload_year" class="col-4 col-form-label fw-bold">ปีภาระงาน</label>
+                    <div class="col-8">
+                      <input type="text" class="form-control form-control-sm shadow-sm" id="workload_year" formControlName="workload_year">
+                    </div>
+                  </div>
+
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+                    <button type="button" class="btn btn-primary">บันทึก</button>
+                  </div>
+              </form>              
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

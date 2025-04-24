@@ -9,6 +9,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Modal } from 'bootstrap';
 import {NgSelectModule, NgOption} from '@ng-select/ng-select';
 import Swal from 'sweetalert2';
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 @Component({
   selector: 'app-research',
@@ -67,7 +68,7 @@ export class ResearchComponent implements OnInit{
             thai_calender_year: ['', Validators.required],
             fiscal_year: ['', Validators.required],
             academic_year: ['', Validators.required],
-          });
+          }, { validators: this.atLeastOneTitleValidator()});  
         }
 
         ngOnInit(): void { 
@@ -178,7 +179,6 @@ export class ResearchComponent implements OnInit{
           });
         }
         
-
         editPaper(paper_researcher_id: number): void {
           this.selectedPaper = this.paperdetail.find(paper => paper.paper_researcher_id === paper_researcher_id) || null;
           
@@ -224,28 +224,38 @@ export class ResearchComponent implements OnInit{
           if (!this.selectedPaper) return;
         
           const updatedData = this.PaperForm.value;
-
+        
           const hasChanges = this.hasChanges(updatedData);
-
+        
           if (!hasChanges) {
             Swal.fire({
               icon: 'warning',
               title: 'ไม่มีการเปลี่ยนแปลง!',
               text: 'ข้อมูลที่คุณกรอกไม่แตกต่างจากข้อมูลเดิม'
             });
-            return; 
+            return;
           }
         
           this.researchService.UpdatePaper(updatedData).subscribe({
             next: (response) => {
+              // ตรวจสอบว่า response มี alert หรือไม่
+              if (response.alert) {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'ข้อผิดพลาด!',
+                  text: response.alert // แสดงข้อความ alert ที่ได้รับจาก PHP
+                });
+                return;
+              }
+        
               Swal.fire({
                 icon: 'success',
                 title: 'Updated Successfully',
                 text: 'งานวิจัยได้รับการอัปเดตเรียบร้อยแล้ว'
               });
-              this.SelectPaper(); 
+              this.SelectPaper();
               const modal = Modal.getInstance(document.getElementById('editPaperModal')!)!;
-              modal.hide(); 
+              modal.hide();
             },
             error: (error) => {
               Swal.fire({
@@ -257,7 +267,7 @@ export class ResearchComponent implements OnInit{
           });
         }
         
-        
+               
         SelectWorkload() {
           this.researchService.SelectWorkload().subscribe((data: Workload[]) => {
             this.workload = data;
@@ -273,8 +283,7 @@ export class ResearchComponent implements OnInit{
         
           this.PaperForm.patchValue({ number_of_workloads: number_of_workloads.toFixed(2) });
         }
-         
-        
+                 
         hasChanges(updatedData: any): boolean {
           if (!this.selectedPaper) return false;
         
@@ -310,46 +319,72 @@ export class ResearchComponent implements OnInit{
         }
         
         onSubmit() {
-                    this.PaperForm.markAllAsTouched();
-                    if (this.PaperForm.invalid) {
-                      Swal.fire({
-                        icon: 'warning',
-                        title: 'กรุณากรอกข้อมูลให้ครบถ้วน!',
-                        text: 'กรุณากรอกข้อมูลที่จำเป็นทั้งหมด',
-                      });
-                      return;  
-                    }
+          this.PaperForm.markAllAsTouched();
+          if (this.PaperForm.invalid) {
+            Swal.fire({
+              icon: 'warning',
+              title: 'กรุณากรอกข้อมูลให้ครบถ้วน!',
+              text: 'กรุณากรอกข้อมูลที่จำเป็นทั้งหมด',
+            });
+            return;  
+          }
         
-                    this.researchService.insertPaperData(this.PaperForm.value).subscribe({
-                      next: (response) => {
-                        if (response.alert && response.alert === "Researcher name not found.") {
-                          Swal.fire({
-                            icon: 'error',
-                            title: 'ไม่พบชื่อผู้วิจัย!',
-                            text: 'โปรดตรวจสอบชื่อผู้วิจัยอีกครั้ง',
-                          });
-                          return;
-                        }
-                        Swal.fire({
-                          icon: 'success',
-                          title: 'เพิ่มข้อมูลสำเร็จ!',
-                          text: 'The paper data has been added successfully.',
-                        });
-                      },
-                      error: (error) => {
-                        Swal.fire({
-                          icon: 'error',
-                          title: 'เกิดข้อผิดพลาด!',
-                          text: 'ไม่สามารถบันทึกข้อมูลได้ กรุณาลองใหม่',
-                        });
-                      }
-                    });
-                    
-        } 
+          this.researchService.insertPaperData(this.PaperForm.value).subscribe({
+            next: (response) => {
+              // ตรวจสอบข้อความ alert จาก response
+              if (response.alert === "Researcher name not found.") {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'ไม่พบชื่อผู้วิจัย!',
+                  text: 'โปรดตรวจสอบชื่อผู้วิจัยอีกครั้ง',
+                });
+                return;
+              } 
+              
+              if (response.alert === "This researcher is already assigned to the paper.") {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'ผู้วิจัยนี้ได้รับมอบหมายงานวิจัยแล้ว!',
+                  text: 'โปรดตรวจสอบการมอบหมายงานวิจัยอีกครั้ง',
+                });
+                return;
+              }
+        
+              Swal.fire({
+                icon: 'success',
+                title: 'เพิ่มข้อมูลสำเร็จ!',
+                text: 'The paper data has been added successfully.',
+              });
+            },
+            error: (error) => {
+              Swal.fire({
+                icon: 'error',
+                title: 'เกิดข้อผิดพลาด!',
+                text: 'ไม่สามารถบันทึกข้อมูลได้ กรุณาลองใหม่',
+              });
+            }
+          });
+        }        
 
         Closemodal(){
                     this.PaperForm.reset(); 
         }
+
+        atLeastOneTitleValidator(): ValidatorFn {
+          return (formGroup: AbstractControl): ValidationErrors | null => {
+            const titleThai = formGroup.get('title_thai')?.value?.trim();
+            const titleEnglish = formGroup.get('title_english')?.value?.trim();
+        
+            if (!titleThai && !titleEnglish) {
+              return { atLeastOneRequired: true };
+            }
+        
+            return null;
+          };
+        }
+        
+
+
 }
 
 

@@ -85,8 +85,7 @@ export class AdminComponent implements OnInit {
               }
           });
         }
-
-        
+      
         isInvalid(controlName: string): boolean {
           const control = this.userForm.get(controlName);
           return !!(control && control.invalid && (control.dirty || control.touched));
@@ -194,7 +193,7 @@ export class AdminComponent implements OnInit {
                 updatedData.role_id !== this.selectedResearch.role_id;
         }  
   
-          deleteUser(researcher_id: any) {
+        deleteUser(researcher_id: any) {
             const body = { researcher_id: researcher_id };
         
             // แสดงยืนยันการลบก่อน

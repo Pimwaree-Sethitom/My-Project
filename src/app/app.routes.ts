@@ -10,4 +10,5 @@ export const routes: Routes = [
   { path: 'link_dashboard', loadComponent: () => import('./dashboard/dashboard.component').then(m => m.DashboardComponent) },
   {path: 'link_insert-paper' , loadComponent: () => import('./insert-paper/insert-paper.component').then(m => m.InsertPaperComponent)},
   {path: 'link_home' , loadComponent: () => import('./home/home.component').then(m => m.HomeComponent)},
+  {path: 'workload',loadComponent: () => import('./workload/workload.component').then(m => m.WorkloadComponent)},
 ];
