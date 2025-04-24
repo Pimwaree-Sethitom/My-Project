@@ -12,15 +12,25 @@
       <input type="text" class="form-control w-50 ms-2" placeholder="Search" [(ngModel)]="searchText" (input)="SearchResearchers()" />
         <select class="form-select w-25 ms-2" [(ngModel)]="searchField">
           <option value="name">ชื่อ-นามสกุล</option>
-          <option value="name_department_eng">Department (English)</option>
-          <option value="name_department_thai">Department (Thai)</option>
+          <option value="name_department_eng">Department (EN)</option>
+          <option value="name_department_thai">Department (TH)</option>
           <option value="role_name">สิทธิ์การใช้งาน</option>
         </select>
-        
-         <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary ms-3" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="Closemodal()">
-          เพิ่มข้อมูลผู้ใช้งาน
+       
+        <!-- ปุ่ม Add User (เปิด Modal) -->
+        <button 
+            type="button" 
+            class="btn btn-success ms-2" 
+            data-bs-toggle="modal" 
+            data-bs-target="#exampleModal" 
+            (click)="Closemodal()" 
+            title="เพิ่มข้อมูลผู้ใช้งาน"
+            >
+          <i class="bi bi-person-plus-fill"></i>
         </button>
+
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
         <!-- Modal -->
           <div class="modal fade" id="exampleModal" #exampleModal tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -146,33 +156,41 @@
 
       </div>
       
-    <table class="table mt-5">
-        <thead>
-            <tr>
-              <th scope="col">ที่</th>
-              <th scope="col">ชื่อ-นามสกุล</th>
-              <th scope="col">สาขา</th>
-              <th scope="col"> </th>
-              <th scope="col">สิทธิ์การใช้งาน</th>
-              <th scope="col">หมายเหตุ</th>
-              <th scope="col"></th>
-              <th scope="col"></th>
-            </tr>
+      <table class="table table-hover table-bordered rounded shadow-sm mt-5 align-middle text-center">
+        <thead class="table-dark">
+          <tr>
+            <th scope="col">ที่</th>
+            <th scope="col">ชื่อ-นามสกุล</th>
+            <th scope="col">ชื่อสาขา (EN)</th>
+            <th scope="col">ชื่อสาขา (TH)</th>
+            <th scope="col">สิทธิ์การใช้งาน</th>
+            <th scope="col">หมายเหตุ</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+          </tr>
         </thead>
-        <tbody class="table-group-divider">
-            <tr *ngFor="let data of filteredResearchers">
-                <td scope="col">{{data.researcher_id}}</td>
-                <td>{{data.name}}</td>
-                <td>{{data.name_department_eng || '-'}}</td>
-                <td>{{data.name_department_thai}}</td>
-                <td>{{data.role_name}}</td>
-                <td>{{data.remark || '-'}}</td>
-                <td><button class="btn btn-danger" (click)="deleteUser(data.researcher_id)">ลบ</button></td>
-                <td><button class="btn btn-danger" (click)="editUser(data.researcher_id)">แก้ไข</button></td>
-            </tr>
+        <tbody class="table-light">
+          <tr *ngFor="let data of filteredResearchers">
+            <td>{{ data.researcher_id }}</td>
+            <td>{{ data.name }}</td>
+            <td>{{ data.name_department_eng || '-' }}</td>
+            <td>{{ data.name_department_thai }}</td>
+            <td>{{ data.role_name }}</td>
+            <td>{{ data.remark || '-' }}</td>
+            <td>
+              <button class="btn btn-warning btn-sm" (click)="editUser(data.researcher_id)">
+                <i class="fa-solid fa-pen"></i>
+              </button>
+            </td>
+            <td>
+              <button class="btn btn-danger btn-sm" (click)="deleteUser(data.researcher_id)">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            </td>
+          </tr>
         </tbody>
-    </table>
-  
+      </table>
+      
 </div>
 
 <!-- Modal -->
