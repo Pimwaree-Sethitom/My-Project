@@ -1,59 +1,124 @@
-
-* {box-sizing: border-box;}
-
-body { 
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-}
-
+/* ปรับแต่ง Header */
 .header {
-  overflow: hidden;
-  background-color: #f1f1f1;
-  padding: 20px 10px;
-}
-
-.header a {
-  float: left;
-  color: black;
-  text-align: center;
-  padding: 12px;
-  text-decoration: none;
-  font-size: 18px; 
-  line-height: 25px;
-  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #0e0e59;
+  padding: 10px 20px;
+  flex-wrap: wrap; /* เพื่อให้จัดเรียงลงบรรทัดใหม่เมื่อหน้าจอเล็ก */
 }
 
 .header a.logo {
-  font-size: 25px;
+  font-size: 22px;
   font-weight: bold;
-}
-
-.header a:hover {
-  background-color: #ddd;
-  color: black;
-}
-
-.header a.active {
-  background-color: dodgerblue;
   color: white;
+  text-decoration: none;
 }
 
+.header a.logo:hover {
+  color: #f0e6f5;
+}
+
+/* ส่วนขวาของ Header */
 .header-right {
-  float: right;
+  display: flex;
+  align-items: center;
+  gap: 20px; /* เพิ่มช่องว่างระหว่างเมนูและรูปโปรไฟล์ */
 }
 
+/* เมนู Navbar */
+.navbar {
+  display: flex;
+  gap: 15px;
+}
+
+.navbar a {
+  text-decoration: none;
+  padding: 10px 15px;
+  font-size: 16px;
+  color: white;
+  background-color: transparent;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.navbar a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  width: 100%;
+  height: 2px;
+  background-color: white;
+  transform: scaleX(0);
+  transition: transform 0.3s ease-in-out;
+}
+
+.navbar a:hover::after {
+  transform: scaleX(1);
+}
+
+.navbar a:hover {
+  color: #f0e6f5;
+}
+
+/* รูปโปรไฟล์ */
+.profile-img {
+  width: 40px; /* ขนาดรูป */
+  height: 40px; /* ขนาดรูป */
+  border-radius: 50%; /* ทำให้รูปเป็นวงกลม */
+  border: 2px solid white; /* ขอบรูป */
+  object-fit: cover; /* ให้รูปไม่เสียหายหรือล้นออกจากกรอบ */
+  transition: transform 0.3s ease, border-color 0.3s ease; /* ทำให้มี transition เวลา hover */
+}
+
+.profile-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+}
+
+.profile-img:hover {
+  transform: scale(1.1); /* ขยายรูปนิดหน่อยเวลา hover */
+  border-color: #f0e6f5; /* เปลี่ยนสีขอบเมื่อ hover */
+}
+
+/* Responsive สำหรับหน้าจอเล็ก */
 @media screen and (max-width: 500px) {
-  .header a {
-    float: none;
-    display: block;
-    text-align: left;
+  .header {
+    flex-direction: column;
+    align-items: center;
   }
-  
+
   .header-right {
-    float: none;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    margin-top: 10px;
+  }
+
+  .navbar {
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .navbar a {
+    width: 100%;
+    text-align: center;
   }
 }
 
-.header-right .navbar a {
-  margin-left: 15px; /* เพิ่มระยะห่างระหว่างปุ่ม */
+.user-icon {
+  font-size: 24px;
+  color: white;
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.user-icon:hover {
+  color: #f0e6f5;
+  transform: scale(1.1);
 }

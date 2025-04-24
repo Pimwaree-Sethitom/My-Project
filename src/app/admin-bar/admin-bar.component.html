@@ -1,11 +1,16 @@
 <div class="header">
-        <a href="#default" class="logo">ระบบสารสนเทศเพื่อสนับสนุนการบริหารงานวิจัย</a>
-        <div class="header-right">
-            
-            <div class="navbar">
-              <a class="active" aria-current="page" [routerLink]="'/link_home'">หน้าแรก</a>
-                <a class="active" aria-current="page" [routerLink]="'/admin'">จัดการข้อมูลผู้ใช้</a>
-                <a class="active" aria-current="page" [routerLink]="'/link_dashboard'">รายงาน</a>
-              </div>
-        </div>
-      </div>
+  <a href="#default" class="logo">ระบบสารสนเทศเพื่อสนับสนุนการบริหารงานวิจัย</a>
+  <div class="header-right">
+      
+    <div class="navbar">
+      <a class="active" [routerLink]="'/link_home'">หน้าแรก</a>
+      <a class="active" [routerLink]="'/admin'">จัดการข้อมูลผู้ใช้</a>
+      <a class="active" [routerLink]="'/link_dashboard'">รายงาน</a>
+    </div>
+    <a class="profile-link" [routerLink]="'/login'">
+      <i class="fas fa-user user-icon"></i>
+    </a>
+  </div>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+</div>

@@ -98,6 +98,7 @@ export class AdminComponent implements OnInit {
 
         SelectResearchers() { 
           this.apiService.SelectUserData().subscribe((data: Researcher[]) => {
+            console.log('DATA:', data);
             this.researchers = data;
             this.filteredResearchers = data; 
           });

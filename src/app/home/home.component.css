@@ -1,0 +1,32 @@
+/* Section ที่แสดงรูปภาพแบบเต็มจอ */
+.hero-image-wrapper {
+    width: 100vw;
+    overflow: hidden;
+    margin-top: 20px;
+}
+
+.hero-image {
+    width: 100vw;
+    height: auto;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto;
+}
+
+/* ส่วนข้อความด้านล่าง */
+.hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 20px 40px;
+    text-align: center;
+    min-height: 50vh; /* ปรับความสูงตามความเหมาะสม */
+    box-sizing: border-box;
+}
+
+.hero-title {
+    font-size: 30px;
+    max-width: 1000px;
+    margin-top: 20px;
+}
