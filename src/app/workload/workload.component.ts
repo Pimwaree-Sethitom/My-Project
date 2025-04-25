@@ -15,6 +15,7 @@ import { AdminBarComponent } from '../admin-bar/admin-bar.component';
     RouterModule, 
     FormsModule,
     ReactiveFormsModule,
+    AdminBarComponent,
   ],
   templateUrl: './workload.component.html',
   styleUrl: './workload.component.css',

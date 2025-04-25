@@ -1,6 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ResearchBarComponent } from '../research-bar/research-bar.component';
 import { RouterModule } from '@angular/router';
 import { ResearchService , PaperDetail ,Workload,Researcher} from '../services/research.service';
 import { FormsModule } from '@angular/forms'; 
@@ -10,16 +9,17 @@ import { Modal } from 'bootstrap';
 import {NgSelectModule, NgOption} from '@ng-select/ng-select';
 import Swal from 'sweetalert2';
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { AdminBarComponent } from '../admin-bar/admin-bar.component';
 
 @Component({
   selector: 'app-research',
   standalone: true, 
   imports: [ CommonModule, 
-             ResearchBarComponent, 
              RouterModule, 
              FormsModule,
              ReactiveFormsModule,
              NgSelectModule, 
+             AdminBarComponent,
           ], 
   templateUrl: './research.component.html',
   styleUrl: './research.component.css',

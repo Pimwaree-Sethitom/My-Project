@@ -9,5 +9,5 @@ import { RouterModule } from '@angular/router';
   styleUrl: './admin-bar.component.css'
 })
 export class AdminBarComponent {
-
+    
 }
