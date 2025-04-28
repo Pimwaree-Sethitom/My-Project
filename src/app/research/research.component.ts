@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { ResearchService , PaperDetail ,Workload,Researcher} from '../services/research.service';
+import { ResearchService , PaperDetail ,Workload,Researcher,ResearchType} from '../services/research.service';
 import { FormsModule } from '@angular/forms'; 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -30,11 +30,13 @@ export class ResearchComponent implements OnInit{
         paperdetail: PaperDetail[] = [];
         researchers: Researcher[] = [];
         workload: Workload[] = [];
+        researchType : ResearchType[] = [];
         searchText: string = ''; 
         searchField: keyof PaperDetail = 'title_thai';
         filteredResearchers: any[] = [];
         filteredPaperdetail: PaperDetail[] = []; 
         filteredWorkload: any[] = [];
+        filteredResearchType: any[] = [];
         selectedPaper: PaperDetail | null = null;
         workloadCount: string = '';
         selectedResearcher: any;
@@ -96,6 +98,7 @@ export class ResearchComponent implements OnInit{
           this.SelectPaper();
           this.SelectWorkload();
           this.SelectResearchers();
+          this.SelectResearchType();
         }
 
         SelectResearchers() {
@@ -274,6 +277,13 @@ export class ResearchComponent implements OnInit{
             this.filteredWorkload = data;  
           });
         }
+
+        SelectResearchType() {
+          this.researchService.SelectResearchType().subscribe((data: ResearchType[]) => {
+            this.researchType = data;
+            this.filteredResearchType = data;  
+          });
+        }
   
         updateNumberOfWorkloads(): void {
           const workload_count = this.PaperForm.get('workload_count')?.value || 0;
@@ -355,6 +365,7 @@ export class ResearchComponent implements OnInit{
                 title: 'เพิ่มข้อมูลสำเร็จ!',
                 text: 'The paper data has been added successfully.',
               });
+              this.SelectPaper();
             },
             error: (error) => {
               Swal.fire({

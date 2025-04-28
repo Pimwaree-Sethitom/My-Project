@@ -24,8 +24,12 @@ export class ResearchService {
         return this.http.get<Workload[]>('http://localhost/rms-api/workload_select.php');
       }
 
-    InsertWorkload() {
-      
+      SelectResearchType() {
+        return this.http.get<ResearchType[]>('http://localhost/rms-api/research_type_select.php');
+      }
+
+    InsertWorkload(WorkloadData: any) {
+      return this.http.post<outputInsertWorkload>('http://localhost/rms-api/workload_insert.php', WorkloadData);
     }
 
     DeletePaper(paper_researcher_id:any){
@@ -46,7 +50,6 @@ export interface PaperDetail {
   name_department_thai: string;
   type_id: number;
   type_name: string;
-  level: string;
   journal_or_conference_name: string;
   publication_year: string;
   issue_number: string;
@@ -88,6 +91,11 @@ export interface  Workload{
   workload_topic: string;
   workload_count: number;
   workload_year: string;
+}
+
+export interface  ResearchType{
+  type_id: number;
+  type_name: string;
 }
 
 export interface outputInsertWorkload{

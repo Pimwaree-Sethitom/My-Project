@@ -30,7 +30,7 @@ export class AdminComponent implements OnInit {
     this.userForm = this.fb.group({
       researcher_id: ['',[]],
       name: ['', Validators.required],
-      name_department_eng: ['', []],
+      name_department_eng: ['', Validators.required],
       name_department_thai: ['', Validators.required],
       role_id: ['', Validators.required],
       remark: ['',[]]

@@ -185,6 +185,7 @@
                   </div>
 
                   <div class="row mb-3">
+
                     <div class="col-sm-6">
                       <label for="type_id" class="form-label fw-bold">ประเภทงานวิจัย</label>
                       <select 
@@ -193,16 +194,15 @@
                         formControlName="type_id"
                         [ngClass]="{'is-invalid': isInvalid('type_id')}"
                         >
-                        <option value="1">วารสารระดับชาติ</option>
-                        <option value="2">วารสารระดับนานาชาติ</option>
-                        <option value="5">วารสารระดับภูมิภาค (ACI)</option>
-                        <option value="3">การประชุมวิชาการระดับชาติ</option>
-                        <option value="4">การประชุมวิชาการระดับนานาชาติ</option>
+                        <option *ngFor="let data of filteredResearchType" [value]="data.type_id">
+                          {{ data.type_name }}
+                        </option>
                       </select>
                       <div class="invalid-feedback">
                         กรุณาเลือกประเภทงานวิจัย
                       </div>
                     </div>
+
                     <div class="col-sm-3">
                       <label for="publication_year" class="form-label fw-bold">ปีที่</label>
                       <input 
@@ -516,11 +516,9 @@
                 <div class="col-sm-6">
                   <label for="type_id" class="form-label fw-bold">ประเภทงานวิจัย</label>
                   <select class="form-select shadow-sm" id="type_id" formControlName="type_id">
-                    <option value="1">วารสารระดับชาติ</option>
-                    <option value="2">วารสารระดับนานาชาติ</option>
-                    <option value="5">วารสารระดับภูมิภาค (ACI)</option>
-                    <option value="3">การประชุมวิชาการระดับชาติ</option>
-                    <option value="4">การประชุมวิชาการระดับนานาชาติ</option>
+                    <option *ngFor="let data of filteredResearchType" [value]="data.type_id">
+                      {{ data.type_name }}
+                    </option>
                   </select>
                 </div>
 

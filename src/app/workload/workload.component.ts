@@ -6,6 +6,8 @@ import { FormsModule } from '@angular/forms';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AdminBarComponent } from '../admin-bar/admin-bar.component';
+import Swal from 'sweetalert2';
+import { Modal } from 'bootstrap';
 
 @Component({
   selector: 'app-workload',
@@ -25,6 +27,7 @@ export class WorkloadComponent implements OnInit{
   workload: Workload[] = [];
   filteredWorkload: any[] = [];
   workloadForm: FormGroup;
+  selectedworkload: Workload | null = null;
 
   constructor(private fb: FormBuilder, private researchService: ResearchService) {
     this.workloadForm = this.fb.group({
@@ -35,18 +38,91 @@ export class WorkloadComponent implements OnInit{
     });  
   }
 
-  ngOnInit(): void { 
-    this.SelectWorkload();
-  }
+          ngOnInit(): void { 
+            this.SelectWorkload();
+          }
 
-  SelectWorkload() {
-    this.researchService.SelectWorkload().subscribe((data: Workload[]) => {
-      this.workload = data;
-      this.filteredWorkload = data;  
-    });
-  }
+          SelectWorkload() {
+            this.researchService.SelectWorkload().subscribe((data: Workload[]) => {
+              this.workload = data;
+              this.filteredWorkload = data;  
+            });
+          }
 
-  onSubmit(){
-    
-  }
+          isInvalid(controlName: string): boolean {
+                    const control = this.workloadForm.get(controlName);
+                    return !!(control && control.invalid && (control.dirty || control.touched));
+          }
+          
+          onSubmit() {
+            this.workloadForm.markAllAsTouched();
+            if (this.workloadForm.invalid) {
+              Swal.fire({
+                icon: 'warning',
+                title: 'กรุณากรอกข้อมูลให้ครบถ้วน!',
+                text: 'กรุณากรอกข้อมูลที่จำเป็นทั้งหมด',
+              });
+              return;  
+            }
+          
+            this.researchService.InsertWorkload(this.workloadForm.value).subscribe({
+              next: (response) => { 
+
+                if (response.alert === "ข้อมูลภาระงานนี้มีอยู่ในระบบแล้ว") {
+                                Swal.fire({
+                                  icon: 'error',
+                                  title: 'ข้อมูลซ้ำ!',
+                                  text: 'ข้อมูลภาระงานนี้มีอยู่ในระบบแล้ว',
+                                });
+                                return;
+                              } 
+
+                if (response.alert === "เพิ่มข้อมูลสำเร็จ") {
+                  Swal.fire({
+                    icon: 'success',
+                    title: 'เพิ่มข้อมูลสำเร็จ!',
+                    text: 'The paper data has been added successfully.',
+                  });
+                  return;
+                }
+                this.SelectWorkload();
+              },
+              error: (error) => {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'เกิดข้อผิดพลาด!',
+                  text: 'ไม่สามารถบันทึกข้อมูลได้ กรุณาลองใหม่',
+                });
+              }
+            });
+          }
+          
+          Closemodal(){
+            this.workloadForm.reset(); 
+          }
+
+          Delete(){
+
+          }
+
+          Edit(workload_year_id: number): void{
+            this.selectedworkload = this.workload.find(ww => ww.workload_year_id === workload_year_id) || null;
+
+            if (this.selectedworkload) {
+              this.workloadForm.patchValue({
+                workload_year_id: this.selectedworkload.workload_year_id,
+                workload_topic: this.selectedworkload.workload_topic ,
+                workload_count: this.selectedworkload.workload_count ,
+                workload_year: this.selectedworkload.workload_year ,
+              });
+              const modal = new Modal(document.getElementById('editModal')!);
+            modal.show();
+          }
+          }
+
+          Update(){
+
+          }
+
+
 }

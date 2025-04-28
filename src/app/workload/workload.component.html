@@ -17,15 +17,15 @@
           <td>{{ data.workload_topic || 'ไม่มีข้อมูล' }}</td>
           <td>{{ data.workload_count || 'ไม่มีข้อมูล' }}</td>
           <td>{{ data.workload_year || 'ไม่มีข้อมูล' }}</td>
-          <td><button class="btn btn-danger">ลบ</button></td>
-          <td><button class="btn btn-warning">แก้ไข</button></td>
+          <td><button class="btn btn-danger" >ลบ</button></td>
+          <td><button class="btn btn-warning" (click)="Edit(data.workload_year_id)">แก้ไข</button></td>
         </tr>
       </tbody>
     </table>
   
     <!-- ปุ่มอยู่มุมขวาล่าง -->
     <div class="d-flex justify-content-end mt-3 mb-5">
-      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="Closemodal()">
         เพิ่มข้อมูลภาระงาน
       </button>
     </div>
@@ -43,14 +43,32 @@
                 <div class="form-group row align-items-center mb-3">
                   <label for="workload_topic" class="col-4 col-form-label fw-bold">หัวข้อภาระงาน</label>
                   <div class="col-8">
-                    <input type="text" class="form-control form-control-sm shadow-sm" id="workload_topic" formControlName="workload_topic">
+                    <input 
+                      type="text" 
+                      class="form-control form-control-sm shadow-sm" 
+                      id="workload_topic" 
+                      formControlName="workload_topic"
+                      [ngClass]="{'is-invalid': isInvalid('workload_topic')}"
+                      />
+                      <div class="invalid-feedback">
+                        กรุณากรอกหัวข้อภาระงาน
+                      </div>    
                   </div>
                 </div>
               
                 <div class="form-group row align-items-center mb-3">
                   <label for="workload_count" class="col-4 col-form-label fw-bold">จำนวนนับภาระงาน</label>
                   <div class="col-8">
-                    <input type="text" class="form-control form-control-sm shadow-sm" id="workload_count" formControlName="workload_count">
+                    <input 
+                      type="text" 
+                      class="form-control form-control-sm shadow-sm" 
+                      id="workload_count" 
+                      formControlName="workload_count"
+                      [ngClass]="{'is-invalid': isInvalid('workload_count')}"
+                      />
+                      <div class="invalid-feedback">
+                        กรุณากรอกจำนวนนับภาระงาน
+                      </div>   
                   </div>
                 </div>
 
@@ -63,7 +81,66 @@
 
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
-                    <button type="button" class="btn btn-primary">บันทึก</button>
+                    <button type="submit" class="btn btn-primary">บันทึก</button>
+                  </div>
+              </form>              
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModal" aria-hidden="true">
+      <div class="modal-dialog ">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="editModal">เพิ่มข้อมูลภาระงาน</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form [formGroup]="workloadForm" (ngSubmit)="onSubmit()">
+                <div class="form-group row align-items-center mb-3">
+                  <label for="workload_topic" class="col-4 col-form-label fw-bold">หัวข้อภาระงาน</label>
+                  <div class="col-8">
+                    <input 
+                      type="text" 
+                      class="form-control form-control-sm shadow-sm" 
+                      id="workload_topic" 
+                      formControlName="workload_topic"
+                      [ngClass]="{'is-invalid': isInvalid('workload_topic')}"
+                      />
+                      <div class="invalid-feedback">
+                        กรุณากรอกหัวข้อภาระงาน
+                      </div>    
+                  </div>
+                </div>
+              
+                <div class="form-group row align-items-center mb-3">
+                  <label for="workload_count" class="col-4 col-form-label fw-bold">จำนวนนับภาระงาน</label>
+                  <div class="col-8">
+                    <input 
+                      type="text" 
+                      class="form-control form-control-sm shadow-sm" 
+                      id="workload_count" 
+                      formControlName="workload_count"
+                      [ngClass]="{'is-invalid': isInvalid('workload_count')}"
+                      />
+                      <div class="invalid-feedback">
+                        กรุณากรอกจำนวนนับภาระงาน
+                      </div>   
+                  </div>
+                </div>
+
+                <div class="form-group row align-items-center mb-3">
+                    <label for="workload_year" class="col-4 col-form-label fw-bold">ปีภาระงาน</label>
+                    <div class="col-8">
+                      <input type="text" class="form-control form-control-sm shadow-sm" id="workload_year" formControlName="workload_year">
+                    </div>
+                  </div>
+
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+                    <button type="submit" class="btn btn-primary">บันทึก</button>
                   </div>
               </form>              
           </div>
