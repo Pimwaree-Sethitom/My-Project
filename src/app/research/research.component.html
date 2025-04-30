@@ -10,10 +10,21 @@
           <option value="thai_calender_year">ปีพ.ศ.</option>
         </select>
 
-        <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary ms-3" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="Closemodal()">
-          เพิ่มข้อมูลงานวิจัย
-        </button>
+         <!-- ปุ่ม Add User (เปิด Modal) -->
+         <button 
+         type="button" 
+         class="btn btn-success ms-2" 
+         data-bs-toggle="modal" 
+         data-bs-target="#exampleModal" 
+         (click)="Closemodal()" 
+         title="เพิ่มข้อมูลผู้ใช้งาน"
+         >
+       <i class="bi bi-person-plus-fill"></i>
+     </button>
+
+     
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
 
         <!-- Modal -->
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -403,14 +414,16 @@
         </div>
       </div>
       
-      <table class="table mt-5">
-        <thead>
+      <table class="table table-hover table-bordered rounded shadow-sm mt-5 align-middle text-center">
+        <thead class="table-dark">
             <tr>
               <th scope="col">ที่</th>
               <th scope="col">ชื่อเรื่องภาษาไทย</th>
               <th scope="col">ชื่อเรื่องภาษาอังกฤษ</th>
               <th scope="col">ผู้แต่ง</th>
               <th scope="col">ปีพ.ศ.</th>
+              <th scope="col"> </th>
+              <th scope="col"> </th>
             </tr>
         </thead>
         <tbody class="table-group-divider">
@@ -420,8 +433,16 @@
                 <td>{{data.title_english || 'ไม่มีข้อมูล'}}</td>
                 <td>{{data.name}}</td>
                 <td>{{data.thai_calender_year}}</td>
-                <td><button class="btn btn-danger" (click)="DeletePaper(data.paper_researcher_id)" >Delete</button></td>
-                <td><button class="btn btn-danger" (click)="editPaper(data.paper_researcher_id)">Edit</button></td>
+                <td>
+                  <button class="btn btn-warning btn-sm" (click)="editPaper(data.paper_researcher_id)">
+                    <i class="fa-solid fa-pen"></i>
+                  </button>
+                </td>
+                <td>
+                  <button class="btn btn-danger btn-sm" (click)="DeletePaper(data.paper_researcher_id)">
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                </td>
               </tr>
         </tbody>
     </table>
