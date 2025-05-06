@@ -42,6 +42,24 @@ export class ResearchComponent implements OnInit{
         selectedResearcher: any;
         searchResearchers: string = '';  
         selectedAuthorName: string = '';
+        currentPage: number = 1;
+        itemsPerPage: number = 10; // กี่รายการต่อหน้า
+        
+          get paginatedPaperdetail(): PaperDetail[] {
+            const start = (this.currentPage - 1) * this.itemsPerPage;
+            return this.filteredPaperdetail.slice(start, start + this.itemsPerPage);
+          }
+          
+          get totalPaperPages(): number {
+            return Math.ceil(this.filteredPaperdetail.length / this.itemsPerPage);
+          }
+          
+          changePage(page: number): void {
+            if (page >= 1 && page <= this.totalPaperPages) {
+              this.currentPage = page;
+            }
+          }
+          
 
         constructor(private fb: FormBuilder, private researchService: ResearchService) {
           this.PaperForm = this.fb.group({

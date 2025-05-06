@@ -417,35 +417,60 @@
       <table class="table table-hover table-bordered rounded shadow-sm mt-5 align-middle text-center">
         <thead class="table-dark">
             <tr>
-              <th scope="col">ที่</th>
-              <th scope="col">ชื่อเรื่องภาษาไทย</th>
-              <th scope="col">ชื่อเรื่องภาษาอังกฤษ</th>
-              <th scope="col">ผู้แต่ง</th>
-              <th scope="col">ปีพ.ศ.</th>
-              <th scope="col"> </th>
-              <th scope="col"> </th>
+                <th scope="col">ที่</th>
+                <th scope="col">ชื่อเรื่องภาษาไทย</th>
+                <th scope="col">ชื่อเรื่องภาษาอังกฤษ</th>
+                <th scope="col">ผู้แต่ง</th>
+                <th scope="col">ปีพ.ศ.</th>
+                <th scope="col"> </th>
+                <th scope="col"> </th>
             </tr>
         </thead>
         <tbody class="table-group-divider">
-            <tr *ngFor="let data of filteredPaperdetail">
+          <tr *ngFor="let data of paginatedPaperdetail">
                 <td scope="col">{{data.paper_researcher_id}}</td>
                 <td>{{data.title_thai || 'ไม่มีข้อมูล'}}</td>
                 <td>{{data.title_english || 'ไม่มีข้อมูล'}}</td>
                 <td>{{data.name}}</td>
                 <td>{{data.thai_calender_year}}</td>
                 <td>
-                  <button class="btn btn-warning btn-sm" (click)="editPaper(data.paper_researcher_id)">
-                    <i class="fa-solid fa-pen"></i>
-                  </button>
+                    <button class="btn btn-warning btn-sm" (click)="editPaper(data.paper_researcher_id)">
+                        <i class="fa-solid fa-pen"></i>
+                    </button>
                 </td>
                 <td>
-                  <button class="btn btn-danger btn-sm" (click)="DeletePaper(data.paper_researcher_id)">
-                    <i class="fa-solid fa-trash"></i>
-                  </button>
+                    <button class="btn btn-danger btn-sm" (click)="DeletePaper(data.paper_researcher_id)">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
                 </td>
-              </tr>
+            </tr>
         </tbody>
     </table>
+    
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            <!-- ปุ่ม Previous -->
+          <li class="page-item" [class.disabled]="currentPage === 1">
+            <a class="page-link" (click)="changePage(currentPage - 1)" [attr.aria-disabled]="currentPage === 1">«</a>
+          </li>
+
+          <!-- ปุ่มตัวเลขหน้า -->
+          <li 
+            class="page-item" 
+            *ngFor="let page of [].constructor(totalPaperPages); let i = index"
+            [class.active]="i + 1 === currentPage"
+            [class.disabled]="currentPage === i + 1"
+          >
+            <a class="page-link" (click)="changePage(i + 1)">{{ i + 1 }}</a>
+          </li>
+
+          <!-- ปุ่ม Next -->
+          <li class="page-item" [class.disabled]="currentPage === totalPaperPages">
+            <a class="page-link" (click)="changePage(currentPage + 1)" [attr.aria-disabled]="currentPage === totalPaperPages">»</a>
+          </li>
+        </ul>
+    </nav>
+    
 
     <!-- Edit Paper Modal -->
     <div class="modal fade" id="editPaperModal" tabindex="-1" aria-labelledby="editPaperModalLabel" aria-hidden="true">

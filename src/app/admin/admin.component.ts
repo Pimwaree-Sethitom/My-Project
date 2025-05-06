@@ -25,6 +25,26 @@ export class AdminComponent implements OnInit {
   filteredResearchers: Researcher[] = []; 
   userForm: FormGroup;
   selectedResearch: Researcher | null = null;
+  currentPage: number = 1;
+  itemsPerPage: number = 10; // กี่รายการต่อหน้า
+          
+  get paginatedResearchers(): Researcher[] {
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    return this.filteredResearchers.slice(start, start + this.itemsPerPage);
+  }
+  
+  get totalResearcherPages(): number {
+    return Math.ceil(this.filteredResearchers.length / this.itemsPerPage);
+  }
+  
+  changePage(page: number): void {
+    if (page >= 1 && page <= this.totalResearcherPages) {
+      this.currentPage = page;
+    }
+  }
+  
+
+
 
   constructor(private fb: FormBuilder, private apiService: ApiService) {
     this.userForm = this.fb.group({
@@ -110,6 +130,7 @@ export class AdminComponent implements OnInit {
             const fieldValue = String(researcher[this.searchField]); // แปลงค่าทุกประเภทให้เป็น string
             return fieldValue.toLowerCase().includes(this.searchText.toLowerCase());
           });
+          this.currentPage = 1;
         }
 
         editUser(researcher_id: number): void {
