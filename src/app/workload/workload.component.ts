@@ -34,7 +34,7 @@ export class WorkloadComponent implements OnInit{
       workload_year_id: ['', []],
       workload_topic: ['', Validators.required],
       workload_count: ['', Validators.required],
-      workload_year: ['', []],
+      workload_year: ['', Validators.required],
     });  
   }
 
@@ -83,9 +83,9 @@ export class WorkloadComponent implements OnInit{
                     title: 'เพิ่มข้อมูลสำเร็จ!',
                     text: 'The paper data has been added successfully.',
                   });
+                  this.SelectWorkload();
                   return;
                 }
-                this.SelectWorkload();
               },
               error: (error) => {
                 Swal.fire({
@@ -101,8 +101,36 @@ export class WorkloadComponent implements OnInit{
             this.workloadForm.reset(); 
           }
 
-          Delete(){
-
+          Delete(workload_year_id: any){
+            Swal.fire({
+                        title: "Are you sure?",
+                        text: "You won't be able to revert this!",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "Yes, delete it!"
+                      }).then((result) => {
+                        if (result.isConfirmed) {
+                          const body = { workload_year_id: workload_year_id };
+                          this.researchService.DeleteWorkload(body).subscribe((response) => {
+                            if (response.alert == 'Delete success') {
+                              Swal.fire({
+                                title: "Deleted!",
+                                text: "Your file has been deleted.",
+                                icon: "success"
+                              });
+                            } else {
+                              Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'Something went wrong! Please try again.'
+                              });
+                            }
+                            this.SelectWorkload();
+                          });
+                        }
+                      });
           }
 
           Edit(workload_year_id: number): void{
@@ -120,8 +148,67 @@ export class WorkloadComponent implements OnInit{
           }
           }
 
-          Update(){
+          Update(): void {
+            if (!this.selectedworkload) return;
+          
+            const updatedData = this.workloadForm.value;
+          
+            // ตรวจสอบว่ามีการเปลี่ยนแปลงข้อมูลหรือไม่
+            const hasChanges = this.hasChanges(updatedData);
+            
+            if (!hasChanges) {
+              Swal.fire({
+                icon: 'warning',
+                title: 'ไม่มีการเปลี่ยนแปลง!',
+                text: 'ข้อมูลที่คุณกรอกไม่แตกต่างจากข้อมูลเดิม',
+              });
+              return;
+            }
+          
+            // ส่งข้อมูลไปยัง PHP เพื่อทำการอัปเดต
+            this.researchService.UpdateWorkload(updatedData).subscribe({
+              next: (response) => {
+        
+                if (response.alert === 'ไม่พบข้อมูลภาระงานที่ต้องการอัปเดต') {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'ไม่พบข้อมูล!',
+                                    text: 'ไม่พบข้อมูลภาระงานที่ต้องการอัปเดต',
+                                });
+                                return; // หยุดการทำงานต่อ
+                            }
+          
+                // แสดงข้อความสำเร็จ
+                Swal.fire({
+                  icon: 'success',
+                  title: 'อัปเดตสำเร็จ',
+                  text: response.alert || 'อัปเดตเรียบร้อยแล้ว',
+                });
+          
+                // รีเฟรชข้อมูล
+                this.SelectWorkload();
+                const modal = Modal.getInstance(document.getElementById('editModal')!)!;
+                modal.hide();
+              },
+              error: (error) => {
+                console.error("Error from server:", error);
+                Swal.fire({
+                  icon: 'error',
+                  title: 'เกิดข้อผิดพลาด',
+                  text: 'ไม่สามารถติดต่อเซิร์ฟเวอร์ได้ หรือมีปัญหาในการอัปเดต',
+                });
+              }
+            });
+          }
+          
 
+          hasChanges(updatedData: any): boolean {
+            if (!this.selectedworkload) return false;
+          
+            return updatedData.workload_topic !== this.selectedworkload.workload_topic ||
+                   updatedData.workload_count !== this.selectedworkload.workload_count ||
+                   updatedData.workload_year !== this.selectedworkload.workload_year ;
+                  
           }
 
 

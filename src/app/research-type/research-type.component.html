@@ -1,0 +1,99 @@
+<app-admin-bar></app-admin-bar> 
+<div class="container mt-5">
+    <table class="table mt-5">
+      <thead>
+        <tr>
+          <th scope="col">ลำดับที่</th>
+          <th scope="col">ประเภทงานวิจัย</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody class="table-group-divider">
+        <tr *ngFor="let data of filteredResearchType">
+          <td scope="col">{{ data.type_id }}</td>
+          <td>{{ data.type_name || 'ไม่มีข้อมูล' }}</td>
+          <td><button class="btn btn-danger" (click)="Delete(data.type_id)">ลบ</button></td>
+          <td><button class="btn btn-warning" (click)="Edit(data.type_id)">แก้ไข</button></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ปุ่มอยู่มุมขวาล่าง -->
+    <div class="d-flex justify-content-end mt-3 mb-5">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="Closemodal()">
+            เพิ่มข้อมูลประเภทงานวิจัย
+        </button>
+      </div>
+    
+      <!-- Insert Modal -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog ">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">เพิ่มข้อมูลประเภทงานวิจัย</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form [formGroup]="researchTypeForm" (ngSubmit)="onSubmit()">
+                  <div class="form-group row align-items-center mb-3">
+                    <label for="type_name" class="col-4 col-form-label fw-bold">ประเภทงานวิจัย</label>
+                    <div class="col-8">
+                      <input 
+                        type="text" 
+                        class="form-control form-control-sm shadow-sm" 
+                        id="type_name" 
+                        formControlName="type_name"
+                        [ngClass]="{'is-invalid': isInvalid('type_name')}"
+                        />
+                        <div class="invalid-feedback">
+                          กรุณากรอกประเภทงานวิจัย
+                        </div>    
+                    </div>
+                  </div>
+  
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+                      <button type="submit" class="btn btn-primary">บันทึก</button>
+                    </div>
+                </form>              
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Edit Modal -->
+      <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModal" aria-hidden="true">
+        <div class="modal-dialog ">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="editModal">เพิ่มข้อมูลประเภทงานวิจัย</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form [formGroup]="researchTypeForm">
+                <div class="form-group row align-items-center mb-3">
+                    <label for="type_name" class="col-4 col-form-label fw-bold">ประเภทงานวิจัย</label>
+                    <div class="col-8">
+                      <input 
+                        type="text" 
+                        class="form-control form-control-sm shadow-sm" 
+                        id="type_name" 
+                        formControlName="type_name"
+                        [ngClass]="{'is-invalid': isInvalid('type_name')}"
+                        />
+                        <div class="invalid-feedback">
+                          กรุณากรอกประเภทงานวิจัย
+                        </div>    
+                    </div>
+                  </div>
+                </form>              
+            </div>         
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+              <button type="button" class="btn btn-primary" (click)="Update()">อัปเดต</button>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>

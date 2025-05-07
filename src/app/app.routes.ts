@@ -10,4 +10,6 @@ export const routes: Routes = [
   { path: 'link_dashboard', loadComponent: () => import('./dashboard/dashboard.component').then(m => m.DashboardComponent) },
   {path: 'link_home' , loadComponent: () => import('./home/home.component').then(m => m.HomeComponent)},
   {path: 'workload',loadComponent: () => import('./workload/workload.component').then(m => m.WorkloadComponent)},
+  {path: 'research_type' ,loadComponent: () => import('./research-type/research-type.component').then(m => m.ResearchTypeComponent)},
+  {path: 'Quartile' ,loadComponent: () => import('./quartile/quartile.component').then(m => m.QuartileComponent)},
 ];
