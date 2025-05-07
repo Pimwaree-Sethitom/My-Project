@@ -103,28 +103,29 @@ export class WorkloadComponent implements OnInit{
 
           Delete(workload_year_id: any){
             Swal.fire({
-                        title: "Are you sure?",
-                        text: "You won't be able to revert this!",
+                        title: "คุณแน่ใจนะ?",
+                        text: "หากลบแล้วคุณจะไม่สามารถย้อนกลับได้ !",
                         icon: "warning",
                         showCancelButton: true,
                         confirmButtonColor: "#3085d6",
                         cancelButtonColor: "#d33",
-                        confirmButtonText: "Yes, delete it!"
+                        confirmButtonText: "ลบ",
+                        cancelButtonText: "ยกเลิก"
                       }).then((result) => {
                         if (result.isConfirmed) {
                           const body = { workload_year_id: workload_year_id };
                           this.researchService.DeleteWorkload(body).subscribe((response) => {
                             if (response.alert == 'Delete success') {
                               Swal.fire({
-                                title: "Deleted!",
-                                text: "Your file has been deleted.",
+                                title: "ลบแล้ว!",
+                                text: "ข้อมูลถูกลบเสร็จสิ้นแล้ว",
                                 icon: "success"
                               });
                             } else {
                               Swal.fire({
                                 icon: 'error',
-                                title: 'Oops...',
-                                text: 'Something went wrong! Please try again.'
+                                title: 'ไม่สามารถลบได้!',
+                                text: 'มีบางอย่างผิดพลาด! โปรดลองอีกครั้ง'
                               });
                             }
                             this.SelectWorkload();

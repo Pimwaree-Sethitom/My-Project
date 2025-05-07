@@ -1,7 +1,7 @@
 <app-admin-bar></app-admin-bar> 
 <div class="container mt-5">
-    <table class="table mt-5">
-      <thead>
+  <table class="table table-hover table-bordered rounded shadow-sm mt-5 align-middle text-center">
+    <thead class="table-dark">
         <tr>
           <th scope="col">ลำดับที่</th>
           <th scope="col">ประเภทงานวิจัย</th>
@@ -13,18 +13,35 @@
         <tr *ngFor="let data of filteredResearchType">
           <td scope="col">{{ data.type_id }}</td>
           <td>{{ data.type_name || 'ไม่มีข้อมูล' }}</td>
-          <td><button class="btn btn-danger" (click)="Delete(data.type_id)">ลบ</button></td>
-          <td><button class="btn btn-warning" (click)="Edit(data.type_id)">แก้ไข</button></td>
+          <td>
+            <button class="btn btn-warning btn-sm" (click)="Edit(data.type_id)">
+                <i class="fa-solid fa-pen"></i>
+            </button>
+        </td>
+        <td>
+            <button class="btn btn-danger btn-sm" (click)="Delete(data.type_id)">
+                <i class="fa-solid fa-trash"></i>
+            </button>
+        </td>
         </tr>
       </tbody>
     </table>
 
-    <!-- ปุ่มอยู่มุมขวาล่าง -->
-    <div class="d-flex justify-content-end mt-3 mb-5">
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="Closemodal()">
-            เพิ่มข้อมูลประเภทงานวิจัย
+    <!-- ปุ่ม Add User (แค่ไอคอนบวก) ชิดขวา -->
+      <div class="d-flex justify-content-end mt-3 mb-5">
+        <button 
+          type="button" 
+          class="btn btn-success ms-2" 
+          data-bs-toggle="modal" 
+          data-bs-target="#exampleModal" 
+          (click)="Closemodal()" 
+          title="เพิ่มข้อมูลผู้ใช้งาน"
+        >
+          <i class="bi bi-plus-lg"></i>
         </button>
       </div>
+ 
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     
       <!-- Insert Modal -->
       <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
