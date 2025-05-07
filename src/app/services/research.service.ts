@@ -40,7 +40,7 @@ export class ResearchService {
       }
   
       UpdateWorkload(WorkloadData: any) {
-        return this.http.put<outputInsertWorkload>('http://localhost/rms-api/workload_update.php', WorkloadData);
+        return this.http.post<outputInsertWorkload>('http://localhost/rms-api/workload_update.php', WorkloadData);
       }
 
       DeleteWorkload(workload_year_id:any){
@@ -61,7 +61,7 @@ export class ResearchService {
       }
 
       UpdateResearchType(ResearchTypeData: any) {
-        return this.http.put<outputInsertResearchType>('http://localhost/rms-api/research_type_update.php', ResearchTypeData);
+        return this.http.post<outputInsertResearchType>('http://localhost/rms-api/research_type_update.php', ResearchTypeData);
       }
 
       //Table Quartile
@@ -78,7 +78,7 @@ export class ResearchService {
       }
 
       UpdateQuartile(QuartileData: any) {
-        return this.http.put<outputInsertQuartile>('http://localhost/rms-api/quartile_update.php', QuartileData);
+        return this.http.post<outputInsertQuartile>('http://localhost/rms-api/quartile_update.php', QuartileData);
       }
 
 }

@@ -169,11 +169,11 @@ export class WorkloadComponent implements OnInit{
             this.researchService.UpdateWorkload(updatedData).subscribe({
               next: (response) => {
         
-                if (response.alert === 'ไม่พบข้อมูลภาระงานที่ต้องการอัปเดต') {
+                if (response.alert === 'ข้อมูลภาระงานนี้มีอยู่ในระบบแล้ว') {
                                 Swal.fire({
                                     icon: 'error',
-                                    title: 'ไม่พบข้อมูล!',
-                                    text: 'ไม่พบข้อมูลภาระงานที่ต้องการอัปเดต',
+                                    title: 'ข้อมูลซ้ำ!',
+                                    text: 'ข้อมูลภาระงานนี้มีอยู่ในระบบแล้ว',
                                 });
                                 return; // หยุดการทำงานต่อ
                             }
