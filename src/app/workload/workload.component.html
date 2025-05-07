@@ -17,7 +17,7 @@
           <td>{{ data.workload_topic || 'ไม่มีข้อมูล' }}</td>
           <td>{{ data.workload_count || 'ไม่มีข้อมูล' }}</td>
           <td>{{ data.workload_year || 'ไม่มีข้อมูล' }}</td>
-          <td><button class="btn btn-danger" >ลบ</button></td>
+          <td><button class="btn btn-danger" (click)="Delete(data.workload_year_id)">ลบ</button></td>
           <td><button class="btn btn-warning" (click)="Edit(data.workload_year_id)">แก้ไข</button></td>
         </tr>
       </tbody>
@@ -30,7 +30,7 @@
       </button>
     </div>
   
-    <!-- Modal -->
+    <!-- Insert Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog ">
         <div class="modal-content">
@@ -73,11 +73,20 @@
                 </div>
 
                 <div class="form-group row align-items-center mb-3">
-                    <label for="workload_year" class="col-4 col-form-label fw-bold">ปีภาระงาน</label>
-                    <div class="col-8">
-                      <input type="text" class="form-control form-control-sm shadow-sm" id="workload_year" formControlName="workload_year">
-                    </div>
+                  <label for="workload_year" class="col-4 col-form-label fw-bold">ปีภาระงาน</label>
+                  <div class="col-8">
+                    <input 
+                      type="text" 
+                      class="form-control form-control-sm shadow-sm" 
+                      id="workload_year" 
+                      formControlName="workload_year"
+                      [ngClass]="{'is-invalid': isInvalid('workload_year')}"
+                      />
+                      <div class="invalid-feedback">
+                        กรุณากรอกปีภาระงาน
+                      </div>   
                   </div>
+                </div>
 
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
@@ -98,7 +107,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <form [formGroup]="workloadForm" (ngSubmit)="onSubmit()">
+            <form [formGroup]="workloadForm">
                 <div class="form-group row align-items-center mb-3">
                   <label for="workload_topic" class="col-4 col-form-label fw-bold">หัวข้อภาระงาน</label>
                   <div class="col-8">
@@ -134,15 +143,23 @@
                 <div class="form-group row align-items-center mb-3">
                     <label for="workload_year" class="col-4 col-form-label fw-bold">ปีภาระงาน</label>
                     <div class="col-8">
-                      <input type="text" class="form-control form-control-sm shadow-sm" id="workload_year" formControlName="workload_year">
+                      <input 
+                        type="text" 
+                        class="form-control form-control-sm shadow-sm" 
+                        id="workload_year" 
+                        formControlName="workload_year"
+                        [ngClass]="{'is-invalid': isInvalid('workload_year')}"
+                        />
+                        <div class="invalid-feedback">
+                          กรุณากรอกปีภาระงาน
+                        </div>   
                     </div>
                   </div>
-
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
-                    <button type="submit" class="btn btn-primary">บันทึก</button>
-                  </div>
               </form>              
+          </div>         
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+            <button type="button" class="btn btn-primary" (click)="Update()">อัปเดต</button>
           </div>
         </div>
       </div>
