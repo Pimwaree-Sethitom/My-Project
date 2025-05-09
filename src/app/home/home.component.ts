@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { AdminBarComponent } from '../admin-bar/admin-bar.component';
+import { BarComponent } from '../bar/bar.component';
 
 @Component({
   selector: 'app-home',
-  imports: [AdminBarComponent],
+  imports: [BarComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })

@@ -3,7 +3,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #0e0e59;
+  background-color: #6E00B3;
   padding: 10px 20px;
   flex-wrap: wrap; /* เพื่อให้จัดเรียงลงบรรทัดใหม่เมื่อหน้าจอเล็ก */
 }
