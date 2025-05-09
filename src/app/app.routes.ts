@@ -12,4 +12,5 @@ export const routes: Routes = [
   {path: 'workload',loadComponent: () => import('./workload/workload.component').then(m => m.WorkloadComponent)},
   {path: 'research_type' ,loadComponent: () => import('./research-type/research-type.component').then(m => m.ResearchTypeComponent)},
   {path: 'Quartile' ,loadComponent: () => import('./quartile/quartile.component').then(m => m.QuartileComponent)},
+  {path: 'register' ,loadComponent: () => import('./register/register.component').then(m => m.RegisterComponent)},
 ];
