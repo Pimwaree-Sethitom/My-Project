@@ -1,26 +1,27 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
+import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
+  private apiUrl = 'http://localhost/rms-api';
 
   constructor(private http: HttpClient) { }
 
-  SelectUserData() {
-    return this.http.get<Researcher[]>('http://localhost/rms-api/userdata_select.php');
+  SelectUserData() : Observable<any>{
+    return this.http.get<Researcher[]>(`${this.apiUrl}/userdata_select.php`);
   }
 
-  insertUser(userData: any) {
-    return this.http.post<outputInsertUser>('http://localhost/rms-api/userdata_insert.php', userData);
+  insertUser(userData: any) : Observable<any>{
+    return this.http.post<outputInsertUser>(`${this.apiUrl}/userdata_insert.php`, userData);
   }
 
-  updateUser(userData: any) {
-    return this.http.put<outputInsertUser>('http://localhost/rms-api/userdata_update.php', userData);
+  updateUser(userData: any) : Observable<any>{
+    return this.http.put<outputInsertUser>(`${this.apiUrl}/userdata_update.php`, userData);
   }
-  deleteUser(researcher_id:any){
-    return this.http.post<outputDeleteUser>('http://localhost/rms-api/userdata_delete.php',researcher_id)
+  deleteUser(researcher_id:any): Observable<any>{
+    return this.http.post<outputDeleteUser>(`${this.apiUrl}/userdata_delete.php`,researcher_id)
    }
   
 }

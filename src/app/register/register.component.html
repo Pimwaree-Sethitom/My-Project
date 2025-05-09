@@ -1,7 +1,31 @@
 <div class="container">
     <div class="form-box">
-      <header>Login</header>
+      <header>Register</header>
       <form >
+        <div class="field input autocomplete-container">
+          <label for="name">Username</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            [(ngModel)]="searchResearchers" 
+            (input)="SearchResearchers()"
+            required
+          />
+          <ul 
+            *ngIf="searchResearchers && filteredResearchers.length > 0" 
+              class="autocomplete-list"
+            >
+          <li 
+            *ngFor="let researcher of filteredResearchers" 
+              (click)="selectResearcher(researcher)" 
+                class="autocomplete-item"
+            >
+            {{ researcher.name }}
+          </li>
+        </ul>
+      </div>
+
         <div class="field input">
           <label for="email">Email</label>
           <input

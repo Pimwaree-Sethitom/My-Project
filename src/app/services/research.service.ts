@@ -1,84 +1,86 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ResearchService {
+  private apiUrl = 'http://localhost/rms-api';
 
   constructor(private http: HttpClient) { }
       
       //Table Public_Paper and Table Paper_Researcher
-      SelectPaperData() {
-      return this.http.get<PaperDetail[]>('http://localhost/rms-api/paper_select.php');
+      SelectPaperData(): Observable<any> {
+      return this.http.get<PaperDetail[]>('`${this.apiUrl}/paper_select.php`');
       }
 
-      insertPaperData(paperData: any) {
-        return this.http.post<outputInsertPaper>('http://localhost/rms-api/paper_insert.php', paperData);
+      insertPaperData(paperData: any): Observable<any> {
+        return this.http.post<outputInsertPaper>('`${this.apiUrl}/paper_insert.php`', paperData);
       }
 
-      DeletePaper(paper_researcher_id:any){
-        return this.http.post<outputDeletePaper>('http://localhost/rms-api/paper_delete.php',paper_researcher_id)
+      DeletePaper(paper_researcher_id:any): Observable<any>{
+        return this.http.post<outputDeletePaper>('`${this.apiUrl}/paper_delete.php`',paper_researcher_id)
        }
 
-      UpdatePaper(paperData: any) {
-        return this.http.put<outputInsertPaper>('http://localhost/rms-api/paper_update.php', paperData);
+      UpdatePaper(paperData: any): Observable<any> {
+        return this.http.put<outputInsertPaper>('`${this.apiUrl}/paper_update.php`', paperData);
       }
 
       //Table Researcher
-      SelectUserData() {
-        return this.http.get<Researcher[]>('http://localhost/rms-api/userdata_select.php');
+      SelectUserData() : Observable<any>{
+        return this.http.get<Researcher[]>(`${this.apiUrl}/userdata_select.php`);
       }
 
       //Table Workload_Year
-      SelectWorkload() {
-        return this.http.get<Workload[]>('http://localhost/rms-api/workload_select.php');
+      SelectWorkload() : Observable<any>{
+        return this.http.get<Workload[]>(`${this.apiUrl}/workload_select.php`);
       }
 
-      InsertWorkload(WorkloadData: any) {
-        return this.http.post<outputInsertWorkload>('http://localhost/rms-api/workload_insert.php', WorkloadData);
+      InsertWorkload(WorkloadData: any) : Observable<any>{
+        return this.http.post<outputInsertWorkload>(`${this.apiUrl}/workload_insert.php`, WorkloadData);
       }
   
-      UpdateWorkload(WorkloadData: any) {
-        return this.http.post<outputInsertWorkload>('http://localhost/rms-api/workload_update.php', WorkloadData);
+      UpdateWorkload(WorkloadData: any) : Observable<any>{
+        return this.http.post<outputInsertWorkload>(`${this.apiUrl}/workload_update.php`, WorkloadData);
       }
 
-      DeleteWorkload(workload_year_id:any){
-        return this.http.post<outputDeleteWorkload>('http://localhost/rms-api/workload_delete.php',workload_year_id)
+      DeleteWorkload(workload_year_id:any): Observable<any>{
+        return this.http.post<outputDeleteWorkload>(`${this.apiUrl}/workload_delete.php`,workload_year_id)
        }
 
        //Table Research_Type
-       InsertResearchType(ResearchTypeData: any) {
-        return this.http.post<outputInsertResearchType>('http://localhost/rms-api/research_type_insert.php', ResearchTypeData);
+       InsertResearchType(ResearchTypeData: any) : Observable<any>{
+        return this.http.post<outputInsertResearchType>(`${this.apiUrl}/research_type_insert.php`, ResearchTypeData);
       }
 
-      DeleteResearchType(type_id:any){
-        return this.http.post<outputDeleteResearchType>('http://localhost/rms-api/research_type_delete.php',type_id)
+      DeleteResearchType(type_id:any): Observable<any>{
+        return this.http.post<outputDeleteResearchType>(`${this.apiUrl}/research_type_delete.php`,type_id)
        }
 
-      SelectResearchType() {
-        return this.http.get<ResearchType[]>('http://localhost/rms-api/research_type_select.php');
+      SelectResearchType() : Observable<any>{
+        return this.http.get<ResearchType[]>(`${this.apiUrl}/research_type_select.php`);
       }
 
-      UpdateResearchType(ResearchTypeData: any) {
-        return this.http.post<outputInsertResearchType>('http://localhost/rms-api/research_type_update.php', ResearchTypeData);
+      UpdateResearchType(ResearchTypeData: any) : Observable<any>{
+        return this.http.post<outputInsertResearchType>(`${this.apiUrl}/research_type_update.php`, ResearchTypeData);
       }
 
       //Table Quartile
-      SelectQuartile() {
-        return this.http.get<Quartile[]>('http://localhost/rms-api/quartile_select.php');
+      SelectQuartile() : Observable<any>{
+        return this.http.get<Quartile[]>(`${this.apiUrl}/quartile_select.php`);
       }
 
-      DeleteQuartile(quartile_id:any){
-        return this.http.post<outputDeleteQuartile>('http://localhost/rms-api/quartile_delete.php',quartile_id)
+      DeleteQuartile(quartile_id:any): Observable<any>{
+        return this.http.post<outputDeleteQuartile>(`${this.apiUrl}/quartile_delete.php`,quartile_id)
        }
 
-      InsertQuartile(QuartileTypeData: any) {
-        return this.http.post<outputInsertQuartile>('http://localhost/rms-api/quartile_insert.php', QuartileTypeData);
+      InsertQuartile(QuartileTypeData: any) : Observable<any>{
+        return this.http.post<outputInsertQuartile>(`${this.apiUrl}/quartile_insert.php`, QuartileTypeData);
       }
 
-      UpdateQuartile(QuartileData: any) {
-        return this.http.post<outputInsertQuartile>('http://localhost/rms-api/quartile_update.php', QuartileData);
+      UpdateQuartile(QuartileData: any) : Observable<any>{
+        return this.http.post<outputInsertQuartile>(`${this.apiUrl}/quartile_update.php`, QuartileData);
       }
 
 }
