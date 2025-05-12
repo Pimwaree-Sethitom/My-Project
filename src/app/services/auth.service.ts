@@ -13,6 +13,14 @@ export class AuthService {
   SelectUserData() : Observable<any> {
           return this.http.get<Researcher[]>(`${this.apiUrl}/userdata_select.php`);
         }
+
+  register(data: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/register.php`, data);
+  }
+
+  login(data: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/login.php`, data);
+  }
 }
 
 export interface Researcher {

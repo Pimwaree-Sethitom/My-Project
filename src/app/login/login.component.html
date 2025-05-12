@@ -1,41 +1,19 @@
-<div class="container">
-    <div class="form-box">
-      <header>Login</header>
-      <form >
-        <div class="field input">
-          <label for="email">Email</label>
-          <input
-            type="text"
-            id="email"
-            name="email"
-            required
-          />
-        </div>
-  
-        <div class="field input">
-          <label for="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            required
-          />
-        </div>
-  
-        <div class="field input">
-          <input
-            class="btn submit"
-            type="submit"
-            value="Login"
-            
-          />
-        </div>
-  
-        <div class="link">
-          Don't have an account?
-          <a routerLink="/register">Sign Up Now</a>
-        </div>
-      </form>
+<!-- login.component.html -->
+<div class="form-box">
+  <header>เข้าสู่ระบบ</header>
+  <form (ngSubmit)="login()">
+    <div class="field input">
+      <label for="email">Email</label>
+      <input [(ngModel)]="email" type="text" id="email" name="email" required />
     </div>
-  </div>
-  
+
+    <div class="field input">
+      <label for="password">Password</label>
+      <input [(ngModel)]="password" type="password" id="password" name="password" required />
+    </div>
+
+    <div class="field input">
+      <input class="btn submit" type="submit" value="Login" />
+    </div>
+  </form>
+</div>

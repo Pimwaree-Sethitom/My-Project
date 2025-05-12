@@ -18,7 +18,7 @@ body {
   min-height: 90vh;
 }
 
-.form-box {
+/* .form-box {
   background: #fdfdfd;
   display: flex;
   flex-direction: column;
@@ -28,7 +28,7 @@ body {
     0 32px 64px -48px rgba(0, 0, 0, 0.5);
   width: 450px;
   margin: 0 10px;
-}
+} */
 
 .form-box header {
   font-size: 25px;
@@ -111,3 +111,19 @@ body {
 .autocomplete-item:hover {
   background-color: #f0f0f0;
 }
+.password-wrapper {
+  position: relative;
+}
+
+.toggle-btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #007bff;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+

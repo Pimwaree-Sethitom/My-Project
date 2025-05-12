@@ -12,19 +12,19 @@ export class ResearchService {
       
       //Table Public_Paper and Table Paper_Researcher
       SelectPaperData(): Observable<any> {
-      return this.http.get<PaperDetail[]>('`${this.apiUrl}/paper_select.php`');
+      return this.http.get<PaperDetail[]>(`${this.apiUrl}/paper_select.php`);
       }
 
       insertPaperData(paperData: any): Observable<any> {
-        return this.http.post<outputInsertPaper>('`${this.apiUrl}/paper_insert.php`', paperData);
+        return this.http.post<outputInsertPaper>(`${this.apiUrl}/paper_insert.php`, paperData);
       }
 
       DeletePaper(paper_researcher_id:any): Observable<any>{
-        return this.http.post<outputDeletePaper>('`${this.apiUrl}/paper_delete.php`',paper_researcher_id)
+        return this.http.post<outputDeletePaper>(`${this.apiUrl}/paper_delete.php`,paper_researcher_id)
        }
 
       UpdatePaper(paperData: any): Observable<any> {
-        return this.http.put<outputInsertPaper>('`${this.apiUrl}/paper_update.php`', paperData);
+        return this.http.put<outputInsertPaper>(`${this.apiUrl}/paper_update.php`, paperData);
       }
 
       //Table Researcher
