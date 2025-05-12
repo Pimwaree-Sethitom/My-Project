@@ -194,3 +194,8 @@
     }
   }
   
+    .btn-success {
+    border-radius: 25px !important; /* ความโค้งมากขึ้น */
+    padding: 8px 20px;              /* เพิ่มความกว้าง */
+    font-weight: bold;
+  }
