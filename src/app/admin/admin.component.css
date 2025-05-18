@@ -30,12 +30,7 @@
     font-size: 15px;
     border-bottom: 1px solid #ddd;
   }
-  
-  /* Hover ที่แถว */
-  tbody tr:hover {
-    background-color: #f0f0f0;
-  }
-  
+
   /* ปุ่ม */
   button {
     border: none;
@@ -67,35 +62,40 @@
   }
   
   /* ช่องค้นหา */
-  .d-flex.my-3.align-items-center {
-    background-color: #f9f9f9; /* ใส่สีพื้นหลังให้เบา ๆ */
-    border-radius: 8px; /* ทำมุมโค้ง */
-    padding: 15px; /* เพิ่มระยะห่างภายใน */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* เพิ่มเงาให้ดูนุ่มนวล */
-  }
-  
-  .d-flex.my-3.align-items-center input[type="text"],
-  .d-flex.my-3.align-items-center select {
-    border-radius: 25px; /* ทำให้มุมโค้ง */
-    border: 2px solid #ccc; /* กรอบสีอ่อน */
-    padding: 10px 15px; /* เพิ่ม padding */
-    transition: all 0.3s ease-in-out; /* เพิ่มการเคลื่อนไหวให้ราบรื่น */
-  }
-  
-  .d-flex.my-3.align-items-center input[type="text"]:focus,
-  .d-flex.my-3.align-items-center select:focus {
-    border-color: #3b79f0; /* เมื่อโฟกัสให้กรอบเป็นสีน้ำเงิน */
-    box-shadow: 0 0 5px rgba(59, 121, 240, 0.4); /* เพิ่มเงาเมื่อโฟกัส */
-  }
-  
-  .d-flex.my-3.align-items-center button {
-    color: white; /* สีตัวอักษร */
-    border: none; /* ไม่มีกรอบ */
-    border-radius: 25px; /* ทำมุมโค้ง */
-    padding: 8px 16px; /* เพิ่มพื้นที่ปุ่ม */
-    cursor: pointer; /* แสดง pointer เมื่อ hover */
-    transition: background-color 0.3s ease; /* เพิ่มความนุ่มนวล */
-  }
+  .search-container {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.search-container input[type="text"],
+.search-container select {
+  border-radius: 25px;
+  border: 2px solid #ccc;
+  padding: 10px 15px;
+  transition: all 0.3s ease-in-out;
+}
+
+.search-container input[type="text"]:focus,
+.search-container select:focus {
+  border-color: #3b79f0;
+  box-shadow: 0 0 5px rgba(59, 121, 240, 0.4);
+}
+
+.search-container button {
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+}
+
   
   /* Header */
   .header {
@@ -176,14 +176,14 @@
       align-items: center;
     }
   
-    .d-flex.my-3.align-items-center {
+    .search-container {
       flex-direction: column; /* ปรับให้เป็นแนวตั้ง */
       align-items: stretch; /* จัดให้เต็มความกว้าง */
     }
   
-    .d-flex.my-3.align-items-center input[type="text"],
-    .d-flex.my-3.align-items-center select,
-    .d-flex.my-3.align-items-center button {
+    .search-container input[type="text"],
+    .search-container select,
+    .search-container button {
       width: 100%; /* ปรับขนาดให้เต็มความกว้าง */
       margin-bottom: 10px;
     }

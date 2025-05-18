@@ -59,7 +59,7 @@
 }
 
 .navbar a:hover {
-  color: #f0e6f5;
+  color: #302e2e;
 }
 
 /* รูปโปรไฟล์ */
@@ -156,7 +156,7 @@
 }
 
 .dropdown-content a:hover {
-  background-color: #ddd;
+  background-color: #d4d2d2;
 }
 
 .dropdown:hover .dropdown-content {
