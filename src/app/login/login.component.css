@@ -33,7 +33,7 @@ body {
   flex-direction: column;
 }
 
-.field input {
+.field input:not([type="submit"]) {
   height: 40px;
   width: 100%;
   font-size: 16px;
@@ -41,11 +41,19 @@ body {
   border-radius: 5px;
   border: 1px solid #ccc;
   outline: none;
+  background-color: white;
+  color: #000;
 }
+
+.field input:not([type="submit"]):focus {
+  border-color: #3399FF;
+  box-shadow: 0 0 5px #3399FF;
+}
+
 
 .btn {
   height: 35px;
-  background: rgba(76, 68, 182, 0.808);
+  background: #6E00B3;
   border: 0;
   border-radius: 5px;
   color: #fff;
@@ -55,6 +63,7 @@ body {
   margin-top: 10px;
   padding: 0px 10px;
 }
+
 
 .btn:hover {
   opacity: 0.82;
@@ -68,3 +77,30 @@ body {
   margin-top: 15px;
   font-size: 14px;
 }
+
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem; 
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.forget-password {
+  font-size: 14px;
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.forget-password:hover {
+  text-decoration: underline;
+}
+
+

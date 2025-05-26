@@ -17,15 +17,17 @@ declare const bootstrap: any;
 export class LoginComponent {
   email = '';
   password = '';
+  showPassword: boolean = false;
 
+togglePasswordVisibility() {
+  this.showPassword = !this.showPassword;
+}
   constructor(private AuthService: AuthService, private router: Router) {}
 
-   login() {
+  login() {
   this.AuthService.login({ email: this.email, password: this.password }).subscribe(res => {
     if (res.success) {
       Swal.fire('เข้าสู่ระบบสำเร็จ', '', 'success');
-
-      // ✅ ปิด modal จาก component อื่น (bar.component) ด้วย getElementById
       const modalElement = document.getElementById('exampleModalToggle');
       if (modalElement) {
         const modalInstance = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
@@ -35,9 +37,9 @@ export class LoginComponent {
       const role = res.user.role.trim().toLowerCase();
       localStorage.setItem('user', JSON.stringify(res.user));
 
-      if (role === 'admin') {
+      if (role === 'ผู้ดูแลระบบ') {
         this.router.navigate(['/admin']);
-      } else if (role === 'ผู้บริหาร') {
+      } else if (role === 'ผู้บริหาร') {
         this.router.navigate(['/executive']);
       } else if (role === 'บุคลากรทั่วไป') {
         this.router.navigate(['/general']);
@@ -49,6 +51,6 @@ export class LoginComponent {
     }
   });
 }
- 
+  
 
 }

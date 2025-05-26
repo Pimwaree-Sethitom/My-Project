@@ -1,19 +1,76 @@
-<!-- login.component.html -->
 <div class="form-box">
   <header>เข้าสู่ระบบ</header>
   <form (ngSubmit)="login()">
     <div class="field input">
-      <label for="email">Email</label>
-      <input [(ngModel)]="email" type="text" id="email" name="email" required />
+      <label for="email" class="block mb-1">Email</label>
+      <input
+        [(ngModel)]="email"
+        type="text"
+        id="email"
+        name="email"
+        required
+        class="w-full px-4 py-2 rounded-md bg-white text-black border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
+      />
     </div>
 
-    <div class="field input">
-      <label for="password">Password</label>
-      <input [(ngModel)]="password" type="password" id="password" name="password" required />
-    </div>
+    <!-- กล่องรหัสผ่าน -->
+<div class="field input mt-4">
+  <label for="password" class="block mb-1">Password</label>
+  <div class="password-wrapper" style="position: relative;">
+    <input
+      [(ngModel)]="password"
+      [type]="showPassword ? 'text' : 'password'"
+      id="password"
+      name="password"
+      required
+      class="w-full px-4 py-2 rounded-md bg-white text-black border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
+    />
+   <button
+  type="button"
+  (click)="togglePasswordVisibility()"
+  style="
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #6366f1;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 0;
+  "
+  aria-label="Toggle password visibility"
+>
+  <svg *ngIf="showPassword" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+  </svg>
 
-    <div class="field input">
-      <input class="btn submit" type="submit" value="Login" />
+  <svg *ngIf="!showPassword" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+      d="M13.875 18.825A10.05 10.05 0 0112 19c-4.477 0-8.268-2.943-9.542-7a10.05 10.05 0 012.223-3.568M3 3l18 18" />
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+      d="M9.88 9.88a3 3 0 104.24 4.24" />
+  </svg>
+</button>
+  </div>
+</div>
+
+
+<div class="form-options">
+  <label class="remember-me">
+    <input type="checkbox" id="rememberMe" name="rememberMe" />
+    Remember me
+  </label>
+  <a href="#" class="forget-password">Forget password?</a>
+</div>
+
+
+    <div class="field input mt-4">
+      <input class="btn submit w-full bg-purple-600 text-white py-2 rounded-md cursor-pointer hover:bg-purple-700" type="submit" value="Login" />
     </div>
   </form>
 </div>

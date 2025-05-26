@@ -1,7 +1,7 @@
 * {
     box-sizing: border-box;
   }
-  
+
   table {
     width: 100%;
     border-collapse: collapse;
@@ -20,18 +20,14 @@
     font-weight: bold;
     font-size: 16px;
   }
-  
+
   th, td {
     padding: 14px 12px;
     text-align: center;
     font-size: 15px;
     border-bottom: 1px solid #ddd;
   }
-  
-  tbody tr:hover {
-    background-color: #f0f0f0;
-  }
-  
+
   button {
     border: none;
     padding: 6px 10px;
@@ -41,6 +37,7 @@
     transition: 0.2s ease-in-out;
   }
   
+
   button.btn-danger.delete {
     background-color: #e74c3c;
     color: white;
@@ -58,7 +55,7 @@
   button.btn-primary.edit:hover {
     background-color: #e0a800;
   }
-  
+
   .header {
     display: flex;
     align-items: center;
@@ -143,12 +140,12 @@
     .search-container input[type="text"],
     .search-container select,
     .search-container button {
-      width: 100%;
+      width: 100%; 
       margin-bottom: 10px;
     }
   }
 
- .search-container {
+.search-container {
   background-color: transparent;
   padding: 0;
   box-shadow: none;
@@ -171,11 +168,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color:#6E00B3;
+  background-color: #6E00B3;
 }
 
 .custom-btn:hover {
-  background-color:#6E00B3;
+  background-color: #6E00B3;
 }
 
 .page-item .page-link {
@@ -188,4 +185,10 @@
   color: #6E00B3 !important;
 }
 
-  
+
+
+
+
+
+
+

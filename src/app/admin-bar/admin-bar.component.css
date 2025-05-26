@@ -1,55 +1,80 @@
-/* ปรับแต่ง Header */
 .header {
+  position: fixed; 
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000; 
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #6E00B3;
-  padding: 10px 20px;
-  flex-wrap: wrap; /* เพื่อให้จัดเรียงลงบรรทัดใหม่เมื่อหน้าจอเล็ก */
+  background-color: #ffffff;
+  padding: 14px 24px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  flex-wrap: wrap;
 }
 
 .header a.logo {
-  font-size: 22px;
+  font-size: 24px;
   font-weight: bold;
-  color: white;
+  color: #333; /* เปลี่ยนจากม่วงเป็นดำ */
   text-decoration: none;
 }
 
 .header a.logo:hover {
-  color: #f0e6f5;
+  color: #6E00B3;
 }
 
-/* ส่วนขวาของ Header */
 .header-right {
   display: flex;
   align-items: center;
-  gap: 20px; /* เพิ่มช่องว่างระหว่างเมนูและรูปโปรไฟล์ */
+  gap: 24px;
 }
 
-/* เมนู Navbar */
+.ict-logo {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+  border-radius: 6px;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+}
+
+.brand-text {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #333; 
+  line-height: 1.2;
+}
+
 .navbar {
   display: flex;
-  gap: 15px;
+  gap: 18px;
+  align-items: center;
+  width: 100%;
 }
 
 .navbar a {
   text-decoration: none;
-  padding: 10px 15px;
+  padding: 10px 16px;
   font-size: 16px;
-  color: white;
-  background-color: transparent;
+  color: #333;
+  transition: all 0.3s ease;
   position: relative;
-  transition: color 0.3s ease;
+  font-weight: 500;
 }
 
 .navbar a::after {
   content: "";
   position: absolute;
-  left: 0;
-  bottom: -3px;
-  width: 100%;
+  left: 10px;
+  bottom: 6px;
+  width: calc(100% - 20px);
   height: 2px;
-  background-color: white;
+  background-color: #6E00B3;
   transform: scaleX(0);
   transition: transform 0.3s ease-in-out;
 }
@@ -59,43 +84,76 @@
 }
 
 .navbar a:hover {
-  color: #302e2e;
+  color:#6E00B3;
 }
 
 /* รูปโปรไฟล์ */
 .profile-img {
-  width: 40px; /* ขนาดรูป */
-  height: 40px; /* ขนาดรูป */
-  border-radius: 50%; /* ทำให้รูปเป็นวงกลม */
-  border: 2px solid white; /* ขอบรูป */
-  object-fit: cover; /* ให้รูปไม่เสียหายหรือล้นออกจากกรอบ */
-  transition: transform 0.3s ease, border-color 0.3s ease; /* ทำให้มี transition เวลา hover */
-}
-
-.profile-link {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 5px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid #333; 
+  object-fit: cover;
+  transition: transform 0.3s ease, border-color 0.3s ease;
 }
 
 .profile-img:hover {
-  transform: scale(1.1); /* ขยายรูปนิดหน่อยเวลา hover */
-  border-color: #f0e6f5; /* เปลี่ยนสีขอบเมื่อ hover */
+  transform: scale(1.1);
+  border-color: #6E00B3;
 }
 
-/* Responsive สำหรับหน้าจอเล็ก */
+.user-icon {
+  font-size: 24px;
+  color: #333; 
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.user-icon:hover {
+  color: #6E00B3;
+  transform: scale(1.1);
+}
+
+/* Dropdown */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  border-radius: 8px;
+  min-width: 180px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: #333; 
+  padding: 12px 18px;
+  text-decoration: none;
+  display: block;
+  font-size: 15px;
+  transition: background-color 0.2s ease;
+}
+
+.dropdown-content a:hover {
+  background-color: #f3eaff;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
 @media screen and (max-width: 500px) {
   .header {
     flex-direction: column;
     align-items: center;
+    padding: 16px;
   }
 
   .header-right {
     flex-direction: column;
     width: 100%;
     align-items: center;
-    margin-top: 10px;
+    margin-top: 12px;
   }
 
   .navbar {
@@ -111,54 +169,10 @@
   }
 }
 
-.user-icon {
-  font-size: 24px;
-  color: white;
-  cursor: pointer;
-  transition: color 0.3s ease, transform 0.3s ease;
-}
-
-.user-icon:hover {
-  color: #f0e6f5;
-  transform: scale(1.1);
-}
-
-/* header.component.css */
-
-.header .navbar {
-  display: flex;
-  align-items: center;
-}
-
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-.dropbtn {
-  cursor: pointer;
-}
-
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: white;
-  min-width: 180px;
-  box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
-  z-index: 1;
-}
-
-.dropdown-content a {
-  color: black;
-  padding: 10px 16px;
-  text-decoration: none;
-  display: block;
-}
-
-.dropdown-content a:hover {
-  background-color: #d4d2d2;
-}
-
-.dropdown:hover .dropdown-content {
-  display: block;
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Sarabun', sans-serif;
+  background-color: #fdfdfd;
+  color: #333; 
 }

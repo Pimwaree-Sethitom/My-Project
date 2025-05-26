@@ -1,13 +1,20 @@
 <div class="header">
-  <a href="#default" class="logo">ระบบสารสนเทศเพื่อสนับสนุนการบริหารงานวิจัย</a>
+ <a class="navbar-brand d-flex align-items-center" href="#">
+      <img src="https://www.ict.up.ac.th/front/template/default/assets/img/static/brand.png" 
+           alt="ICT Logo" class="ict-logo me-2">
+      <span class="brand-text">
+        ระบบสารสนเทศเพื่อสนับสนุนการบริหารงานวิจัยและนวัฒกรรม<br>
+        Information System to Support Research and Innovation Management
+      </span>
+    </a>
   <div class="header-right">
     <div class="navbar">
-      <a class="active" [routerLink]="'/link_home'">หน้าแรก</a>
+      <a class="active" [routerLink]="'/home'">หน้าแรก</a>
 
       <div class="dropdown">
         <a class="active dropbtn"><i class="fa fa-caret-down"></i></a>
         <div class="dropdown-content">
-          <a [routerLink]="'/admin'">จัดการข้อมูลผู้ใช้</a>
+          <a [routerLink]="'/user'">จัดการข้อมูลผู้ใช้</a>
           <a [routerLink]="'/research'">จัดการข้อมูลงานวิจัย</a>
           <a [routerLink]="'/workload'">จัดการข้อมูลภาระงาน</a>
           <a [routerLink]="'/research_type'">จัดการข้อมูลประเภทงานวิจัย</a>
@@ -15,7 +22,7 @@
         </div>
       </div>
 
-      <a class="active" [routerLink]="'/link_dashboard'">รายงาน</a>
+      <a class="active" [routerLink]="'/dashboard'">รายงาน</a>
     </div>
     <a class="profile-link" [routerLink]="'/login'">
       <i class="fas fa-user user-icon"></i>

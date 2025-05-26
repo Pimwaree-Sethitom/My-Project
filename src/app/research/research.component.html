@@ -1,25 +1,45 @@
 <app-admin-bar></app-admin-bar>  
-<div class="container mt-5">
+<div class="container mt-5" style="padding-top: 90px;">
 
-    <div class="d-flex my-3 align-items-center search-container">
-      <input type="text" class="form-control w-50 ms-2" placeholder="Search" [(ngModel)]="searchText" (input)="SearchPaper()" />
-        <select class="form-select w-25 ms-2" [(ngModel)]="searchField">
-          <option value="title_thai">ชื่อเรื่องภาษาไทย</option>
-          <option value="title_english">ชื่อเรื่องภาษาอังกฤษ</option>
-          <option value="name">ผู้แต่ง</option>
-          <option value="thai_calender_year">ปีพ.ศ.</option>
-        </select>
-        <button 
-          type="button" 
-          class="btn btn-success ms-2" 
-          data-bs-toggle="modal" 
-          data-bs-target="#exampleModal" 
-          (click)="Closemodal()" 
-          title="เพิ่มข้อมูลผู้ใช้งาน"
-        >
-          เพิ่มข้อมูล
-        </button>
-    </div>
+    <div class="search-container p-3 my-3 d-flex align-items-stretch gap-3 flex-wrap">
+  <!-- ช่องค้นหา -->
+  <div class="flex-grow-1 d-flex align-items-stretch">
+    <input
+      type="text"
+      class="form-control custom-input"
+      placeholder="ค้นหางานวิจัย..."
+      [(ngModel)]="searchText"
+      (input)="SearchPaper()"
+    />
+  </div>
+
+  <!-- dropdown -->
+  <div class="d-flex align-items-stretch" style="min-width: 220px;">
+    <select
+      class="form-select custom-input"
+      [(ngModel)]="searchField"
+    >
+        <option value="title_thai">ชื่อเรื่องภาษาไทย</option>
+        <option value="title_english">ชื่อเรื่องภาษาอังกฤษ</option>
+        <option value="name">ผู้แต่ง</option>
+        <option value="thai_calender_year">ปีพ.ศ.</option>
+    </select>
+  </div>
+
+  <!-- ปุ่ม -->
+  <div class="d-flex align-items-stretch" style="min-width: 220px;">
+    <button
+      type="button"
+      class="btn btn-success w-100 custom-btn"
+      data-bs-toggle="modal"
+      data-bs-target="#exampleModal"
+      (click)="Closemodal()"
+      title="เพิ่มข้อมูลงานวิจัย"
+    >
+    เพิ่มข้อมูลงานวิจัย
+    </button>
+  </div>
+</div>
 
         <!-- Modal -->
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -245,11 +265,7 @@
                         class="form-control shadow-sm" 
                         id="start_date" 
                         formControlName="start_date"
-                        [ngClass]="{'is-invalid': isInvalid('start_date')}"
-                        />
-                        <div class="invalid-feedback">
-                          กรุณาเลือกวันที่เผยแพร่
-                        </div>
+                        >
                     </div>
                     <div class="col-sm-6">
                       <label for="end_date" class="form-label fw-bold">วันสิ้นสุด กรณี การประชุมวิชาการ</label>
@@ -258,11 +274,7 @@
                         class="form-control shadow-sm" 
                         id="end_date" 
                         formControlName="end_date"
-                        [ngClass]="{'is-invalid': isInvalid('end_date')}"
-                        />
-                        <div class="invalid-feedback">
-                          กรุณาเลือกวันที่สิ้นสุด
-                        </div>
+                        >
                     </div>
                   </div>
 
@@ -317,14 +329,9 @@
                         formControlName="quartile_id"
                         [ngClass]="{'is-invalid': isInvalid('quartile_id')}"
                         >
-                        <option value="1">ไม่มีฐานข้อมูล</option>
-                        <option value="2">ฐานข้อมูล Scopus แต่ไม่จัดอันดับควอไทล์</option>
-                        <option value="3">ฐานข้อมูล Scopus Q1</option>
-                        <option value="4">ฐานข้อมูล Scopus Q2</option>
-                        <option value="5">ฐานข้อมูล Scopus Q3</option>
-                        <option value="6">ฐานข้อมูล Scopus Q4</option>
-                        <option value="7">ฐานข้อมูล TCI กลุ่ม 1</option>
-                        <option value="8">ฐานข้อมูล TCI กลุ่ม 2</option>
+                        <option *ngFor="let data of filteredQuartile" [value]="data.quartile_id">
+                          {{ data.quartile_rank }}
+                        </option>
                       </select>
                       <div class="invalid-feedback">
                         กรุณาเลือก Rank
@@ -417,8 +424,8 @@
                 <th scope="col">ชื่อเรื่องภาษาอังกฤษ</th>
                 <th scope="col">ผู้แต่ง</th>
                 <th scope="col">ปีพ.ศ.</th>
-                <th scope="col"> </th>
-                <th scope="col"> </th>
+                <th scope="col">แก้ไข</th>
+                <th scope="col">ลบ</th>
             </tr>
         </thead>
         <tbody class="table-light">
@@ -603,14 +610,9 @@
                 <div class="col-md-6">
                   <label for="quartile_id" class="form-label">Rank</label>
                   <select class="form-select" id="quartile_id" formControlName="quartile_id">
-                    <option value="1">ไม่มีฐานข้อมูล</option>
-                    <option value="2">ฐานข้อมูล Scopus แต่ไม่จัดอันดับควอไทล์</option>
-                    <option value="3">ฐานข้อมูล Scopus Q1</option>
-                    <option value="4">ฐานข้อมูล Scopus Q2</option>
-                    <option value="5">ฐานข้อมูล Scopus Q3</option>
-                    <option value="6">ฐานข้อมูล Scopus Q4</option>
-                    <option value="7">ฐานข้อมูล TCI กลุ่ม 1</option>
-                    <option value="8">ฐานข้อมูล TCI กลุ่ม 2</option>
+                    <option *ngFor="let data of filteredQuartile" [value]="data.quartile_id">
+                          {{ data.quartile_rank }}
+                        </option>
                   </select>
                 </div>
 

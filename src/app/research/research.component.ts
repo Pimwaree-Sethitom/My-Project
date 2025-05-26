@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { ResearchService , PaperDetail ,Workload,Researcher,ResearchType} from '../services/research.service';
+import { ResearchService , PaperDetail ,Workload,Researcher,ResearchType,Quartile} from '../services/research.service';
 import { FormsModule } from '@angular/forms'; 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -44,6 +44,8 @@ export class ResearchComponent implements OnInit{
         selectedAuthorName: string = '';
         currentPage: number = 1;
         itemsPerPage: number = 10; // กี่รายการต่อหน้า
+        quartile: Quartile[] = [];
+        filteredQuartile: any[] = [];
         
           get paginatedPaperdetail(): PaperDetail[] {
             const start = (this.currentPage - 1) * this.itemsPerPage;
@@ -117,6 +119,7 @@ export class ResearchComponent implements OnInit{
           this.SelectWorkload();
           this.SelectResearchers();
           this.SelectResearchType();
+          this.SelectQuartile();
         }
 
         SelectResearchers() {
@@ -302,6 +305,13 @@ export class ResearchComponent implements OnInit{
             this.researchType = data;
             this.filteredResearchType = data;  
           });
+        }
+
+        SelectQuartile() {
+          this.researchService.SelectQuartile().subscribe((data: Quartile[]) => {
+          this.quartile = data;
+          this.filteredQuartile = data;  
+           });
         }
   
         updateNumberOfWorkloads(): void {

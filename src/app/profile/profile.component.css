@@ -38,6 +38,7 @@
   margin: 6px 0;
   font-size: 16px;
 }
+
 nav.navbar {
   position: fixed;
   top: 0;
@@ -55,4 +56,6 @@ nav.navbar {
 body {
   padding-top: 70px;
 }
+
+
 
