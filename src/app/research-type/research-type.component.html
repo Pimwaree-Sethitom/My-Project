@@ -10,8 +10,8 @@
         </tr>
       </thead>
       <tbody class="table-light">
-        <tr *ngFor="let data of filteredResearchType">
-          <td scope="col">{{ data.type_id }}</td>
+        <tr *ngFor="let data of filteredResearchType; let i = index">
+          <td>{{ i + 1 }}</td>
           <td>{{ data.type_name || 'ไม่มีข้อมูล' }}</td>
           <td>
             <button class="btn btn-warning btn-sm" (click)="Edit(data.type_id)">

@@ -1,7 +1,7 @@
 <app-admin-bar></app-admin-bar>  
 <div class="container mt-5" style="padding-top: 90px;">
 
-    <div class="search-container p-3 my-3 d-flex align-items-stretch gap-3 flex-wrap">
+<div class="search-container p-3 my-3 d-flex align-items-stretch gap-3 flex-wrap">
   <!-- ช่องค้นหา -->
   <div class="flex-grow-1 d-flex align-items-stretch">
     <input
@@ -423,7 +423,8 @@
                 <th scope="col">ชื่อเรื่องภาษาไทย</th>
                 <th scope="col">ชื่อเรื่องภาษาอังกฤษ</th>
                 <th scope="col">ผู้แต่ง</th>
-                <th scope="col">ปีพ.ศ.</th>
+                <th scope="col">ฐานข้อมูล</th>
+                <th scope="col">ปี</th>
                 <th scope="col">แก้ไข</th>
                 <th scope="col">ลบ</th>
             </tr>
@@ -434,6 +435,7 @@
                 <td>{{data.title_thai || 'ไม่มีข้อมูล'}}</td>
                 <td>{{data.title_english || 'ไม่มีข้อมูล'}}</td>
                 <td>{{data.name}}</td>
+                <td>{{data.quartile_rank}}</td>
                 <td>{{data.thai_calender_year}}</td>
                 <td>
                     <button class="btn btn-warning btn-sm" (click)="editPaper(data.paper_researcher_id)">

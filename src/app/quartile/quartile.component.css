@@ -1,3 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap");
+
+* {
+  font-family: "Prompt", sans-serif;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -9,7 +15,7 @@ table {
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  font-family: 'Kanit', sans-serif;
+  font-family: "Prompt", sans-serif;
 }
 
 thead th {
@@ -19,6 +25,7 @@ thead th {
   text-align: center;
   font-weight: bold;
   font-size: 16px;
+  font-family: "Prompt", sans-serif;
 }
 
 th, td {
@@ -26,6 +33,7 @@ th, td {
   text-align: center;
   font-size: 15px;
   border-bottom: 1px solid #ddd;
+  font-family: "Prompt", sans-serif;
 }
 
 tbody tr:hover {
@@ -39,10 +47,12 @@ button {
   font-size: 14px;
   cursor: pointer;
   transition: 0.2s ease-in-out;
+  font-family: "Prompt", sans-serif;
 }
 
 .btn-success {
   border-radius: 25px !important; 
   padding: 8px 20px;
   font-weight: bold;
+  font-family: "Prompt", sans-serif;
 }

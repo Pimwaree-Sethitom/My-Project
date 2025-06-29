@@ -4,18 +4,17 @@ import { LoginComponent } from '../login/login.component';
 import { RegisterComponent } from '../register/register.component';
 import { CommonModule } from '@angular/common';
 
-
 @Component({
-  selector: 'app-bar',
+  selector: 'app-navbar-home',
+  standalone: true,
   imports: [RouterModule,
     LoginComponent,
     CommonModule,
     RegisterComponent,
   ],
-  templateUrl: './bar.component.html',
-  styleUrl: './bar.component.css'
+  templateUrl: './navbar-home.component.html',
+  styleUrl: './navbar-home.component.css'
 })
-export class BarComponent {
-
+export class NavbarHomeComponent {
 
 }

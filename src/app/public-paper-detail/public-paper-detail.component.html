@@ -1,0 +1,24 @@
+<app-navbar-for-executive-profile></app-navbar-for-executive-profile>
+<div class="container mt-4">
+  <div *ngIf="paper">
+    <ng-container *ngIf="paper.title_thai && paper.title_english; else onlyOneTitle">
+          <h4>{{ paper.title_thai }}</h4>
+          <h4>{{ paper.title_english }}</h4>
+        </ng-container>
+        <ng-template #onlyOneTitle>
+          <h4 *ngIf="paper.title_thai">{{ paper.title_thai }}</h4>
+          <h4 *ngIf="paper.title_english">{{ paper.title_english }}</h4>
+        </ng-template>
+    <br>
+        <p><strong>ผู้แต่ง :</strong> {{ paper.authors_with_role_and_proportion || 'ไม่มีข้อมูล' }}</p>
+        <p><strong>ตีพิมพ์ที่ :</strong> {{ paper.journal_or_conference_name || 'ไม่มีข้อมูล' }}</p>
+        <p><strong>ประเภท :</strong> {{ paper.research_type || 'ไม่มีข้อมูล' }}</p>
+        <p><strong>ฐานข้อมูล :</strong> {{ paper.quartile_rank || 'ไม่มีข้อมูล' }}</p>
+        <p><strong>วันที่เผยแพร่ :</strong> {{ paper.start_date || 'ไม่มีข้อมูล' }}</p>
+        <p><strong>Link :</strong> {{ paper.link || 'ไม่มีข้อมูล' }}</p>
+    
+  </div>
+  <div class="mt-4 text-end">
+        <a routerLink="/public-paper" class="btn btn-outline-primary px-4">ย้อนกลับ</a>
+      </div>
+</div>

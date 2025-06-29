@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 export class ProfileService {
 
   private apiUrl = 'http://localhost/rms-api';
+  // private apiUrl = 'http://10.201.30.133:9000/rms_api';
 
   constructor(private http: HttpClient) { }
 

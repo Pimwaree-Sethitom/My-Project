@@ -12,8 +12,8 @@
         </tr>
       </thead>
       <tbody class="table-light">
-        <tr *ngFor="let data of filteredWorkload">
-          <td scope="col">{{ data.workload_year_id }}</td>
+        <tr *ngFor="let data of filteredWorkload; let i = index">
+          <td>{{ i + 1 }}</td>
           <td>{{ data.workload_topic || 'ไม่มีข้อมูล' }}</td>
           <td>{{ data.workload_count || 'ไม่มีข้อมูล' }}</td>
           <td>{{ data.workload_year || 'ไม่มีข้อมูล' }}</td>

@@ -17,6 +17,7 @@ body {
   justify-content: center;
   min-height: 90vh;
 }
+
 .form-box header {
   font-size: 25px;
   font-weight: 600;
@@ -31,7 +32,7 @@ body {
   flex-direction: column;
 }
 
-.field input {
+.field input:not([type="submit"]) {
   height: 40px;
   width: 100%;
   font-size: 16px;
@@ -39,11 +40,18 @@ body {
   border-radius: 5px;
   border: 1px solid #ccc;
   outline: none;
+  background-color: white;
+  color: #000;
+}
+
+.field input:not([type="submit"]):focus {
+  border-color: #3399FF;
+  box-shadow: 0 0 5px #3399FF;
 }
 
 .btn {
   height: 35px;
-  background: rgba(76, 68, 182, 0.808);
+  background: #6E00B3;
   border: 0;
   border-radius: 5px;
   color: #fff;
@@ -112,5 +120,18 @@ body {
   color: #007bff;
   cursor: pointer;
   font-size: 0.9rem;
+}
+
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px; 
+}
+
+.login-logo {
+  width: 100px;
+  height: auto; 
+  object-fit: contain;
 }
 

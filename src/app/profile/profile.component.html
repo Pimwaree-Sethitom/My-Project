@@ -1,21 +1,4 @@
-<!-- Navbar -->
-<!-- <nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm">
-  <div class="container-fluid">
-    <a class="navbar-brand d-flex align-items-center" href="#">
-      <img src="https://www.ict.up.ac.th/front/template/default/assets/img/static/brand.png" 
-           alt="ICT Logo" class="ict-logo me-2">
-      <span class="brand-text">
-        คณะเทคโนโลยีสารสนเทศและการสื่อสาร<br>
-        School of Information and Communication Technology
-      </span>
-    </a>
-    <button class="btn btn-outline-secondary">
-      ออกจากระบบ
-    </button>
-  </div>
-</nav> -->
 
-<!-- Profile Section -->
 <div class="container my-5" style="max-width: 1140px; padding-top: 100px;">
   <div class="d-flex align-items-center gap-4">
     <div class="profile-img">
@@ -34,14 +17,14 @@
 
   <div *ngIf="researchList.length > 0; else noData">
     <div class="table-responsive">
-      <table class="table table-bordered table-hover align-middle">
+      <table class="table table-hover table-bordered rounded shadow-sm mt-5 align-middle text-center">
         <thead class="table-light">
           <tr>
-            <th scope="col">ลำดับที่</th>
-            <th scope="col">ชื่อผลงาน (ภาษาไทย)</th>
-            <th scope="col">ชื่อผลงาน (ภาษาอังกฤษ)</th>
-            <th scope="col">ประเภทผลงาน</th>
-            <th scope="col">ปีปฏิทิน (ไทย)</th>
+            <th scope="col">ที่</th>
+            <th scope="col">ชื่อเรื่องภาษาไทย</th>
+            <th scope="col">ชื่อเรื่องภาษาอังกฤษ</th>
+            <th scope="col">ปีพ.ศ</th>
+            <th scope="col">รายละเอียด</th>
           </tr>
         </thead>
         <tbody>
@@ -49,8 +32,12 @@
             <td>{{ i + 1 }}</td>
             <td>{{ paper.title_thai || 'ไม่มีข้อมูล' }}</td>
             <td>{{ paper.title_english || 'ไม่มีข้อมูล' }}</td>
-            <td>{{ paper.type_name || 'ไม่ระบุ' }}</td>
             <td>{{ paper.thai_calender_year || '-' }}</td>
+            <td>
+              <button class="btn btn-primary btn-sm" (click)="openModal(paper)">
+               <i class="fa-solid fa-circle-info"></i>
+              </button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -62,4 +49,37 @@
       ไม่พบผลงานเผยแพร่
     </div>
   </ng-template>
+<div class="modal fade" id="paperModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content border-0 shadow-none">
+      <div class="modal-header border-0">
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"></button>
+      </div>
+      <div class="modal-body" *ngIf="selectedPaper">
+        <ng-container *ngIf="selectedPaper.title_thai && selectedPaper.title_english; else onlyOneTitle">
+          <h4>{{ selectedPaper.title_thai }}</h4>
+          <h4>{{ selectedPaper.title_english }}</h4>
+        </ng-container>
+        <ng-template #onlyOneTitle>
+          <h4 *ngIf="selectedPaper.title_thai">{{ selectedPaper.title_thai }}</h4>
+          <h4 *ngIf="selectedPaper.title_english">{{ selectedPaper.title_english }}</h4>
+        </ng-template>
+        <br>
+        <p><strong>ผู้แต่ง :</strong> {{ selectedPaper.authors_with_role_and_proportion || 'ไม่มีข้อมูล' }}</p>
+        <p><strong>ตีพิมพ์ที่ :</strong> {{ selectedPaper.journal_or_conference_name || 'ไม่มีข้อมูล' }}</p>
+        <p><strong>ประเภท :</strong> {{ selectedPaper.research_type || 'ไม่มีข้อมูล' }}</p>
+        <p><strong>ฐานข้อมูล :</strong> {{ selectedPaper.quartile_rank || 'ไม่มีข้อมูล' }}</p>
+        <p><strong>วันที่เผยแพร่ :</strong> {{ selectedPaper.start_date || 'ไม่มีข้อมูล' }}</p>
+        <p><strong>Link :</strong> {{ selectedPaper.link || 'ไม่มีข้อมูล' }}</p>
+      </div>
+      <div class="modal-footer border-0">
+        <button type="button" class="btn btn-primary btn-lg" data-bs-dismiss="modal">ปิด</button>
+      </div>
+    </div>
+  </div>
+</div>
 </div>

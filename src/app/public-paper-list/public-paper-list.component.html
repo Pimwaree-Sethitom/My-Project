@@ -1,0 +1,54 @@
+<app-navbar-for-executive-profile></app-navbar-for-executive-profile>
+<div class="container p-4">
+ <div class="search-container p-3 my-3 d-flex align-items-stretch gap-3 flex-wrap">
+  <div class="flex-grow-1 d-flex align-items-stretch">
+    <input
+      type="text"
+      class="form-control custom-input"
+      placeholder="ค้นหางานวิจัย..."
+      [(ngModel)]="searchText"
+      (input)="SearchPaper()"
+    />
+  </div>
+  <div class="d-flex align-items-stretch" style="min-width: 220px;">
+    <select
+      class="form-select custom-input"
+      [(ngModel)]="searchField"
+    >
+        <option value="title_thai">ชื่อเรื่องภาษาไทย</option>
+        <option value="title_english">ชื่อเรื่องภาษาอังกฤษ</option>
+        <option value="authors_with_role_and_proportion">ผู้แต่ง</option>
+    </select>
+  </div>
+</div>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+/>
+
+
+<table class="table table-hover table-bordered rounded shadow-sm mt-5 align-middle text-center">
+        <thead class="table-dark">
+            <tr>
+                <th scope="col">ที่</th>
+                <th scope="col">ชื่อเรื่องภาษาไทย</th>
+                <th scope="col">ชื่อเรื่องภาษาอังกฤษ</th>
+                <th scope="col">ผู้แต่ง</th>
+                <th scope="col">รายละเอียด</th>
+            </tr>
+        </thead>
+        <tbody class="table-light">
+          <tr *ngFor="let data of filteredPaperdetail; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{data.title_thai || 'ไม่มีข้อมูล'}}</td>
+                <td>{{data.title_english || 'ไม่มีข้อมูล'}}</td>
+                <td>{{data.authors_with_role_and_proportion}}</td>
+                <td>
+                    <button class="btn btn-primary btn-sm" [routerLink]="['/public-paper', data.public_paper_id]" >
+                        <i class="fa-solid fa-circle-info"></i>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -1,26 +1,14 @@
-/* โลโก้ใน Navbar */
-.ict-logo {
-  width: 50px;
-  height: 50px;
-  object-fit: contain;
-  border-radius: 6px;
+@import url("https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap");
+
+* {
+  font-family: "Prompt", sans-serif;
 }
 
-/* ข้อความชื่อคณะ */
-.brand-text {
-  font-size: 12px;
-  font-weight: 700;
-  color: #333;
-  line-height: 1.2;
-}
-
-/* กล่องโปรไฟล์ */
 .profile-section {
   max-width: 800px;
   width: 100%;
 }
 
-/* รูปโปรไฟล์ */
 .profile-img img {
   width: 150px;
   height: 150px;
@@ -28,34 +16,50 @@
   object-fit: cover;
 }
 
-/* ข้อความโปรไฟล์ */
 .profile-info h2 {
   margin: 0;
   font-size: 24px;
+  font-family: "Prompt", sans-serif;
 }
 
 .profile-info p {
   margin: 6px 0;
   font-size: 16px;
-}
-
-nav.navbar {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 1030;
-
-  background-color: rgba(255, 255, 255, 0.97); /* สีขาวกึ่งทึบ */
-  border-bottom: 1px solid #e0e0e0; /* เส้นขอบล่างสีเทาอ่อน */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* เงาชัดขึ้น ลอยมากขึ้น */
-
-  backdrop-filter: saturate(180%) blur(10px); /* ทำให้เบลอข้างหลังแบบ glassmorphism */
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  font-family: "Prompt", sans-serif;
 }
 
 body {
   padding-top: 70px;
 }
+
+ table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff; 
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    font-family: "Prompt", sans-serif;
+  }
+  
+  thead th {
+    background-color:#6E00B3;
+    color: white;
+    padding: 14px 12px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+    font-family: "Prompt", sans-serif;
+  }
+
+  th, td {
+    padding: 14px 12px;
+    text-align: center;
+    font-size: 15px;
+    border-bottom: 1px solid #ddd;
+    font-family: "Prompt", sans-serif;
+  }
+
 
 
 

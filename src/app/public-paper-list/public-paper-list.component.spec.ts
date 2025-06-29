@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BarComponent } from './bar.component';
+import { PublicPaperListComponent } from './public-paper-list.component';
 
-describe('BarComponent', () => {
-  let component: BarComponent;
-  let fixture: ComponentFixture<BarComponent>;
+describe('PublicPaperListComponent', () => {
+  let component: PublicPaperListComponent;
+  let fixture: ComponentFixture<PublicPaperListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BarComponent]
+      imports: [PublicPaperListComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(BarComponent);
+    fixture = TestBed.createComponent(PublicPaperListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

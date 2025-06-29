@@ -1,0 +1,164 @@
+@import url("https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap");
+
+* {
+  font-family: "Prompt", sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff; 
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    font-family: "Prompt", sans-serif;
+  }
+  
+  thead th {
+    background-color:#6E00B3;
+    color: white;
+    padding: 14px 12px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+    font-family: "Prompt", sans-serif;
+  }
+  
+  th, td {
+    padding: 14px 12px;
+    text-align: center;
+    font-size: 15px;
+    border-bottom: 1px solid #ddd;
+    font-family: "Prompt", sans-serif;
+  }
+  
+  tbody tr:hover {
+    background-color: #f0f0f0;
+  }
+  
+  button {
+    border: none;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+    font-family: "Prompt", sans-serif;
+  }
+  
+  button.btn-danger.delete {
+    background-color: #6E00B3;
+    color: white;
+  }
+  
+  button.btn-danger.delete:hover {
+    background-color: #6E00B3;
+  }
+  
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #685d68;
+    padding: 0 20px;
+  }
+  
+  .header a {
+    color: white;
+    padding: 12px;
+    text-decoration: none;
+    font-size: 18px;
+    font-family: "Prompt", sans-serif;
+  }
+  
+  .header a.logo {
+    font-size: 25px;
+    font-weight: bold;
+    font-family: "Prompt", sans-serif;
+  }
+  
+  .header a:hover {
+    background-color: #d7a3cc;
+    color: black;
+  }
+
+  
+  @media screen and (max-width: 500px) {
+    .header {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .header a {
+      display: block;
+      text-align: center;
+    }
+  
+    .header-right {
+      width: 100%;
+      justify-content: center;
+    }
+  
+  
+    .search-container {
+      flex-direction: column; 
+      align-items: stretch; 
+    }
+  
+    .search-container input[type="text"],
+    .search-container select,
+    .search-container button {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+  }
+
+ .search-container {
+  background-color: transparent;
+  padding: 0;
+  box-shadow: none;
+  border: none;
+}
+
+.custom-input {
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-family: "Prompt", sans-serif;
+  height: 100%;
+}
+
+.custom-btn {
+  border-radius: 6px;
+  font-family: "Prompt", sans-serif;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color:#6E00B3;
+}
+
+.custom-btn:hover {
+  background-color:#6E00B3;
+}
+
+.page-item .page-link {
+  color: #6E00B3 !important; 
+}
+
+.page-item.active .page-link {
+  background-color: #ece4fa;     
+  border-color: #cfc1f0;         
+  color: #6E00B3 !important;
+}
+
+:host {
+  display: block;
+  padding-top: 120px; 
+}
+  

@@ -1,0 +1,75 @@
+@import url("https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap");
+
+* {
+  font-family: "Prompt", sans-serif;
+}
+
+.ict-logo {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  border-radius: 6px;
+}
+
+.brand-text {
+  font-size: 14px;
+  font-weight: 600;
+  color: #2c3e50;
+  line-height: 1.4;
+  letter-spacing: 0.3px;
+  font-family: "Prompt", sans-serif;
+}
+
+.profile-img img {
+  width: 150px;
+  height: 150px;
+  border-radius: 8px;
+  object-fit: cover;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.profile-info h2 {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 700;
+  color: #2c3e50;
+  font-family: "Prompt", sans-serif;
+}
+
+.profile-info p {
+  margin: 6px 0;
+  font-size: 16px;
+  color: #555;
+  line-height: 1.6;
+  font-family: "Prompt", sans-serif;
+}
+
+nav.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1030;
+  background-color: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+body {
+  padding-top: 80px;
+  background-color: #f8f9fa;
+  font-family: "Prompt", sans-serif;
+  color: #333;
+}
+
+.modal-content {
+  border: none !important;
+  box-shadow: none !important;
+  font-family: "Prompt", sans-serif;
+}
+
+.modal-footer {
+  border-top: none !important;
+}
+
+.modal-header {
+  border-bottom: none !important;
+}

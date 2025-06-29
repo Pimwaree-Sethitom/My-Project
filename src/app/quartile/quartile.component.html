@@ -10,8 +10,8 @@
         </tr>
       </thead>
       <tbody class="table-light">
-        <tr *ngFor="let data of filteredQuartile">
-          <td scope="col">{{ data.quartile_id }}</td>
+        <tr *ngFor="let data of filteredQuartile; let i = index">
+          <td>{{ i + 1 }}</td>
           <td>{{ data.quartile_rank || 'ไม่มีข้อมูล' }}</td>
           <td>
             <button class="btn btn-warning btn-sm" (click)="Edit(data.quartile_id)">

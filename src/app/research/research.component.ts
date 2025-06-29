@@ -95,15 +95,12 @@ export class ResearchComponent implements OnInit{
 
         ngOnInit(): void { 
           this.PaperForm.get('workload_year_id')?.valueChanges.subscribe(selectedId => {
-            // หาค่า workload_count จาก filteredWorkload ตามที่เลือก
             const selectedWorkload = this.filteredWorkload.find(workload => workload.workload_year_id === selectedId);
             
             if (selectedWorkload) {
               this.PaperForm.patchValue({
                 workload_count: selectedWorkload.workload_count
               });
-        
-              // คำนวณค่า number_of_workloads ใหม่
               this.updateNumberOfWorkloads();
             }
           });
@@ -131,8 +128,6 @@ export class ResearchComponent implements OnInit{
       
         SearchResearchers() {
           const query = this.searchResearchers?.trim().toLowerCase();
-        
-          // ถ้ายังไม่ได้พิมพ์ หรือพิมพ์น้อยกว่า 2 ตัวอักษร ไม่ต้องแสดงผล
           if (!query || query.length < 2) {
             this.filteredResearchers = [];
             return;
@@ -263,12 +258,11 @@ export class ResearchComponent implements OnInit{
         
           this.researchService.UpdatePaper(updatedData).subscribe({
             next: (response) => {
-              // ตรวจสอบว่า response มี alert หรือไม่
               if (response.alert) {
                 Swal.fire({
                   icon: 'error',
                   title: 'ข้อผิดพลาด!',
-                  text: response.alert // แสดงข้อความ alert ที่ได้รับจาก PHP
+                  text: response.alert 
                 });
                 return;
               }

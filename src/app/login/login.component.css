@@ -103,4 +103,19 @@ body {
   text-decoration: underline;
 }
 
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px; 
+}
+
+.login-logo {
+  width: 100px;
+  height: auto; 
+  object-fit: contain;
+}
+
+
+
 

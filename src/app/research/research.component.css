@@ -1,3 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap");
+
+* {
+  font-family: "Prompt", sans-serif;
+}
+
 * {
     box-sizing: border-box;
   }
@@ -9,7 +15,7 @@
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    font-family: 'Kanit', sans-serif;
+    font-family: "Prompt", sans-serif;
   }
   
   thead th {
@@ -19,6 +25,7 @@
     text-align: center;
     font-weight: bold;
     font-size: 16px;
+    font-family: "Prompt", sans-serif;
   }
   
   th, td {
@@ -26,6 +33,7 @@
     text-align: center;
     font-size: 15px;
     border-bottom: 1px solid #ddd;
+    font-family: "Prompt", sans-serif;
   }
   
   tbody tr:hover {
@@ -39,6 +47,7 @@
     font-size: 14px;
     cursor: pointer;
     transition: 0.2s ease-in-out;
+    font-family: "Prompt", sans-serif;
   }
   
   button.btn-danger.delete {
@@ -72,11 +81,13 @@
     padding: 12px;
     text-decoration: none;
     font-size: 18px;
+    font-family: "Prompt", sans-serif;
   }
   
   .header a.logo {
     font-size: 25px;
     font-weight: bold;
+    font-family: "Prompt", sans-serif;
   }
   
   .header a:hover {
@@ -96,6 +107,7 @@
     color: white;
     background-color: transparent;
     position: relative;
+    font-family: "Prompt", sans-serif;
   }
   
   .navbar a::after {
@@ -158,13 +170,13 @@
 .custom-input {
   border-radius: 6px;
   padding: 10px 14px;
-  font-family: 'Kanit', sans-serif;
+  font-family: "Prompt", sans-serif;
   height: 100%;
 }
 
 .custom-btn {
   border-radius: 6px;
-  font-family: 'Kanit', sans-serif;
+  font-family: "Prompt", sans-serif;
   font-weight: 500;
   transition: background-color 0.3s ease;
   height: 100%;

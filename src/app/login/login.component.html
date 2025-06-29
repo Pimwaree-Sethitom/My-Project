@@ -1,5 +1,7 @@
 <div class="form-box">
-  <header>เข้าสู่ระบบ</header>
+   <div class="logo-container">
+    <img src="assets/images/UPLogo.png" alt="เข้าสู่ระบบ" class="login-logo" />
+  </div>
   <form (ngSubmit)="login()">
     <div class="field input">
       <label for="email" class="block mb-1">Email</label>
@@ -13,8 +15,7 @@
       />
     </div>
 
-    <!-- กล่องรหัสผ่าน -->
-<div class="field input mt-4">
+  <div class="field input mt-4">
   <label for="password" class="block mb-1">Password</label>
   <div class="password-wrapper" style="position: relative;">
     <input
@@ -57,17 +58,16 @@
   </svg>
 </button>
   </div>
-</div>
+    </div>
 
 
-<div class="form-options">
+    <div class="form-options">
   <label class="remember-me">
     <input type="checkbox" id="rememberMe" name="rememberMe" />
     Remember me
   </label>
   <a href="#" class="forget-password">Forget password?</a>
-</div>
-
+    </div>
 
     <div class="field input mt-4">
       <input class="btn submit w-full bg-purple-600 text-white py-2 rounded-md cursor-pointer hover:bg-purple-700" type="submit" value="Login" />

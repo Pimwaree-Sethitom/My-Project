@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProfileService } from '../services/profile.service';
 import { Router } from '@angular/router';
+import { Modal } from 'bootstrap';
 
 @Component({
   selector: 'app-profile',
@@ -33,6 +34,18 @@ export class ProfileComponent implements OnInit{
       }
     }
   });
+}
+
+selectedPaper: any = null;
+
+openModal(paper: any) {
+  this.selectedPaper = paper;
+
+  const modalElement = document.getElementById('paperModal');
+  if (modalElement) {
+    const modal = new Modal(modalElement); 
+    modal.show();
+  }
 }
 }
 
