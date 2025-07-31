@@ -22,7 +22,6 @@
         <option value="title_thai">ชื่อเรื่องภาษาไทย</option>
         <option value="title_english">ชื่อเรื่องภาษาอังกฤษ</option>
         <option value="name">ผู้แต่ง</option>
-        <option value="quartile_rank">ฐานข้อมูล</option>
         <option value="thai_calender_year">ปีพ.ศ.</option>
     </select>
   </div>
@@ -89,22 +88,6 @@
                         กรุณากรอกชื่อเรื่องภาษาไทยหรืออังกฤษ อย่างน้อย 1 ช่อง
                       </div>
 
-                    </div>
-                  </div>
-
-                   <div class="row mb-3">
-                    <label for="journal_or_conference_name" class="col-sm-2 col-form-label fw-bold">ชื่อวารสาร/การประชุมวิชาการ</label>
-                    <div class="col-sm-10">
-                      <input 
-                        type="text" 
-                        class="form-control shadow-sm" 
-                        id="journal_or_conference_name" 
-                        formControlName="journal_or_conference_name"
-                        [ngClass]="{'is-invalid': isInvalid('journal_or_conference_name')}"
-                        />
-                        <div class="invalid-feedback">
-                          กรุณากรอกชื่อวารสารหรือการประชุมวิชาการ
-                        </div>
                     </div>
                   </div>
 
@@ -207,6 +190,22 @@
                         />
                         <div class="invalid-feedback">
                           กรุณากำหนดหัวข้อภาระงานและกรอกสัดส่วน
+                        </div>
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="journal_or_conference_name" class="col-sm-2 col-form-label fw-bold">ชื่อวารสาร/การประชุมวิชาการ</label>
+                    <div class="col-sm-10">
+                      <input 
+                        type="text" 
+                        class="form-control shadow-sm" 
+                        id="journal_or_conference_name" 
+                        formControlName="journal_or_conference_name"
+                        [ngClass]="{'is-invalid': isInvalid('journal_or_conference_name')}"
+                        />
+                        <div class="invalid-feedback">
+                          กรุณากรอกชื่อวารสารหรือการประชุมวิชาการ
                         </div>
                     </div>
                   </div>

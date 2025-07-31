@@ -1,73 +1,52 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { Modal } from 'bootstrap';
+import { FormsModule } from '@angular/forms'; 
+import { CommonModule } from '@angular/common'; 
+import { PublicPaperService,PaperDetail } from '../services/public-paper.service';
+import { NavbarForExecutiveProfileComponent } from '../navbar-for-executive-profile/navbar-for-executive-profile.component';
 import { RouterModule } from '@angular/router';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import jsPDF from 'jspdf';
-import autoTable from 'jspdf-autotable';
-import { registerSarabunFont } from './font-sarabun';
-import { NavbarForExecutiveProfileComponent } from
-        '../navbar-for-executive-profile/navbar-for-executive-profile.component';
 
 @Component({
   selector: 'app-public-paper-list',
-  standalone: true,
   templateUrl: './public-paper-list.component.html',
-  styleUrls: ['./public-paper-list.component.css'],
-  imports: [
-    CommonModule,
-    FormsModule,
-    RouterModule,
-    NavbarForExecutiveProfileComponent
-  ]
+  standalone: true,
+  imports: [FormsModule, CommonModule, NavbarForExecutiveProfileComponent,RouterModule] ,
+  styleUrl: './public-paper-list.component.css',
 })
-export class PublicPaperListComponent {
-  pdfPreviewUrl: SafeResourceUrl | null = null;
+export class PublicPaperListComponent implements OnInit{
+  paperdetail: PaperDetail[] = [];
+  searchText: string = ''; 
+  searchField: keyof PaperDetail = 'title_thai';
+  filteredPaperdetail: PaperDetail[] = []; 
 
-  constructor(private sanitizer: DomSanitizer) {}
+  constructor( private PublicPaperService: PublicPaperService) {}
 
-  data = [
-    { title: 'วิจัย A', researcher: 'ดร.สมชาย', year: 2023 },
-    { title: 'วิจัย B', researcher: 'อ.สมศรี', year: 2024 }
-  ];
+  ngOnInit(): void {
+    this.SelectPaper();
+  }
 
-  generatePdfPreview(): void {
-  registerSarabunFont(); 
-
-  const doc = new jsPDF({ orientation: 'portrait', format: 'a4' });
-  doc.setFont("Sarabun"); 
-
-  autoTable(doc, {
-    head: [['ชื่อเรื่อง', 'ผู้วิจัย', 'ปี']],
-    body: this.data.map(d => [d.title, d.researcher, d.year.toString()]),
-    styles: {
-      font: "Sarabun", 
-      fontSize: 12
-    }
-  });
-
-  const blob = doc.output('blob');
-  const url = URL.createObjectURL(blob);
-  this.pdfPreviewUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
-}
-
-
-  downloadPdf(): void {
-  registerSarabunFont(); // ✅ เพิ่มก่อนสร้าง PDF
-
-  const doc = new jsPDF({ orientation: 'portrait', format: 'a4' });
-  doc.setFont("Sarabun"); // ✅ ใช้ฟอนต์ Sarabun
-
-  autoTable(doc, {
-    head: [['ชื่อเรื่อง', 'ผู้วิจัย', 'ปี']],
-    body: this.data.map(d => [d.title, d.researcher, d.year.toString()]),
-    styles: {
-      font: "Sarabun", // ✅ ใช้กับตาราง
-      fontSize: 12
-    }
-  });
-
-  doc.save('research.pdf');
-}
+  SelectPaper() { 
+              this.PublicPaperService.SelectPaperData().subscribe((data: PaperDetail[]) => {
+                this.paperdetail = data;
+                this.filteredPaperdetail = data; 
+              });
+          }
+  
+          SearchPaper() {
+            const searchTextNormalized = this.searchText
+              .normalize("NFD")
+              .replace(/[\u0300-\u036f]/g, "")
+              .toLowerCase();
+          
+            this.filteredPaperdetail = this.paperdetail.filter((paperdetail) => {
+              const fieldValue = String(paperdetail[this.searchField])
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .toLowerCase();
+              return fieldValue.includes(searchTextNormalized);
+            });
+          } 
 
 }
+
+

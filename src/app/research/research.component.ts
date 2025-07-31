@@ -43,7 +43,7 @@ export class ResearchComponent implements OnInit{
         searchResearchers: string = '';  
         selectedAuthorName: string = '';
         currentPage: number = 1;
-        itemsPerPage: number = 20; 
+        itemsPerPage: number = 10; // กี่รายการต่อหน้า
         quartile: Quartile[] = [];
         filteredQuartile: any[] = [];
         
@@ -174,8 +174,8 @@ export class ResearchComponent implements OnInit{
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
-            cancelButtonText: "ลบ",
-            confirmButtonText: "ยกเลิก",
+            confirmButtonText: "ลบ",
+            cancelButtonText: "ยกเลิก"
           }).then((result) => {
             if (result.isConfirmed) {
               const body = { paper_researcher_id: paper_researcher_id };

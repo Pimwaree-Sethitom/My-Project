@@ -14,5 +14,5 @@ export const routes: Routes = [
   { path: 'admin_dashboard' ,loadComponent: () => import('./admin-dashboard/admin-dashboard.component').then(m =>m.AdminDashboardComponent)},
   { path: 'executive_dashboard',loadComponent: () => import('./executive-dashboard/executive-dashboard.component').then(m => m.ExecutiveDashboardComponent)},
   { path: 'public-paper',loadComponent: () => import('./public-paper-list/public-paper-list.component').then(m => m.PublicPaperListComponent)},
-  //{ path: 'public-paper/:id',loadComponent: () => import('./public-paper-detail/public-paper-detail.component').then(m => m.PublicPaperDetailComponent)}
+  { path: 'public-paper/:id',loadComponent: () => import('./public-paper-detail/public-paper-detail.component').then(m => m.PublicPaperDetailComponent)}
 ];
