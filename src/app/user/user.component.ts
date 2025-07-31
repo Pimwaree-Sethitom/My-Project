@@ -219,8 +219,8 @@ export class UserComponent implements OnInit{
                     showCancelButton: true,
                     confirmButtonColor: "#3085d6",
                     cancelButtonColor: "#d33",
-                    confirmButtonText: "ลบ",
-                    cancelButtonText: "ยกเลิก",
+                    cancelButtonText: "ลบ",
+                    confirmButtonText: "ยกเลิก",
                 }).then((result) => {
                     if (result.isConfirmed) {
                         // ถ้าผู้ใช้ยืนยันให้ลบ
