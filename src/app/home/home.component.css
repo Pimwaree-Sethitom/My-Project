@@ -175,3 +175,8 @@ footer {
   border-radius: 0;
 }
 
+:host {
+  display: block;
+  padding-top: 30px; 
+}
+
